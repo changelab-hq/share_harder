@@ -1,0 +1,13 @@
+<!doctype html>
+<html>
+<head>
+  <meta property="og:url"                content="<%= @share.experiment.url %>" />
+  <meta property="og:type"               content="campaign" />
+  <meta property="og:title"              content="<%= @metatags[:title] %>" />
+  <meta property="og:description"        content="<%= @metatags[:description] %>" />
+  <meta property="og:image"              content="<%= @share.variant.image_url %>" />
+</head>
+<body>
+  You are being redirected. <%= link_to 'Click here', @share.experiment.url %> if you are not redirected.
+</body>
+</html>
