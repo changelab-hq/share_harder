@@ -72,3 +72,6 @@ gem 'redis-rails'
 gem 'sidekiq'
 gem "mustache", "~> 1.0"
 gem 'redis-objects'
+
+gem 'omniauth-google-oauth2'
+gem 'simple-random'

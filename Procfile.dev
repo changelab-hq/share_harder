@@ -1,5 +1,5 @@
 # You can run these commands in separate shells
-web: bundle exec puma -C ./config/puma.rb
+web: bundle exec rails s
 sidekiq: bundle exec sidekiq -C ./config/sidekiq.yml
 
 # Next line runs a watch process with webpack to compile the changed files.

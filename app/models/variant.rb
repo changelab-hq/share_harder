@@ -2,7 +2,7 @@ class Variant < ApplicationRecord
   include IdentityCache
   include Redis::Objects
   
-  belongs_to :experiment
+  belongs_to :experiment, counter_cache: true
   has_many :shares
 
   counter :share_counter

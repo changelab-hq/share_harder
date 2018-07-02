@@ -1,4 +1,6 @@
 class ExperimentsController < ApplicationController
+  before_action :authenticate, except: [:metatags, :redirect, :lookup]
+
   def index
     @experiments = Experiment.all
   end
@@ -23,14 +25,18 @@ class ExperimentsController < ApplicationController
     render json: @experiment.as_json(include: :variants, root: true)
   end
 
+  def demo
+    @experiment = Experiment.find(params[:id])
+  end
+
   def metatags
-    @share = Experiment.fetch(params[:experiment_id]).get_share_by_key(params[:key], params[:v], params[:r])
+    @share = Experiment.fetch(params[:id]).get_share_by_key(params[:key], params[:v], params[:r])
     @metatags = @share.variant.render_metatags(params)
     render layout: false
   end
 
   def redirect
-    @experiment = Experiment.fetch(params[:experiment_id])
+    @experiment = Experiment.fetch(params[:id])
     AddClickWorker.perform_async(params[:key])
     redirect_to(@experiment.url)
   end

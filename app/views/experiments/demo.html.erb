@@ -1,0 +1,21 @@
+<h1>Demo share for <em><%= @experiment.name %></em></h1>
+<p>Share me!</p>
+<p>Title: <span class="meta-title"></span></p>
+<p>Description: <span class="meta-description"></span></p>
+<p><img src="http://via.placeholder.com/516x270" class="meta-img" width="500"></p>
+
+<p><a class="share-button btn btn-primary">Share</a></p>
+<p><a class="record-goal btn btn-primary">Record Goal</a></p>
+
+<script src="/scripts/script.js"></script>
+<script>
+  cb = function(data){
+    document.querySelector('.meta-title').innerHTML = data.title
+    document.querySelector('.meta-description').innerHTML = data.description
+    document.querySelector('.meta-img').src = data.image_url
+    document.querySelector('.share-button').href = data.share_url
+
+  }
+  ShareHarder.updatePersonalisation({name: 'James', signatures: '10000%'})
+  ShareHarder.getVariant({callback: cb})
+</script>

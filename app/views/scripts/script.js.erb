@@ -1,0 +1,86 @@
+(
+  function($){
+    var getVariant = function(options){
+      options = typeof options !== 'undefined' ? options : {};
+
+      if (options.callback){
+        callback = options.callback // store to update later
+      }
+
+      $.getJSON(appUrl + '/api/variant', function(data){
+        variant = data;
+        renderVariant()
+        cb(rendered_variant);        
+      })
+    }
+
+    var renderVariant = function() {
+      rendered_variant = Object.assign({}, variant)
+      queryParameters = 'v=' + variant.id + '&key=' + generateKey()
+      if (referrer_key) {
+        queryParameters += '&rkey=' + referrer_key
+      }
+
+      for (var key in personalisation) {
+        if (personalisation.hasOwnProperty(key)) {
+          rendered_variant.title = rendered_variant.title.replace('{{' + key + '}}', personalisation[key])
+          rendered_variant.description = rendered_variant.description.replace('{{' + key + '}}', personalisation[key])
+          queryParameters += '&m_' + key + '=' + encodeURI(personalisation[key])
+        }
+      }
+
+      sharedUrl = encodeURI(appUrl + '?' + queryParameters)
+      rendered_variant.share_url = "https://www.facebook.com/sharer.php?u=" + sharedUrl
+    }
+
+    var generateKey = function() {
+      var length = 16
+      var chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+      var result = '';
+      for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+      return result;
+    }
+
+    var updatePersonalisation = function(data){
+      personalisation = data;
+
+      if (variant) {
+        renderVariant()
+        callback(rendered_variant)
+      }
+    }
+
+    var recordGoal = function(){
+      $.ajax({
+        url: appUrl + '/api/record_goal',
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({key: referrer_key})
+      });
+    }
+
+    var getParameterByName = function(name) {
+      url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var appUrl = "<%= ENV['APP_URL'] %>"
+    var callback;
+    var variant;
+    var rendered_variant;
+    var personalisation = {};
+    var referrer_key = getParameterByName('rkey');
+
+    window.ShareHarder = {
+      getVariant: getVariant,
+      updatePersonalisation: updatePersonalisation,
+      recordGoal: recordGoal
+    }
+  }
+)(jQuery)
