@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get '/e/:id' => 'experiments#redirect' 
 
   get '/experiments/:id/demo' => 'experiments#demo'
+  get '/experiments/:id/results' => 'experiments#results'
 
   namespace :api, constraints: { format: 'json' } do 
     get '/variant' => 'api#variant'

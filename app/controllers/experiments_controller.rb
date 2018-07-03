@@ -25,6 +25,11 @@ class ExperimentsController < ApplicationController
     render json: @experiment.as_json(include: :variants, root: true)
   end
 
+  def results 
+    @experiment = Experiment.find(params[:id])
+    @experiment_props = { experiment: @experiment.as_json(include: :variants) }
+  end
+
   def demo
     @experiment = Experiment.find(params[:id])
   end

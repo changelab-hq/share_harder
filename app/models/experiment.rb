@@ -52,12 +52,42 @@ class Experiment < ApplicationRecord
     end
 
     # Draw a sample from beta distibution for each variant and choose the variant with highest value
-    sr = SimpleRandom.new
-    sr.set_seed
-    selected_variant_idx = alphabeta.map.with_index{|c,i| [i, sr.beta(0.5 + c[0], 0.5 + c[1])]}
-                    .sort_by{|v| -v[1]}
+    selected_variant_idx = choose_n_times(alphabeta, 1).sort_by{|v| -v[1]}
                     .map{|v| v[0]}[0]
 
     cached_variants[selected_variant_idx]
+  end
+
+  def choose_n_times(alphabeta, n)
+    sr = SimpleRandom.new
+    sr.set_seed
+    
+    probsums = Array.new(alphabeta.count, 0)
+    n.times do
+      alphabeta.each_with_index{ |c,i| probsums[i] += sr.beta(0.5 + c[0], 0.5 + c[1]) }
+    end
+    probsums.map.with_index{|probsum, i| [i, probsum / n] }
+  end
+
+  # For easier testing - call "simulate" and pass in expected prob of a share from each variant getting a click on each cycle
+  def simulate(probs)
+    raise "Probs don't match the number of variants" unless probs.count == variants.count
+
+    loop do 
+      key = SecureRandom.hex
+      share = get_share_by_key(key)
+      cached_variants = Experiment.fetch(self.id).fetch_variants
+      cached_variants.each_with_index do |var, i|
+        var.shares.each_with_index do |share|
+          if rand() < probs[i]
+            share.add_click()
+            if rand() < probs[i]
+              share.add_goal()
+            end
+          end
+        end
+      end
+      sleep 1
+    end
   end
 end

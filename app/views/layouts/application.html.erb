@@ -24,7 +24,7 @@
       </ul>
       <ul class="nav navbar-nav float-right">
         <% if current_user %>
-          <li class="nav-item"><img src="<%= current_user.picture %>" height="30px" /><%= link_to current_user.first_name, me_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to current_user.first_name, me_path, class: 'nav-link' %></li>
           <li class="nav-item"><%= link_to 'Log out', logout_path, class: 'nav-link' %></li>
         <% else %>
           <li class="nav-item"><%= link_to 'Log in', login_path, class: 'nav-link' %></li>
