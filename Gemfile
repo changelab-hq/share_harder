@@ -75,3 +75,4 @@ gem 'redis-objects'
 
 gem 'omniauth-google-oauth2'
 gem 'simple-random'
+gem 'rack-cors', require: 'rack/cors'

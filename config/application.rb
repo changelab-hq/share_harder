@@ -13,5 +13,13 @@ module ShareHarder
 
     config.identity_cache_store = :redis_store, ENV['REDIS_URL'], { expires_in: 60.minutes }
     IdentityCache.cache_backend = ActiveSupport::Cache.lookup_store(*Rails.configuration.identity_cache_store)
+
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '/api/variant', :headers => :any, :methods => [:get]
+        resource '/api/record_goal', :headers => :any, :methods => [:post]
+      end
+    end
   end
 end
