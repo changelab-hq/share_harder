@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import Card from '@material-ui/core/Paper';
+import Plot from 'react-plotly.js';
 
 const styles = {
   div: { width: '100%', display: 'inline-block', margin: '20px', position: 'relative' },
@@ -24,6 +25,17 @@ export default class VariantResults extends React.Component {
           <div>Trials</div>
           <div>4,506</div>
           <div>Clicks</div>
+        </div>
+        <div className='col-md-8 col-xs-6'>
+          <Plot
+            data={[
+              {
+                x: [1, 2, 3, 4, 4, 4, 8, 9, 10],
+                type: 'box'
+              }
+            ]}
+            layout={{width: '100%', height: 200}}
+          />
         </div>
       </div>
     );

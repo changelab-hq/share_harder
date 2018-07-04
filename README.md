@@ -1,24 +1,34 @@
-# README
+# Facebook Share Tester
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This allows you to test multiple variants of title, description and image of the share preview on Facebook. It uses a [bandit algorithm](https://en.wikipedia.org/wiki/Thompson_sampling) to find the best variant much more quickly than conventional A/B testing.
 
-Things you may want to cover:
+![screenshot of the experiment editor](./docs/experiment_editor.png "WYSIWYG editor")
 
-* Ruby version
+# TODO: Deploy to Heroku button
 
-* System dependencies
+## Dev Setup
 
-* Configuration
+The app uses Ruby on Rails with React / Redux for the front end (in order to achieve as many 'R's as possible).
 
-* Database creation
+Dependencies:
+ - Ruby
+ - Postgres
+ - Redis
+ - Node
+ - Yarn (Node package management)
 
-* Database initialization
+Once you have these setup you can run the following to set the app up locally.
 
-* How to run the test suite
+`git clone https://github.com/jamesr2323/facebook_share_tester.git`
+`cd facebook_share_tester`
+`bundle install`
+`createdb facebook_share_tester_dev`
 
-* Services (job queues, cache servers, search engines, etc.)
+Add the connection string for the local database to a .env file in the app root directory. `DATABASE_URL=.....`
 
-* Deployment instructions
+`foreman run rake db:schema:load`
+`foreman start -f Procfile.dev`
 
-* ...
+## Tests
+
+Coming soon!
