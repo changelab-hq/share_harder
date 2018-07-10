@@ -8,6 +8,14 @@ class Experiment < ApplicationRecord
 
   before_save :normalize_url!
 
+  def results
+
+  end
+
+  def broadcast_results!
+
+  end
+
   def self.lookup_by_url(url)
     Experiment.find_by(url: Experiment.normalize_url(url))
   end

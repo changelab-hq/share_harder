@@ -18,6 +18,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 }
 
 class ExperimentResults extends React.Component {
+  componentDidMount() {
+    App.resultsSubscription = App.cable.subscriptions.create({
+      channel: 'ResultsChannel',
+      experiment_id: this.props.experiment.id
+    }, {
+      received: function(data) {
+        console.log("Got data!", data)
+      }
+    })
+  }
+
   render() {
     return (
       <div className='experiment'>

@@ -11,7 +11,6 @@ export default class ExperimentResultsApp extends React.Component {
   render () {
     let store = createStore(experimentResultsReducer, this.props);
 
-    console.log("EEA", this.props)
     return (
       <Provider store={store}>
         <ExperimentResults experiment={this.props.experiment} />
