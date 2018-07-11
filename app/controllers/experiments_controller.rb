@@ -1,5 +1,5 @@
 class ExperimentsController < ApplicationController
-  before_action :authenticate, except: [:metatags, :redirect, :lookup]
+  before_action :authenticate_admin, except: [:metatags, :redirect, :lookup]
 
   def index
     @experiments = Experiment.all

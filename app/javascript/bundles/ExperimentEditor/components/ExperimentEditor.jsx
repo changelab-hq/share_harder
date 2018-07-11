@@ -70,8 +70,16 @@ class ExperimentEditor extends React.Component {
     return (
       <div className='experiment'>
         <h1>Experiment Editor</h1>
-        <h2><span contentEditable={true} suppressContentEditableWarning={true} onBlur={this.props.onUpdateExperiment} className='name-input'>{this.props.experiment.name}</span> <Icon>edit</Icon></h2>
-        <Button style={{'float': 'right'}} variant="contained" color="secondary" onClick={this.props.onSaveExperiment} disabled={!this.props.unsavedChanges}><Icon>save</Icon> Save</Button>
+        <div className="card">
+          <div className="card-header bg-primary">
+            <h2>
+              <span contentEditable={true} suppressContentEditableWarning={true} onBlur={this.props.onUpdateExperiment} className='name-input'>{this.props.experiment.name}</span> <Icon>edit</Icon>
+              <Button style={{'float': 'right'}} variant="contained" href={'/experiments/' + this.props.experiment.id + '/results'}><Icon>bar_chart</Icon> Results</Button>
+              &nbsp;
+              <Button style={{'float': 'right'}} variant="contained" color="secondary" onClick={this.props.onSaveExperiment} disabled={!this.props.unsavedChanges}><Icon>save</Icon> Save</Button>
+            </h2>            
+          </div>
+        </div>  
         <div style={styles.url}><span contentEditable={true} suppressContentEditableWarning={true} onBlur={this.props.onUpdateExperiment} className='url-input'>{this.props.experiment.url}</span> <Icon>edit</Icon></div>
         <h2>Variants <Button variant="contained" color="primary" onClick={this.props.addVariant}>+ Add</Button></h2>
         <Variants variants={this.props.experiment.variants} dispatches={this.props.dispatches} />

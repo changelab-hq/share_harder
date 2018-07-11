@@ -4,6 +4,13 @@ import VariantResults from './VariantResults';
 import { refreshState } from '../actions/experimentResultsActionCreators';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
+import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
+import CardContent from '@material-ui/core/CardContent';
+
+import Button from '@material-ui/core/Button';
+import Icon from '@material-ui/core/Icon';
+
 const mapStateToProps = (state, ownProps) => {
   return { experiment: state.experiment };
 }
@@ -41,12 +48,19 @@ class ExperimentResults extends React.Component {
     return (
       <div className='experiment'>
         <h1>Experiment Results</h1>
-        <h2>{this.props.experiment.name}</h2>
-        <div className="card">
-          <div className="card-header bg-primary">
-            <h3>Clicks</h3>
-          </div>
-          <div className="card-body">
+        <Card>
+          <CardHeader title={this.props.experiment.name}
+            className='bg-primary'
+            action={
+              <Button style={{'float': 'right'}} variant="contained" href={'/experiments/' + this.props.experiment.id + '/edit'}><Icon>edit</Icon> Edit</Button>
+            }
+          >
+          </CardHeader>
+        </Card>  
+
+        <Card>
+          <CardHeader title='Clicks'></CardHeader>
+          <CardContent>
             <ReactCSSTransitionGroup
               transitionName="example"
               transitionEnterTimeout={5000}
@@ -59,8 +73,8 @@ class ExperimentResults extends React.Component {
               ))}  
 
             </ReactCSSTransitionGroup>
-          </div>
-        </div>
+          </CardContent>
+        </Card>
       </div>
     );
   }
