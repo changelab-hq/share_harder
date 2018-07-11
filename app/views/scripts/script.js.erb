@@ -67,6 +67,10 @@
       });
     }
 
+    var getData = function(){
+      return rendered_variant
+    }
+
     var getParameterByName = function(name) {
       url = window.location.href;
       name = name.replace(/[\[\]]/g, "\\$&");
@@ -87,7 +91,8 @@
     window.ShareHarder = {
       getVariant: getVariant,
       updatePersonalisation: updatePersonalisation,
-      recordGoal: recordGoal
+      recordGoal: recordGoal,
+      getData: getData
     }
   }
 )(jQuery)
