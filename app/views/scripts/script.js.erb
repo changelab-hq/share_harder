@@ -58,13 +58,15 @@
     }
 
     var recordGoal = function(){
-      $.ajax({
-        url: appUrl + '/api/record_goal',
-        type: 'post',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify({key: referrer_key})
-      });
+      if (referrer_key) {
+        $.ajax({
+          url: appUrl + '/api/record_goal',
+          type: 'post',
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify({key: referrer_key})
+        });
+      }
     }
 
     var getData = function(){
