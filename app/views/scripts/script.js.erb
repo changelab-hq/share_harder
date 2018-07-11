@@ -15,8 +15,9 @@
     }
 
     var renderVariant = function() {
+      key = generateKey()
       rendered_variant = Object.assign({}, variant)
-      queryParameters = 'v=' + variant.id + '&key=' + generateKey()
+      queryParameters = 'v=' + variant.id + '&key=' + key
       if (referrer_key) {
         queryParameters += '&rkey=' + referrer_key
       }
@@ -31,6 +32,7 @@
 
       sharedUrl = encodeURIComponent(appUrl + '/e/' + rendered_variant.experiment_id + '?' + queryParameters)
       rendered_variant.share_url = "https://www.facebook.com/sharer.php?u=" + sharedUrl
+      rendered_variant.key = key
     }
 
     var generateKey = function() {
