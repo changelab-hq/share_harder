@@ -1,13 +1,19 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import VariantResults from './VariantResults'
+import VariantResults from './VariantResults';
+import { refreshState } from '../actions/experimentResultsActionCreators';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const mapStateToProps = (state, ownProps) => {
   return { experiment: state.experiment };
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-  return {}
+  return {
+    refreshState: function(data){
+      dispatch(refreshState(data))
+    }
+  }
 }
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -19,12 +25,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
 class ExperimentResults extends React.Component {
   componentDidMount() {
+    const propState = this
     App.resultsSubscription = App.cable.subscriptions.create({
       channel: 'ResultsChannel',
       experiment_id: this.props.experiment.id
     }, {
       received: function(data) {
         console.log("Got data!", data)
+        propState.props.refreshState(data)
       }
     })
   }
@@ -39,9 +47,18 @@ class ExperimentResults extends React.Component {
             <h3>Clicks</h3>
           </div>
           <div className="card-body">
-            {this.props.experiment.variants.map(variant => (
-              <VariantResults variant={variant} key={variant.id} />
-            ))}  
+            <ReactCSSTransitionGroup
+              transitionName="example"
+              transitionEnterTimeout={5000}
+              transitionLeaveTimeout={3000}
+              transitionAppear={true}
+              transitionAppearTimeout={5000}>
+
+              {this.props.experiment.variants.map(variant => (
+                <VariantResults variant={variant} key={variant.id} />
+              ))}  
+
+            </ReactCSSTransitionGroup>
           </div>
         </div>
       </div>

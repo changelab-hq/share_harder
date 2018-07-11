@@ -27,7 +27,7 @@ class ExperimentsController < ApplicationController
 
   def results 
     @experiment = Experiment.find(params[:id])
-    @experiment_props = { experiment: @experiment.as_json(include: :variants) }
+    @experiment_props = { experiment: @experiment.results }
   end
 
   def demo

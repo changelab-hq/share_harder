@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Card from '@material-ui/core/Paper';
 import Plot from 'react-plotly.js';
+import AnimateOnChange from 'react-animate-on-change';
 
 const styles = {
   div: { width: '100%', display: 'inline-block', margin: '20px', position: 'relative' },
@@ -9,8 +10,8 @@ const styles = {
   description: { fontSize: '0.55em', margin: '0 3px 0 3px' },
   statsBox: {
     display: 'flex',
-    'justify-content': 'center',
-    'align-items': 'center'
+    'justifyContent': 'center',
+    'alignItems': 'center'
   }
 }
 
@@ -27,17 +28,27 @@ export default class VariantResults extends React.Component {
         </div>
         <div className='col-md-2 col-xs-3 text-center' style={styles.statsBox}>
           <div>
-            <span>1,405</span><br />
-            <span>Trials</span><br />
-            <span>4,506</span><br />
-            <span>Clicks</span>
+            <AnimateOnChange
+              baseClassName="stat-number"
+              animationClassName="bounce">
+              <span>{this.props.variant.share_count}</span>
+            </AnimateOnChange><br />
+              <span>Shares</span><br />
+            <AnimateOnChange
+              baseClassName="stat-number"
+              animationClassName="bounce">
+              <span>{this.props.variant.click_count}</span>
+            </AnimateOnChange><br />
+            <span>Clicks</span><br />
+            <span>{this.props.variant.goal_count}</span><br />
+            <span>Goals</span>
           </div>
         </div>
         <div className='col-md-8 col-xs-6'>
           <Plot
             data={[
               {
-                x: [2 + Math.random()],
+                x: [this.props.variant.click_count / this.props.variant.share_count],
                 y: [1],
                 mode: 'markers',
                 type: 'scatter',

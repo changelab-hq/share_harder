@@ -1,4 +1,6 @@
 .env
 node_modules/
+public/packs/
+public/assets/
 tmp/
 log/

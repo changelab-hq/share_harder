@@ -49,6 +49,25 @@ class Experiment < ApplicationRecord
     return share
   end
 
+  def results
+    cached_variants = Experiment.fetch(self.id).fetch_variants
+
+    var_results = cached_variants.map do |var|
+      var.as_json.merge({ 
+        share_count: var.share_counter.value + (rand() * 10).round, 
+        click_count: var.click_counter.value, 
+        goal_count: var.goal_counter.value 
+      })
+    end
+
+    self.as_json.merge({
+      variants: var_results,
+      total_shares: var_results.inject(0){ |sum, v| sum += v[:share_count] },
+      total_clicks: var_results.inject(0){ |sum, v| sum += v[:click_count] },
+      total_goals: var_results.inject(0){ |sum, v| sum += v[:goal_count] }
+      })
+  end
+
   # Alpha = success count per variation
   # Beta = fail count per variation
   def choose_bandit_variant

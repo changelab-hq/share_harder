@@ -5,12 +5,9 @@ function experimentResultsReducer(state, action){
 
   console.log("ACTION: ", action)
 
-  newState.unsavedChanges = !action.type.match(/INIT/) // Assume all actions change state in a way that needs to be persisted
-
   switch(action.type){
     case actionTypes.REFRESH_STATE:
-      newState.unsavedChanges = false
-      newState.experiment = JSON.parse(JSON.stringify(action.data.experiment))
+      newState = JSON.parse(JSON.stringify(action.data))
       break
   }
 

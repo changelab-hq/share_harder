@@ -1,11 +1,12 @@
 class ResultsChannel < ApplicationCable::Channel
   def subscribed
+    @experiment = Experiment.find(params[:experiment_id])
     stream_from "results:#{params[:experiment_id]}"
   end
 
   def update_results
-    ActionCable.server.broadcast('results:1', {testing: true})
+    transmit({experiment: @experiment.results})
   end
 
-  periodically :update_results, every: 5.seconds
+  periodically :update_results, every: 2.seconds
 end

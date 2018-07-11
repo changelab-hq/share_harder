@@ -8,6 +8,8 @@
     "plotly.js": "^1.38.3",
     "prop-types": "^15.6.2",
     "react": "^16.4.1",
+    "react-addons-css-transition-group": "^15.6.2",
+    "react-animate-on-change": "^2.1.1",
     "react-dom": "^16.4.1",
     "react-on-rails": "11.0.9",
     "react-plotly.js": "^2.2.0",
@@ -17,5 +19,7 @@
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
   },
-  "engines" : { "node" : ">=8" }
+  "engines": {
+    "node": ">=8"
+  }
 }
