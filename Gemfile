@@ -78,3 +78,4 @@ gem 'simple-random'
 gem 'rack-cors', require: 'rack/cors'
 
 gem 'clockwork'
+gem 'newrelic_rpm'
