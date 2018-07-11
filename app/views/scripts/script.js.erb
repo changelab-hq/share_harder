@@ -7,6 +7,11 @@
         callback = options.callback // store to update later
       }
 
+      requestUrl = appUrl + '/api/variant';
+      if (options.url) {
+        requestUrl += '?experiment_url=' + encodeURIComponent(options.url)
+      }
+
       $.getJSON(appUrl + '/api/variant', function(data){
         variant = data;
         renderVariant()
