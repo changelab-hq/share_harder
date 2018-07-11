@@ -54,7 +54,7 @@ class Experiment < ApplicationRecord
 
     var_results = cached_variants.map do |var|
       var.as_json.merge({ 
-        share_count: var.share_counter.value + (rand() * 10).round, 
+        share_count: var.share_counter.value, 
         click_count: var.click_counter.value, 
         goal_count: var.goal_counter.value 
       })
