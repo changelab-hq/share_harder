@@ -12,7 +12,7 @@
         requestUrl += '?experiment_url=' + encodeURIComponent(options.url)
       }
 
-      $.getJSON(appUrl + '/api/variant', function(data){
+      $.getJSON(requestUrl, function(data){
         variant = data;
         renderVariant()
         callback(rendered_variant);        
