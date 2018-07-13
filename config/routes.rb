@@ -10,7 +10,7 @@ Rails.application.routes.draw do
 
   resources :experiments
 
-  constraints :user_agent => /facebookexternalhit/ do
+  constraints :user_agent => /facebookexternalhit|WhatsApp/ do
     get '/e/:id' => 'experiments#metatags'
   end
   get '/e/:id' => 'experiments#redirect' 
