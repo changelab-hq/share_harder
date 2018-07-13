@@ -8,14 +8,6 @@ class Experiment < ApplicationRecord
 
   before_save :normalize_url!
 
-  def results
-
-  end
-
-  def broadcast_results!
-
-  end
-
   def self.lookup_by_url(url)
     Experiment.find_by(url: Experiment.normalize_url(url))
   end
@@ -29,7 +21,7 @@ class Experiment < ApplicationRecord
     url.strip.downcase.split('?').first.split('//').last
   end
 
-  def get_share_by_key(key, variant_id = nil, referrer_key = nil)
+  def get_share_by_key(key, variant_id = nil, click_key = nil)
     unless share = Share.find_by(key: key)
       if variant_id.present?
         variant = Variant.find(variant_id)
@@ -37,8 +29,8 @@ class Experiment < ApplicationRecord
         variant = choose_bandit_variant
       end
 
-      if referrer_key.present?
-        referrer_share = Share.find_by(key: referrer_key)
+      if click_key.present?
+        referrer_share = Click.find_by(key: click_key).share
       else
         referrer_share = nil
       end

@@ -15,6 +15,6 @@ class Api::ApiController < ApplicationController
   end
 
   def record_goal
-    AddGoalWorker.perform_async(params[:key])
+    AddGoalWorker.perform_async(params[:key], Time.now)
   end
 end

@@ -1,7 +1,9 @@
 class AddGoalWorker
   include Sidekiq::Worker
 
-  def perform(key)
-    Share.find_by(key: key).add_goal
+  def perform(key, goal_at)
+    click = Click.find_by(key: key)
+    click.update_attributes(goal_at: goal_at)
+    click.share.increment_goals
   end
 end
