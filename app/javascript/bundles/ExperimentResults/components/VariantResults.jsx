@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import Card from '@material-ui/core/Paper';
-import Plot from 'react-plotly.js';
+import Plotly from 'plotly.js-basic-dist';
+import createPlotlyComponent from 'react-plotly.js/factory';
+const Plot = createPlotlyComponent(Plotly);
+
 import AnimateOnChange from 'react-animate-on-change';
 
 const styles = {
