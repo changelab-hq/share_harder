@@ -45,7 +45,7 @@ class ExperimentsController < ApplicationController
     AddClickWorker.perform_async(params[:key])
     Rails.logger.info(request.user_agent)
     Rails.logger.info(request.headers)
-    redirect_to("https://#{@experiment.url}?rkey=#{params[:key]}")
+    redirect_to("https://#{@experiment.url}?rkey=#{params[:key]}&utm_source=share&utm_medium=facebook&utm_campaign=#{params[:key]}")
   end
 
   private
