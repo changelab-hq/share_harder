@@ -2,7 +2,6 @@ class Api::ApiController < ApplicationController
   protect_from_forgery except: [:variant, :record_goal]
 
   def variant
-    p params[:experiment_url]
     lookup_url = params[:experiment_url].presence || request.referer
     
     experiment = Experiment.lookup_by_url(lookup_url)
