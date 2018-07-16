@@ -35,16 +35,17 @@ class ExperimentsController < ApplicationController
   end
 
   def metatags
-    @share = Experiment.fetch(params[:id]).get_share_by_key(params[:key], params[:v], params[:r])
+    @experiment = Experiment.fetch(params[:id])
+    check_for_key_param!
+    
+    @share = @experiment.get_share_by_key(params[:key], params[:v], params[:r])
     @metatags = @share.variant.render_metatags(params)
     render layout: false
   end
 
   def redirect
     @experiment = Experiment.fetch(params[:id])
-    if !params[:key].present?
-      redirect_to("https://#{@experiment.url}")
-    end
+    check_for_key_param!
 
     click_key = Click.generate_key
     AddClickWorker.perform_async(params[:key], click_key, request.user_agent, request.remote_ip)
@@ -60,5 +61,9 @@ class ExperimentsController < ApplicationController
     raw_params[:variants_attributes] = raw_params[:variants] if raw_params[:variants].present?
     raw_params.delete(:variants)
     raw_params
+  end
+
+  def check_for_key_param!
+    redirect_to("https://#{@experiment.url}") unless params[:key].present?
   end
 end
