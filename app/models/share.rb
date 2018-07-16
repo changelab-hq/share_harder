@@ -4,6 +4,8 @@ class Share < ApplicationRecord
   belongs_to :share, optional: true
   has_many :clicks
 
+  validates_presence_of :key, :experiment, :variant
+
   after_create :increment_shares
 
   def increment_shares

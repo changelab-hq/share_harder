@@ -42,6 +42,10 @@ class ExperimentsController < ApplicationController
 
   def redirect
     @experiment = Experiment.fetch(params[:id])
+    if !params[:key].present?
+      redirect_to("https://#{@experiment.url}")
+    end
+
     click_key = Click.generate_key
     AddClickWorker.perform_async(params[:key], click_key, request.user_agent, request.remote_ip)
     Rails.logger.info(request.user_agent)
