@@ -37,7 +37,7 @@ class ExperimentsController < ApplicationController
   def metatags
     @experiment = Experiment.fetch(params[:id])
     check_for_key_param!
-    
+
     @share = @experiment.get_share_by_key(params[:key], params[:v], params[:r])
     @metatags = @share.variant.render_metatags(params)
     render layout: false
@@ -64,6 +64,8 @@ class ExperimentsController < ApplicationController
   end
 
   def check_for_key_param!
-    redirect_to("https://#{@experiment.url}") unless params[:key].present?
+    unless params[:key].present?
+      redirect_to("https://#{@experiment.url}") and return
+    end
   end
 end
