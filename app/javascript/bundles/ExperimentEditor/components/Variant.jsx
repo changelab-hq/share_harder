@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
+import PreviewImage from './PreviewImage'
+
 import Card from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -42,14 +44,12 @@ export default class Variant extends React.Component {
   onUpdate(e) {
     e.preventDefault();
     var variantEl = e.target.closest('.variant');
-    
+
     this.props.dispatches.updateVariant({
-      variant: {
-        _id: this.props.variant._id,
-        title: variantEl.querySelector('.title').textContent, 
-        description: variantEl.querySelector('.description').textContent,
-        image_url: variantEl.querySelector('.image-url').value
-      }
+      _id: this.props.variant._id,
+      title: variantEl.querySelector('.title').textContent,
+      description: variantEl.querySelector('.description').textContent,
+      image_url: variantEl.querySelector('.image-url').value
     })
   }
 
@@ -72,6 +72,10 @@ export default class Variant extends React.Component {
     this.setState({ dialog_open: false });
   }
 
+  handleClickAddOverlay () {
+    this.props.dispatches.addOverlay(this.props.variant._id)
+  }
+
   render() {
     return (
       <div className='col-lg-6 variant'>
@@ -79,7 +83,7 @@ export default class Variant extends React.Component {
           <IconButton aria-label="Delete" style={styles.delete_icon} onClick={this.handleDeleteClick}>
             <Icon>delete</Icon>
           </IconButton>
-          <img src={this.props.variant.image_url} onBlur={this.updateImage.bind(this)} style={styles.image} onClick={this.showEditImage} />
+          <PreviewImage src={this.props.variant.image_url} onBlur={this.updateImage.bind(this)} style={styles.image} onClick={this.showEditImage} overlays={this.props.variant.overlays} dispatches={this.props.dispatches} addOverlay={this.handleClickAddOverlay.bind(this)} />
           <input className='image-url form-control hidden' style={styles.image_url} onBlur={this.updateImage.bind(this)} defaultValue={this.props.variant.image_url} />
           <div style={styles.title} className='title' contentEditable={true} suppressContentEditableWarning={true}  onBlur={this.onUpdate.bind(this)}>{this.props.variant.title}</div>
           <div style={styles.description} className='description' contentEditable={true} suppressContentEditableWarning={true} onBlur={this.onUpdate.bind(this)}>{this.props.variant.description}</div>

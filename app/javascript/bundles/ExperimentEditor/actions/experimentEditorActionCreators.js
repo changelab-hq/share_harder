@@ -1,10 +1,25 @@
 import * as actionTypes from '../constants/experimentEditorConstants';
 import { connect } from 'react-redux';
 
-export const updateVariant = (data) => {
+export const updateVariant = (variant) => {
   return {
     type: actionTypes.UPDATE_VARIANT,
-    data: data
+    variant: variant
+  }
+}
+
+export const updateOverlay = (variant_id, overlay) => {
+  return {
+    type: actionTypes.UPDATE_OVERLAY,
+    variant_id: variant_id,
+    overlay: overlay
+  }
+}
+
+export const addOverlay = (variant_id) => {
+  return {
+    type: actionTypes.ADD_OVERLAY,
+    variant_id: variant_id
   }
 }
 
@@ -18,6 +33,13 @@ export const updateExperiment = (data) => {
 export const addVariant = () => {
   return {
     type: actionTypes.ADD_VARIANT
+  }
+}
+
+export const deleteOverlay = (overlay_id) => {
+  return {
+    type: actionTypes.DELETE_OVERLAY,
+    overlay_id: overlay_id
   }
 }
 

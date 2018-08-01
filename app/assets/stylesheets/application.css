@@ -80,3 +80,11 @@
 }
 
 .experiment-list-item {}
+
+.contains-hover .show-on-hover {
+  display: none;
+}
+
+.contains-hover:hover .show-on-hover {
+  display: inherit;
+}

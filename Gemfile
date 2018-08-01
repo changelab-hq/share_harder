@@ -79,3 +79,5 @@ gem 'rack-cors', require: 'rack/cors'
 
 gem 'clockwork'
 gem 'newrelic_rpm'
+
+gem 'mini_magick'
