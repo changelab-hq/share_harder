@@ -9,10 +9,21 @@
   ],
   "buildpacks": [
     {
-      "url": "heroku/ruby"
+      "url": "heroku/nodejs"
     },
     {
-      "url": "heroku/nodejs"
+      "url": "heroku/ruby"
     }
-  ]
+  ],
+  "env": {
+    "GOOGLE_CLIENT_ID": {
+      "description": "Google client ID for OAuth",
+    },
+    "GOOGLE_CLIENT_SECRET": {
+      "description": "Google client secret",
+    },
+    "APP_URL": {
+      "description": "URL of your app - e.g. https://your-app-name.herokuapp.com"
+    }
+  }
 }
