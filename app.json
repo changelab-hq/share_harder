@@ -15,6 +15,9 @@
       "url": "heroku/ruby"
     }
   ],
+  "scripts": {
+    "postdeploy": "rails db:migrate"
+  },
   "env": {
     "GOOGLE_CLIENT_ID": {
       "description": "Google client ID for OAuth",
@@ -28,8 +31,5 @@
       "description": "URL of your app - e.g. https://your-app-name.herokuapp.com",
       "value": ""
     }
-  },
-  "scripts": {
-    "postdeploy": "rails db:migrate"
-  },
+  }
 }
