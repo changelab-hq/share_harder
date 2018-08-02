@@ -28,5 +28,8 @@
       "description": "URL of your app - e.g. https://your-app-name.herokuapp.com",
       "value": ""
     }
-  }
+  },
+  "scripts": {
+    "postdeploy": "rails db:migrate"
+  },
 }
