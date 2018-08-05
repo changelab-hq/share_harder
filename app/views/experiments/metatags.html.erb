@@ -5,7 +5,7 @@
   <meta property="og:type"               content="campaign" />
   <meta property="og:title"              content="<%= @metatags[:title] %>" />
   <meta property="og:description"        content="<%= @metatags[:description] %>" />
-  <meta property="og:image"              content="<%= @share.variant.image_url %>" />
+  <meta property="og:image"              content="<%= experiment_image_url(@share.experiment, format: 'png', params: request.query_parameters) %>" />
 </head>
 <body>
   Whoops! You shouldn't have landed on this page. <%= link_to 'Click here', @share.experiment.url %> to go where you were probably heading.

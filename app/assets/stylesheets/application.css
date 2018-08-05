@@ -88,3 +88,11 @@
 .contains-hover:hover .show-on-hover {
   display: inherit;
 }
+
+.contains-hover:hover .contains-hover .show-on-hover {
+  display: none;
+}
+
+.contains-hover:hover .contains-hover:hover .show-on-hover {
+  display: inherit;
+}

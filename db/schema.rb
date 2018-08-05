@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_13_122332) do
+ActiveRecord::Schema.define(version: 2018_08_05_134008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2018_07_13_122332) do
     t.text "image_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "overlays", default: [], null: false
     t.index ["experiment_id"], name: "index_variants_on_experiment_id"
   end
 

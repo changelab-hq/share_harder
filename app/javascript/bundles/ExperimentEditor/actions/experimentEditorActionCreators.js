@@ -8,10 +8,9 @@ export const updateVariant = (variant) => {
   }
 }
 
-export const updateOverlay = (variant_id, overlay) => {
+export const updateOverlay = (overlay) => {
   return {
     type: actionTypes.UPDATE_OVERLAY,
-    variant_id: variant_id,
     overlay: overlay
   }
 }

@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 
 import PreviewImage from './PreviewImage'
 
@@ -23,15 +24,10 @@ const styles = {
   delete_icon: { position: 'absolute', bottom: '3px', right: '10px' }
 }
 
-export default class Variant extends React.Component {
-  /**
-   * @param props - Comes from your rails view.
-   */
+class Variant extends React.Component {
   constructor(props) {
     super(props);
 
-    // How to set initial state in ES6 class syntax
-    // https://reactjs.org/docs/state-and-lifecycle.html#adding-local-state-to-a-class
     this.state = { dialog_open: false };
   }
 
@@ -113,3 +109,5 @@ export default class Variant extends React.Component {
     );
   }
 }
+
+export default DragDropContext(HTML5Backend)(Variant)
