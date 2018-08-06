@@ -1,3 +1,29 @@
 // Place all the styles related to the Experiments controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.overlay {
+  position: absolute;
+
+  .drag-handle {
+    position: absolute;
+    left: -10px;
+    cursor: move;
+    background: rgba(255, 255, 255, 0.2)
+  }
+
+  .hover-toolbar {
+    position: absolute;
+    background: white;
+    padding: 4px;
+    border-radius: 3px;
+    top: 100%;
+    left: 0px;
+    z-index: 99;
+    width: 300px;
+  }
+
+  .slider {
+    padding: 15px;
+  }
+}

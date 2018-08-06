@@ -14,6 +14,8 @@ module ShareHarder
     config.identity_cache_store = :redis_store, ENV['REDIS_URL'], { expires_in: 60.minutes }
     IdentityCache.cache_backend = ActiveSupport::Cache.lookup_store(*Rails.configuration.identity_cache_store)
 
+    Mime::Type.register "image/jpg", :jpg
+
     config.middleware.insert_before 0, Rack::Cors do
       allow do
         origins '*'
