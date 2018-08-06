@@ -4,7 +4,14 @@ This allows you to test multiple variants of title, description and image of the
 
 ![screenshot of the experiment editor](./docs/experiment_editor.png "WYSIWYG editor")
 
-# TODO: Deploy to Heroku button
+# Try it out - deploy a working version of the app to Heroku now
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+Required ENV variables:
+ - GOOGLE_CLIENT_ID - Used for OAuth login, get it from the Google Cloud console
+ - GOOGLE_CLIENT_SECRET
+ - APP_URL - this needs to be set to https://your-app-name.herokuapp.com (no trailing slash)
 
 ## Dev Setup
 

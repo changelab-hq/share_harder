@@ -1,0 +1,35 @@
+{
+  "name": "Share Harder",
+  "description": "Rails / React app for optimising social share metatags",
+  "repository": "https://github.com/jamesr2323/facebook_share_tester",
+  "keywords": ["facebook", "bandit", "ruby", "react"],
+  "addons": [
+    "heroku-redis",
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    },
+    {
+      "url": "heroku/ruby"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "rails db:migrate"
+  },
+  "env": {
+    "GOOGLE_CLIENT_ID": {
+      "description": "Google client ID for OAuth",
+      "value": ""
+    },
+    "GOOGLE_CLIENT_SECRET": {
+      "description": "Google client secret",
+      "value": ""
+    },
+    "APP_URL": {
+      "description": "URL of your app - e.g. https://your-app-name.herokuapp.com",
+      "value": ""
+    }
+  }
+}
