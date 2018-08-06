@@ -45,11 +45,12 @@ class ExperimentsController < ApplicationController
 
   def metatags
     if params[:key] == 'test'
-      @metatags = @experiment.variants.sample.render_metatags(params)
+      @share = Share.new(variant: @experiment.variants.sample)
     else
       @share = @experiment.get_share_by_key(params[:key], params[:v], params[:r])
-      @metatags = @share.variant.render_metatags(params)
     end
+
+    @metatags = @share.variant.render_metatags(params)
     render layout: false
   end
 
