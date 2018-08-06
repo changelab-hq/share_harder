@@ -64,6 +64,8 @@ class ExperimentsController < ApplicationController
   end
 
   def redirect
+    redirect_to "https://#{@experiment.url}" if params[:key] == 'test'
+
     click_key = Click.generate_key
     AddClickWorker.perform_async(params[:key], click_key, request.user_agent, request.remote_ip)
     Rails.logger.info(request.user_agent)
@@ -85,7 +87,7 @@ class ExperimentsController < ApplicationController
   end
 
   def check_for_key_param
-    unless params[:key].present? && params[:key] != 'test'
+    unless params[:key].present?
       redirect_to("https://#{@experiment.url}")
     end
   end
