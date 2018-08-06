@@ -2,7 +2,10 @@
 
 This allows you to test multiple variants of title, description and image of the share preview on Facebook. It uses a [bandit algorithm](https://en.wikipedia.org/wiki/Thompson_sampling) to find the best variant much more quickly than conventional A/B testing.
 
+You add overlay text to the image, and personalise the title, description and image text with merge tags.
+
 ![screenshot of the experiment editor](./docs/experiment_editor.png "WYSIWYG editor")
+![screenshot of the experiment editor](./docs/exp2.png "WYSIWYG editor")
 
 # Try it out - deploy a working version of the app to Heroku now
 
