@@ -1,5 +1,5 @@
 class ExperimentsController < ApplicationController
-  before_action :authenticate_admin, except: [:metatags, :redirect, :lookup]
+  before_action :authenticate_admin, except: [:metatags, :redirect, :lookup, :preview_image]
   before_action :set_experiment
   before_action :check_for_key_param, only: [:metatags, :redirect]
 
