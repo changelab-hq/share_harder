@@ -53,7 +53,7 @@ class Variant < ApplicationRecord
     end
 
     img = MiniMagick::Image.open(get_image(image_url))
-    img.resize('516x270!') # "!" forces image to distort
+    img.resize('540x300!') # "!" forces image to distort
 
     rendered_overlays.each do |o|
       font_path = get_font(o['font'])

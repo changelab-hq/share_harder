@@ -6,8 +6,8 @@
   <meta property="og:title"              content="<%= @metatags[:title] %>" />
   <meta property="og:description"        content="<%= @metatags[:description] %>" />
   <meta property="og:image"              content="<%= experiment_image_url(@share.experiment, format: 'jpg', params: image_parameters(request.query_parameters)) %>" />
-  <meta property="og:image:width"        content="516" />
-  <meta property="og:image:height"        content="270" />
+  <meta property="og:image:width"        content="540" />
+  <meta property="og:image:height"        content="300" />
 </head>
 <body>
   Whoops! You shouldn't have landed on this page. <%= link_to 'Click here', @share.experiment.url %> to go where you were probably heading.

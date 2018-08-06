@@ -15,9 +15,9 @@ import Icon from '@material-ui/core/Icon';
 import IconButton from '@material-ui/core/IconButton';
 
 const styles = {
-  div: { width: 516, display: 'inline-block', margin: '20px', position: 'relative' },
+  div: { width: 540, display: 'inline-block', margin: '20px', position: 'relative' },
   caption: { fontSize: '0.8em', margin: '0 10px 0 10px' },
-  image: { width: 516, height: 270 },
+  image: { width: 540, height: 300 },
   title: { fontSize: '1.3em', margin: '0 10px 0 10px'},
   description: { fontSize: '0.9em', margin: '0 10px 0 10px' },
   image_url: { width: '100%', padding: '10px', display: 'none' },
