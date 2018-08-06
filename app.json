@@ -19,17 +19,13 @@
     "postdeploy": "rails db:migrate"
   },
   "env": {
-    "GOOGLE_CLIENT_ID": {
-      "description": "Google client ID for OAuth",
-      "value": ""
-    },
-    "GOOGLE_CLIENT_SECRET": {
-      "description": "Google client secret",
-      "value": ""
-    },
     "APP_URL": {
       "description": "URL of your app - e.g. https://your-app-name.herokuapp.com",
       "value": ""
+    },
+    "OPEN_ACCESS": {
+      "description": "Don't require login to access the app. Good for trying it out, but make sure to turn off.",
+      "value": "true"
     }
   }
 }

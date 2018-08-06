@@ -12,8 +12,6 @@ You add overlay text to the image, and personalise the title, description and im
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 Required ENV variables:
- - GOOGLE_CLIENT_ID - Used for OAuth login, get it from the Google Cloud console
- - GOOGLE_CLIENT_SECRET
  - APP_URL - this needs to be set to https://your-app-name.herokuapp.com (no trailing slash)
 
 ## Dev Setup
@@ -38,6 +36,10 @@ Add the connection string for the local database to a .env file in the app root 
 
 `foreman run rake db:schema:load`
 `foreman start -f Procfile.dev`
+
+## ENV variables
+ - GOOGLE_CLIENT_ID - Used for OAuth login, get it from the Google Cloud console
+ - GOOGLE_CLIENT_SECRET
 
 ## Tests
 

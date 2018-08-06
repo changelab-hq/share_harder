@@ -29,10 +29,15 @@
         <% else %>
           <li class="nav-item"><%= link_to 'Log in', login_path, class: 'nav-link' %></li>
         <% end %>
-      </ul>  
+      </ul>
     </div>
   </nav>
   <div class="container">
+    <% if ENV['OPEN_ACCESS'] %>
+     <div class="alert alert-warning" role="alert">
+        You are currently running in "Open Access" mode. This is fine for testing, but for production you probably want to lock down access to your staff.
+      </div>
+    <% end %>
 
     <%= yield %>
   </div>
