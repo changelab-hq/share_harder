@@ -4,6 +4,8 @@ This allows you to test multiple variants of title, description and image of the
 
 You add overlay text to the image, and personalise the title, description and image text with merge tags.
 
+Inspired by [ShareBandit](https://github.com/MoveOnOrg/sharebandit)
+
 ![screenshot of the experiment editor](./docs/experiment_editor.png "WYSIWYG editor")
 ![screenshot of the experiment editor](./docs/exp2.png "WYSIWYG editor")
 
