@@ -59,7 +59,7 @@ class ExperimentsController < ApplicationController
   private
 
   def experiment_params
-    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :image_url, :_destroy, overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor]])
+    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :image_url, :_destroy, overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor, :align]])
     raw_params[:variants_attributes] = raw_params[:variants] if raw_params[:variants].present?
     raw_params.delete(:variants)
     raw_params
@@ -77,7 +77,7 @@ class ExperimentsController < ApplicationController
 
   def data_for_experiment
     data = @experiment.as_json(include: :variants)
-    data['variants'] = data['variants'].map do |v|
+    data['variants'] = data['variants'].sort_by{ |o| o['id'] }.map do |v|
       if v['overlays'].present?
         v['overlays'] = v['overlays'].map do |k, overlay|
           overlay['size'] = overlay['size'].to_i

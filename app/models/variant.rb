@@ -27,8 +27,9 @@ class Variant < ApplicationRecord
   def get_font(font)
     font_filename = "fonts/#{font}.tff"
     unless File.file?(font_filename)
-      @font_info ||= JSON.parse(open('https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyAj00wPI0c0qAj3VZkQXpU-5AQe3lJa1Oo').read)
-      font_url = @font_info['items'].select{|x| x['family'] == font }.first['files']['regular']
+      @font_info ||= JSON.parse(open("https://www.googleapis.com/webfonts/v1/webfonts?key=#{ENV['GOOGLE_FONTS_API_KEY']}").read)
+      item = @font_info['items'].select{|x| x['family'] == font }
+      font_url = item.first['files']['700'] || item.first['files']['regular']
       `mkdir -p fonts`
       IO.copy_stream(open(font_url), font_filename)
     end
@@ -49,6 +50,10 @@ class Variant < ApplicationRecord
   def render_to_jpg(params)
     rendered_overlays = overlays.map do |k, o|
       o['text'] = render(o['text'], params)
+      if o['align'].present?
+        o['left'] = 0
+        o['top'] = o['top'].to_i - 167
+      end
       o
     end
 
@@ -65,6 +70,9 @@ class Variant < ApplicationRecord
         if o['textStrokeWidth'].to_i > 0
           c.stroke o['textStrokeColor']
           c.strokewidth o['textStrokeWidth']
+        end
+        if o['align'].present?
+          c.gravity({'left' => 'west', 'center' => 'center', 'right' => 'east'}[o['align']])
         end
       end
     end
