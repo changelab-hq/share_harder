@@ -5,6 +5,7 @@ import Variants from './Variants'
 
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
+import Clipboard from 'react-clipboard.js';
 
 import { addVariant, updateVariant, deleteVariant, addOverlay, updateOverlay, deleteOverlay, refreshState, updateExperiment } from '../actions/experimentEditorActionCreators.js'
 
@@ -74,8 +75,13 @@ const styles = {
 }
 
 class ExperimentEditor extends React.Component {
+  onCopyUrl () {
+    $(".share-url").fadeOut().fadeIn()
+  }
+
   render() {
-    console.log("EE", this.props)
+    const clipboardUrl = process.env.APP_URL + '/e/' + this.props.experiment.id + '/share?test=1'
+
     return (
       <div className='experiment'>
         <h1>Experiment Editor</h1>
@@ -89,7 +95,15 @@ class ExperimentEditor extends React.Component {
             </h2>
           </div>
         </div>
-        <div style={styles.url}><span contentEditable={true} suppressContentEditableWarning={true} onBlur={this.props.onUpdateExperiment} className='url-input'>{this.props.experiment.url}</span> <Icon>edit</Icon></div>
+        <div style={styles.url}>
+          <span contentEditable={true} suppressContentEditableWarning={true} onBlur={this.props.onUpdateExperiment} className='url-input'>{this.props.experiment.url}</span> <Icon>edit</Icon>
+          { this.props.experiment.variants.filter(x => {return x.id }).length == 0 ? '' :
+            <span className="float-right share-url">
+              <Clipboard component="span" data-clipboard-text={clipboardUrl} onSuccess={this.onCopyUrl.bind(this)}>
+                {clipboardUrl} <Icon>file_copy</Icon>
+              </Clipboard>
+            </span> }
+        </div>
         <h2>Variants <Button variant="contained" color="primary" onClick={this.props.addVariant}>+ Add</Button></h2>
         <Variants variants={this.props.experiment.variants} dispatches={this.props.dispatches} />
       </div>

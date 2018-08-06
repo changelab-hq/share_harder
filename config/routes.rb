@@ -13,7 +13,8 @@ Rails.application.routes.draw do
   constraints :user_agent => /facebookexternalhit|WhatsApp/ do
     get '/e/:id' => 'experiments#metatags'
   end
-  get '/e/:id' => 'experiments#redirect'
+  get '/e/:id' => 'experiments#redirect', as: 'e'
+  get '/e/:id/share' => 'experiments#share'
 
   get '/experiments/:id/metatags' => 'experiments#metatags'
 

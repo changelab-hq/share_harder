@@ -1,5 +1,5 @@
 class ExperimentsController < ApplicationController
-  before_action :authenticate_admin, except: [:metatags, :redirect, :lookup, :preview_image]
+  before_action :authenticate_admin, except: [:metatags, :redirect, :lookup, :preview_image, :share]
   before_action :set_experiment
   before_action :check_for_key_param, only: [:metatags, :redirect]
 
@@ -32,9 +32,24 @@ class ExperimentsController < ApplicationController
   def demo
   end
 
+  def share
+    if params[:test].present?
+      key = 'test'
+    else
+      key = SecureRandom.hex(16)
+    end
+
+    url = e_url(@experiment, params: request.query_parameters.merge({ key: key }))
+    redirect_to "https://www.facebook.com/sharer.php?u=#{CGI.escape(url)}"
+  end
+
   def metatags
-    @share = @experiment.get_share_by_key(params[:key], params[:v], params[:r])
-    @metatags = @share.variant.render_metatags(params)
+    if params[:key] == 'test'
+      @metatags = @experiment.variants.sample.render_metatags(params)
+    else
+      @share = @experiment.get_share_by_key(params[:key], params[:v], params[:r])
+      @metatags = @share.variant.render_metatags(params)
+    end
     render layout: false
   end
 
@@ -70,7 +85,7 @@ class ExperimentsController < ApplicationController
   end
 
   def check_for_key_param
-    unless params[:key].present?
+    unless params[:key].present? && params[:key] != 'test'
       redirect_to("https://#{@experiment.url}")
     end
   end
