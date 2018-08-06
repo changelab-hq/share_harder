@@ -15,7 +15,7 @@
       $.getJSON(requestUrl, function(data){
         variant = data;
         renderVariant()
-        callback(rendered_variant);        
+        callback(rendered_variant);
       })
     }
 
@@ -27,12 +27,20 @@
         queryParameters += '&rkey=' + referrer_key
       }
 
+      personalisationParameters = ''
       for (var key in personalisation) {
         if (personalisation.hasOwnProperty(key)) {
           rendered_variant.title = rendered_variant.title.replace('{{' + key + '}}', personalisation[key])
           rendered_variant.description = rendered_variant.description.replace('{{' + key + '}}', personalisation[key])
-          queryParameters += '&m_' + key + '=' + encodeURIComponent(personalisation[key])
+          personalisationParameters += '&m_' + key + '=' + encodeURIComponent(personalisation[key])
         }
+      }
+      queryParameters += personalisationParameters
+
+      if (rendered_variant.has_overlays){
+        rendered_variant.rendered_image_url = appUrl + '/experiments/' + rendered_variant.experiment_id + '/image.jpg?v=' + rendered_variant.id + personalisationParameters
+      } else {
+        rendered_variant.rendered_image_url = rendered_variant.image_url
       }
 
       sharedUrl = encodeURIComponent(appUrl + '/e/' + rendered_variant.experiment_id + '?' + queryParameters)

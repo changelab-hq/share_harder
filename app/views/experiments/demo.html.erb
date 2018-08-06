@@ -12,10 +12,10 @@
   cb = function(data){
     document.querySelector('.meta-title').innerHTML = data.title
     document.querySelector('.meta-description').innerHTML = data.description
-    document.querySelector('.meta-img').src = data.image_url
+    document.querySelector('.meta-img').src = data.rendered_image_url
     document.querySelector('.share-button').href = data.share_url
 
   }
-  ShareHarder.updatePersonalisation({name: 'James', signatures: '10000%'})
+  ShareHarder.updatePersonalisation({name: 'James', signatures: '10'})
   ShareHarder.getVariant({callback: cb})
 </script>
