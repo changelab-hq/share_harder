@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   get '/experiments/:id/demo' => 'experiments#demo'
   get '/experiments/:id/results' => 'experiments#results', as: 'experiment_results'
-  get '/experiments/:id/image' => 'experiments#image', as: 'experiment_image'
+  get '/experiments/:id/image' => 'experiments#preview_image', as: 'experiment_image'
 
   namespace :api, constraints: { format: 'json' } do
     get '/variant' => 'api#variant'

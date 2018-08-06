@@ -45,10 +45,10 @@ class Experiment < ApplicationRecord
     cached_variants = Experiment.fetch(self.id).fetch_variants
 
     var_results = cached_variants.map do |var|
-      var.as_json.merge({ 
-        share_count: var.share_counter.value, 
-        click_count: var.click_counter.value, 
-        goal_count: var.goal_counter.value 
+      var.as_json.merge({
+        share_count: var.share_counter.value,
+        click_count: var.click_counter.value,
+        goal_count: var.goal_counter.value
       })
     end
 
@@ -80,7 +80,7 @@ class Experiment < ApplicationRecord
   def choose_n_times(alphabeta, n)
     sr = SimpleRandom.new
     sr.set_seed
-    
+
     probsums = Array.new(alphabeta.count, 0)
     n.times do
       alphabeta.each_with_index{ |c,i| probsums[i] += sr.beta(0.5 + c[0], 0.5 + c[1]) }
@@ -92,7 +92,7 @@ class Experiment < ApplicationRecord
   def simulate(probs)
     raise "Probs don't match the number of variants" unless probs.count == variants.count
 
-    loop do 
+    loop do
       key = SecureRandom.hex
       share = get_share_by_key(key)
       cached_variants = Experiment.fetch(self.id).fetch_variants

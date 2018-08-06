@@ -38,12 +38,12 @@ class ExperimentsController < ApplicationController
     render layout: false
   end
 
-  def image
+  def preview_image
     variant = Variant.find(params[:v])
 
     respond_to do |format|
-      format.png do
-        send_data(variant.render_to_png(params), :type => "image/png", :disposition => 'inline')
+      format.jpg do
+        send_data(variant.render_to_jpg(params).to_blob, :type => "image/jpg", :disposition => 'inline')
       end
     end
   end

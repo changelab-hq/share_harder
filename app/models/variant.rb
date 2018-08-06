@@ -38,7 +38,7 @@ class Variant < ApplicationRecord
 
   def get_image(image_url)
     `mkdir -p images`
-    image_filename = "images/variant_#{id}"
+    image_filename = "images/variant_#{id}_#{Digest::MD5.hexdigest(image_url)}"
     unless File.file?(image_filename)
       IO.copy_stream(open(image_url), image_filename)
     end
@@ -46,14 +46,14 @@ class Variant < ApplicationRecord
     image_filename
   end
 
-  def render_to_png(params)
+  def render_to_jpg(params)
     rendered_overlays = overlays.map do |k, o|
       o['text'] = render(o['text'], params)
       o
     end
 
     img = MiniMagick::Image.open(get_image(image_url))
-    img.resize('516x270')
+    img.resize('516x270!') # "!" forces image to distort
 
     rendered_overlays.each do |o|
       font_path = get_font(o['font'])
@@ -70,11 +70,6 @@ class Variant < ApplicationRecord
     end
 
     img.format 'jpg'
-    img.write('test.jpg')
-    s = StringIO.new
-    img.write s
-
-    s.rewind
-    s.read
+    img
   end
 end
