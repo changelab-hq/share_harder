@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   return {
-    ...stateProps, 
+    ...stateProps,
     ...dispatchProps
     }
 }
@@ -56,11 +56,16 @@ class ExperimentResults extends React.Component {
             }
           >
           </CardHeader>
-        </Card>  
+        </Card>
 
         <Card>
-          <CardHeader title='Clicks'></CardHeader>
+          <CardHeader title='Goals'></CardHeader>
           <CardContent>
+            <div class="row">
+              <div class="col-md-4"></div>
+              <div class="col-md-2" style={{textAlign: 'center'}}>% of time chosen</div>
+              <div class="col-md-6" style={{textAlign: 'center'}}>Goals per share</div>
+            </div>
             <ReactCSSTransitionGroup
               transitionName="example"
               transitionEnterTimeout={5000}
@@ -68,9 +73,9 @@ class ExperimentResults extends React.Component {
               transitionAppear={true}
               transitionAppearTimeout={5000}>
 
-              {this.props.experiment.variants.map(variant => (
-                <VariantResults variant={variant} key={variant.id} />
-              ))}  
+              {this.props.experiment.variants.sort((a,b) => b.proportion - a.proportion).map(variant => (
+                <VariantResults variant={variant} key={variant.id} highRange={this.props.experiment.high_range} lowRange={this.props.experiment.low_range} />
+              ))}
 
             </ReactCSSTransitionGroup>
           </CardContent>

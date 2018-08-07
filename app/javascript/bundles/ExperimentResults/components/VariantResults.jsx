@@ -20,13 +20,16 @@ const styles = {
 
 export default class VariantResults extends React.Component {
   render() {
+    const { highRange, lowRange } = this.props;
+    const { image_url, title, description, share_count, click_count, goal_count, proportion, confidence_interval } = this.props.variant
+
     return (
       <div className='row'>
         <div className='col-md-2 col-xs-3'>
           <Card style={styles.div}>
-            <img src={this.props.variant.image_url} style={styles.image} />
-            <div style={styles.title} className='title'>{this.props.variant.title}</div>
-            <div style={styles.description} className='description'>{this.props.variant.description}</div>
+            <img src={image_url} style={styles.image} />
+            <div style={styles.title} className='title'>{title}</div>
+            <div style={styles.description} className='description'>{description}</div>
           </Card>
         </div>
         <div className='col-md-2 col-xs-3 text-center' style={styles.statsBox}>
@@ -34,36 +37,54 @@ export default class VariantResults extends React.Component {
             <AnimateOnChange
               baseClassName="stat-number"
               animationClassName="bounce">
-              <span>{this.props.variant.share_count}</span>
+              <span>{share_count}</span>
             </AnimateOnChange><br />
               <span>Shares</span><br />
             <AnimateOnChange
               baseClassName="stat-number"
               animationClassName="bounce">
-              <span>{this.props.variant.click_count}</span>
+              <span>{click_count}</span>
             </AnimateOnChange><br />
             <span>Clicks</span><br />
-            <span>{this.props.variant.goal_count}</span><br />
+            <span>{goal_count}</span><br />
             <span>Goals</span>
           </div>
         </div>
-        <div className='col-md-8 col-xs-6'>
+        <div className='col-md-2 col-xs-2'>
+          <Plot
+              data={[
+                {
+                  labels: ['Percentage of time chosen', ' '],
+                  values: [proportion * 100, (1 - proportion) * 100],
+                  type: 'pie',
+                  marker: {
+                    colors: ['blue','#eee']
+                  },
+                  textinfo: 'none',
+                  sort: false
+                }
+              ]}
+              layout={{width: 200, height: 200, showlegend: false, margin: { l: 30, r: 30, b: 30, t: 30, pad: 20 }, yaxis: {title: "", zeroline: false, showline: false, showticklabels: false, showgrid:false}}}
+              config={{staticPlot: true}}
+            />
+        </div>
+        <div className='col-md-6 col-xs-4'>
           <Plot
             data={[
               {
-                x: [this.props.variant.click_count / this.props.variant.share_count],
+                x: [goal_count / share_count],
                 y: [1],
                 mode: 'markers',
                 type: 'scatter',
                 error_x: {
                   type: 'data',
                   symmetric: false,
-                  array: [Math.random()],
-                  arrayminus: [Math.random()]
+                  array: [confidence_interval[1]],
+                  arrayminus: [confidence_interval[0]]
                 }
               }
             ]}
-            layout={{width: '100%', height: 200, yaxis: {title: "", zeroline: false, showline: false, showticklabels: false, showgrid:false}, xaxis: {range: [0, 4], zeroline: false}}}
+            layout={{width: '100%', height: 200, yaxis: {title: "", zeroline: false, showline: false, showticklabels: false, showgrid:false}, xaxis: {range: [Math.max(lowRange - 0.5,0), highRange + 0.5], zeroline: false}}}
             config={{staticPlot: true}}
           />
         </div>

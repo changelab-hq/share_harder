@@ -42,13 +42,26 @@ class Experiment < ApplicationRecord
   end
 
   def results
-    cached_variants = Experiment.fetch(self.id).fetch_variants
+    proportions = variants_by_proportions
 
-    var_results = cached_variants.map do |var|
+    low_range = 100
+    high_range = 0
+
+    var_results = cached_variants.map.with_index do |var, i|
+      sc = var.share_counter.value
+      cc = var.click_counter.value
+      gc = var.goal_counter.value
+      ci = ABAnalyzer.confidence_interval(gc, sc*100, 0.95).map{|x| x*100 }
+
+      low_range = [low_range, ci[0]].min
+      high_range = [high_range, ci[1]].max
+
       var.as_json.merge({
-        share_count: var.share_counter.value,
-        click_count: var.click_counter.value,
-        goal_count: var.goal_counter.value
+        share_count: sc,
+        click_count: cc,
+        goal_count: gc,
+        proportion: proportions[i][1],
+        confidence_interval: ci
       })
     end
 
@@ -56,36 +69,51 @@ class Experiment < ApplicationRecord
       variants: var_results,
       total_shares: var_results.inject(0){ |sum, v| sum += v[:share_count] },
       total_clicks: var_results.inject(0){ |sum, v| sum += v[:click_count] },
-      total_goals: var_results.inject(0){ |sum, v| sum += v[:goal_count] }
+      total_goals: var_results.inject(0){ |sum, v| sum += v[:goal_count] },
+      low_range: low_range,
+      high_range: high_range
       })
   end
 
   # Alpha = success count per variation
   # Beta = fail count per variation
   def choose_bandit_variant
-    cached_variants = Experiment.fetch(self.id).fetch_variants
-
-    alphabeta = cached_variants.map.with_index do |var|
-      goal_count = var.goal_counter.value
-      [goal_count, var.share_counter.value * 100 - goal_count]
-    end
-
-    # Draw a sample from beta distibution for each variant and choose the variant with highest value
-    selected_variant_idx = choose_n_times(alphabeta, 1).sort_by{|v| -v[1]}
-                    .map{|v| v[0]}[0]
-
+    selected_variant_idx = choose_n_times(alphabeta, 1).sort_by{|v| -v[1]}.map{|v| v[0]}[0]
     cached_variants[selected_variant_idx]
   end
 
+  def variants_by_proportions
+    choices = choose_n_times(alphabeta, 1000)
+    choices.map! { |c| c.to_f / 1000 }
+    cached_variants.zip(choices)
+  end
+
+  # Choose a variant n times, and return the number of times each variant chosen
   def choose_n_times(alphabeta, n)
     sr = SimpleRandom.new
     sr.set_seed
 
-    probsums = Array.new(alphabeta.count, 0)
+    choices = Array.new(alphabeta.count, 0)
+
     n.times do
-      alphabeta.each_with_index{ |c,i| probsums[i] += sr.beta(0.5 + c[0], 0.5 + c[1]) }
+      probsums = Array.new(alphabeta.count, 0)
+      alphabeta.each_with_index{ |c,i| probsums[i] = sr.beta(0.5 + c[0], 0.5 + c[1]) }
+      idx = probsums.map.with_index{|probsum, i| [i, probsum] }.sort_by{|v| -v[1]}.map{|v| v[0]}[0]
+      choices[idx] += 1
     end
-    probsums.map.with_index{|probsum, i| [i, probsum / n] }
+
+    return choices
+  end
+
+  def cached_variants
+    @cached_variants ||= Experiment.fetch(self.id).fetch_variants.sort_by { |v| v.id }
+  end
+
+  def alphabeta
+    cached_variants.map.with_index do |var|
+      goal_count = var.goal_counter.value
+      [goal_count, [var.share_counter.value * 100 - goal_count, 0].max]
+    end
   end
 
   # For easier testing - call "simulate" and pass in expected prob of a share from each variant getting a click on each cycle
@@ -99,9 +127,10 @@ class Experiment < ApplicationRecord
       cached_variants.each_with_index do |var, i|
         var.shares.each_with_index do |share|
           if rand() < probs[i]
-            share.add_click()
+            click_key = SecureRandom.hex
+            AddClickWorker.new.perform(key, click_key, '', '')
             if rand() < probs[i]
-              share.add_goal()
+              AddClickWorker.new.perform(click_key, Time.now)
             end
           end
         end
