@@ -54,16 +54,6 @@ class ExperimentsController < ApplicationController
     render layout: false
   end
 
-  def preview_image
-    variant = Variant.find(params[:v])
-
-    respond_to do |format|
-      format.jpg do
-        send_data(variant.render_to_jpg(params).to_blob, :type => "image/jpg", :disposition => 'inline')
-      end
-    end
-  end
-
   def redirect
     redirect_to "https://#{@experiment.url}" if params[:key] == 'test'
 
@@ -77,8 +67,15 @@ class ExperimentsController < ApplicationController
   private
 
   def experiment_params
-    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :image_url, :_destroy, overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor, :align]])
+    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :image_url, :_destroy, template_image: [:id, :url, { overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor, :align] } ] ])
     raw_params[:variants_attributes] = raw_params[:variants] if raw_params[:variants].present?
+
+    raw_params[:variants_attributes] = raw_params[:variants_attributes].to_unsafe_hash.map do |k, v|
+      v[:template_image_attributes] = v[:template_image]
+      v.delete(:template_image)
+      v
+    end
+
     raw_params.delete(:variants)
     raw_params
   end
@@ -94,10 +91,10 @@ class ExperimentsController < ApplicationController
   end
 
   def data_for_experiment
-    data = @experiment.as_json(include: :variants)
+    data = @experiment.as_json(include: [ { variants: {include: :template_image} } ])
     data['variants'] = data['variants'].sort_by{ |o| o['id'] }.map do |v|
-      if v['overlays'].present?
-        v['overlays'] = v['overlays'].map do |k, overlay|
+      if v['template_image']['overlays'].present?
+        v['template_image']['overlays'] = v['template_image']['overlays'].map do |k, overlay|
           overlay['size'] = overlay['size'].to_i
           overlay['top'] = overlay['top'].to_i
           overlay['left'] = overlay['left'].to_i

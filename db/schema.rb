@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_05_134008) do
+ActiveRecord::Schema.define(version: 2018_08_11_151051) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,18 @@ ActiveRecord::Schema.define(version: 2018_08_05_134008) do
     t.index ["variant_id"], name: "index_shares_on_variant_id"
   end
 
+  create_table "template_images", force: :cascade do |t|
+    t.bigint "variant_id"
+    t.text "url", null: false
+    t.jsonb "overlays", default: [], null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "name"
+    t.float "height", default: 400.0, null: false
+    t.float "width", default: 400.0, null: false
+    t.index ["variant_id"], name: "index_template_images_on_variant_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider"
     t.string "uid"
@@ -64,10 +76,8 @@ ActiveRecord::Schema.define(version: 2018_08_05_134008) do
     t.bigint "experiment_id", null: false
     t.text "description", null: false
     t.text "title", null: false
-    t.text "image_url", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "overlays", default: [], null: false
     t.index ["experiment_id"], name: "index_variants_on_experiment_id"
   end
 

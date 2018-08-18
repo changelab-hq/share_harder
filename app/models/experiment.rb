@@ -2,7 +2,7 @@ class Experiment < ApplicationRecord
   include IdentityCache
 
   has_many :variants
-  cache_has_many :variants, :embed => true
+  #cache_has_many :variants, :embed => true
 
   accepts_nested_attributes_for :variants, allow_destroy: true
 
@@ -51,7 +51,11 @@ class Experiment < ApplicationRecord
       sc = var.share_counter.value
       cc = var.click_counter.value
       gc = var.goal_counter.value
-      ci = ABAnalyzer.confidence_interval(gc, sc*100, 0.95).map{|x| x*100 }
+      if sc > 0
+        ci = ABAnalyzer.confidence_interval(gc, sc*100, 0.95).map{|x| x*100 }
+      else
+        ci = [0.0,0.0]
+      end
 
       low_range = [low_range, ci[0]].min
       high_range = [high_range, ci[1]].max

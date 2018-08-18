@@ -20,9 +20,9 @@ const allClosed = {
       color: false,
       font: false,
       stroke: false,
-      align: false
+      align: false,
+      rotate: false
     }
-
 
 function collect(connect, monitor) { return { connectDragSource: connect.dragSource(), isDragging: monitor.isDragging() } }
 
@@ -51,11 +51,11 @@ class TextOverlay extends React.Component {
   }
 
   onClickDelete() {
-    this.props.dispatches.deleteOverlay(this.props.overlay._id)
+    this.props.dispatches.deleteOverlay(_id)
   }
 
   handleBlur (e) {
-    this.props.dispatches.updateOverlay({ _id: this.props.overlay._id, text: e.target.textContent })
+    this.props.dispatches.updateOverlay({ _id: _id, text: e.target.textContent })
   }
 
   onUpdate(data) {
@@ -64,20 +64,21 @@ class TextOverlay extends React.Component {
 
   render () {
     const { connectDragSource, isDragging } = this.props;
+    const { top, left, align, font, size, color, rotation, textStrokeWidth, textStrokeColor, text } = this.props.overlay
 
     const overlayStyle = {
-      top: this.props.overlay.top,
-      left: this.props.overlay.align ? 0 : this.props.overlay.left,
-      width: this.props.overlay.align ? "100%" : 'auto',
-      textAlign: this.props.overlay.align ? this.props.overlay.align : 'left',
+      top: top,
+      left: align ? 0 : left,
+      width: align ? "100%" : 'auto',
+      textAlign: align ? align : 'left'
     }
 
     const textStyle = {
-      fontFamily: this.props.overlay.font,
-      fontSize: this.props.overlay.size,
+      fontFamily: font,
+      fontSize: size,
       fontWeight: 700,
-      color: this.props.overlay.color,
-      WebkitTextStroke: this.props.overlay.textStrokeWidth + 'px ' + this.props.overlay.textStrokeColor
+      color: color,
+      WebkitTextStroke: textStrokeWidth + 'px ' + textStrokeColor
     }
 
     return connectDragSource(
@@ -86,7 +87,9 @@ class TextOverlay extends React.Component {
         className='overlay contains-hover'
         onMouseLeave={this.onMouseLeave.bind(this)}>
         <Icon className="drag-handle show-on-hover">drag_handle</Icon>
-        <span contentEditable={true} suppressContentEditableWarning={true} onBlur={this.handleBlur.bind(this)} style={textStyle}>{this.props.overlay.text}</span>
+        <div style={{transform: 'rotate('+rotation+'deg)'}}>
+          <span contentEditable={true} suppressContentEditableWarning={true} onBlur={e => this.onUpdate({ text: e.target.textContent })} style={textStyle}>{text}</span>
+        </div>
         <div className="hover-toolbar show-on-hover">
           <IconButton aria-label="Size" className='font-toolbar-icon' onClick={() => this.onClickIcon('size')}>
             <Icon>format_size</Icon>
@@ -103,17 +106,24 @@ class TextOverlay extends React.Component {
           <IconButton aria-label="Color" className='font-toolbar-icon' onClick={() => this.onClickIcon('align')}>
             <Icon>format_align_justify</Icon>
           </IconButton>
+          <IconButton aria-label="Color" className='font-toolbar-icon' onClick={() => this.onClickIcon('rotate')}>
+            <Icon>rotate_right</Icon>
+          </IconButton>
           <IconButton aria-label="Delete" onClick={this.onClickDelete.bind(this)} className='delete-icon'>
             <Icon>delete</Icon>
           </IconButton>
           <div style={{display: this.state.opens.size ? 'inherit' : 'none' }}>
             <span>Size</span>
-            <Slider min={3} max={100} defaultValue={this.props.overlay.size}  onChange={v => this.onUpdate({ size: v })} className="slider" />
+            <Slider min={3} max={100} defaultValue={size}  onChange={v => this.onUpdate({ size: v })} className="slider" />
+          </div>
+          <div style={{display: this.state.opens.rotate ? 'inherit' : 'none' }}>
+            <span>Rotation</span>
+            <Slider min={-180} max={180} defaultValue={rotation}  onChange={v => this.onUpdate({ rotation: v })} className="slider" />
           </div>
           <div style={{display: this.state.opens.font ? 'inherit' : 'none' }}>
             <FontPicker
               apiKey={process.env.GOOGLE_FONTS_API_KEY}
-              activeFont={this.props.overlay.font}
+              activeFont={font}
               onChange={nextFont => this.onUpdate({ font: nextFont.family })}
               variants={['700']}
             />
@@ -124,7 +134,7 @@ class TextOverlay extends React.Component {
           <div style={{display: this.state.opens.stroke ? 'inherit' : 'none' }}>
             <TwitterPicker onChange={color => this.onUpdate({ textStrokeColor: color.hex })} />
             <span>Width</span>
-            <Slider min={0} max={10} defaultValue={this.props.overlay.textStrokeWidth} onChange={v => this.onUpdate({ textStrokeWidth: v })} className="slider" />
+            <Slider min={0} max={10} defaultValue={textStrokeWidth} onChange={v => this.onUpdate({ textStrokeWidth: v })} className="slider" />
           </div>
           <div style={{display: this.state.opens.align ? 'inherit' : 'none' }}>
             <IconButton aria-label="No align" onClick={e => this.onUpdate({align: ''})} className='delete-icon'><Icon>format_clear</Icon></IconButton>

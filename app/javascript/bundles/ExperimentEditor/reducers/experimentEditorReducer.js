@@ -1,4 +1,5 @@
 import * as actionTypes from '../constants/experimentEditorConstants';
+import { addIds, updateThing, findThingBySubthing } from '../../Shared/lib';
 
 function experimentEditorReducer(state, action){
   var newState = JSON.parse(JSON.stringify(state))
@@ -20,20 +21,20 @@ function experimentEditorReducer(state, action){
       newState.experiment = { ...newState.experiment, ...action.data }
       break
     case actionTypes.ADD_VARIANT:
-      newState.experiment.variants.push({title: 'New variant', description: 'Description here', image_url: 'http://via.placeholder.com/540x300', overlays: []})
+      newState.experiment.variants.push({title: 'New variant', description: 'Description here', template_image: {url: 'http://via.placeholder.com/540x540', overlays: []}})
       break
     case actionTypes.ADD_OVERLAY:
       var variant = newState.experiment.variants.find(v => v._id === action.variant_id)
-      variant.overlays = JSON.parse(JSON.stringify(variant.overlays))
-      variant.overlays.push({text: 'NEW TEXT', top: 10, left: 10, font: 'Open Sans', size: 20, color: '#ffffff'})
+      variant.template_image.overlays = JSON.parse(JSON.stringify(variant.template_image.overlays))
+      variant.template_image.overlays.push({text: 'NEW TEXT', top: 10, left: 10, font: 'Open Sans', size: 20, color: '#ffffff'})
       break
     case actionTypes.UPDATE_OVERLAY:
-      var variant = findThingBySubthing(newState.experiment.variants, 'overlays', action.overlay._id)
-      variant.overlays = JSON.parse(JSON.stringify(updateThing(variant.overlays, action.overlay)))
+      var variant = findThingBySubthing(newState.experiment.variants, ['template_image', 'overlays'], action.overlay._id)
+      variant.template_image.overlays = JSON.parse(JSON.stringify(updateThing(variant.template_image.overlays, action.overlay)))
       break
     case actionTypes.DELETE_OVERLAY:
-      var variant = findThingBySubthing(newState.experiment.variants, 'overlays', action.overlay_id)
-      variant.overlays = JSON.parse(JSON.stringify(variant.overlays.filter(o => o._id !== action.overlay_id)))
+      var variant = findThingBySubthing(newState.experiment.variants, ['template_image', 'overlays'], action.overlay_id)
+      variant.template_image.overlays = JSON.parse(JSON.stringify(variant.overlays.filter(o => o._id !== action.overlay_id)))
       break
   }
 
@@ -43,66 +44,13 @@ function experimentEditorReducer(state, action){
   return newState;
 }
 
-// Takes a collection of thing and updates one of them using _id as key
-function updateThing(things, updateThing){
-  var newThings = JSON.parse(JSON.stringify(things))
-
-  var index = 0
-  for(let thing of newThings){
-    if (thing._id == updateThing._id){
-      var locatedThingIndex = index
-    }
-    index++
-  }
-
-  newThings[locatedThingIndex] = Object.assign(newThings[locatedThingIndex], updateThing)
-  return newThings
-}
-
-// Takes a collection of things and returns the thing that contains the subthing with _id as key
-function findThingBySubthing(things, subthings_name, _id){
-  for (let thing of things){
-    for (let subthing of thing[subthings_name]){
-      if (subthing._id === _id){
-        return thing
-      }
-    }
-  }
-}
-
 function beforeStateUpdate(state){
   return state
 }
 
 function afterStateUpdate(state){
   var newState = JSON.parse(JSON.stringify(state))
-  var variantIndex = 0
-
-  for (let variant of newState.experiment.variants) {
-    var overlayIndex = 0
-    for (let overlay of newState.experiment.variants[variantIndex].overlays) {
-      if (!overlay._id){
-        newState.experiment.variants[variantIndex].overlays[overlayIndex]._id = makeId()
-      }
-      overlayIndex++;
-    }
-    if (!variant._id){
-      newState.experiment.variants[variantIndex]._id = makeId()
-    }
-    variantIndex++;
-  }
-
-  return newState
-}
-
-function makeId(){
-  var text = "";
-  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  for( var i=0; i < 16; i++ )
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-
-  return text;
+  return addIds(newState)
 }
 
 export default experimentEditorReducer

@@ -1,0 +1,15 @@
+<h1 class="mt-4">Memes <%= link_to 'New Meme', new_template_image_path, class: 'btn btn-outline-success float-right' %></h1>
+<% @template_images.each do |e| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h4>
+            <%= link_to e.name, template_image_path(e) %>
+            <%= link_to 'Edit', edit_template_image_path(e), class: "btn btn-outline-secondary float-right" %>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

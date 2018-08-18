@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
-import PreviewImage from './PreviewImage'
+import TemplateImage from '../../Shared/components/TemplateImage'
 
 import Card from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
@@ -21,7 +21,8 @@ const styles = {
   title: { fontSize: '1.3em', margin: '0 10px 0 10px'},
   description: { fontSize: '0.9em', margin: '0 10px 0 10px' },
   image_url: { width: '100%', padding: '10px', display: 'none' },
-  delete_icon: { position: 'absolute', bottom: '3px', right: '10px' }
+  delete_icon: { position: 'absolute', bottom: '3px', right: '10px' },
+  variantId: { position: 'absolute', right: '-30px', top: '20px', background: '#fff' }
 }
 
 class Variant extends React.Component {
@@ -29,12 +30,6 @@ class Variant extends React.Component {
     super(props);
 
     this.state = { dialog_open: false };
-  }
-
-  showEditImage(e){
-    var variantEl = e.target.closest('.variant');
-    variantEl.querySelector('.image-url').style.display = 'inherit'
-    variantEl.querySelector('.image-url').focus()
   }
 
   onUpdate(e) {
@@ -45,14 +40,10 @@ class Variant extends React.Component {
       _id: this.props.variant._id,
       title: variantEl.querySelector('.title').textContent,
       description: variantEl.querySelector('.description').textContent,
-      image_url: variantEl.querySelector('.image-url').value
+      template_image: {
+        url: variantEl.querySelector('.image-url').value
+      }
     })
-  }
-
-  updateImage(e) {
-    var variantEl = e.target.closest('.variant');
-    variantEl.querySelector('.image-url').style.display = 'none'
-    this.onUpdate(e)
   }
 
   handleDeleteClick = () => {
@@ -75,12 +66,12 @@ class Variant extends React.Component {
   render() {
     return (
       <div className='col-lg-6 variant'>
+        <div style={styles.variantId}>#{this.props.variant.id}</div>
         <Card style={styles.div}>
           <IconButton aria-label="Delete" style={styles.delete_icon} onClick={this.handleDeleteClick}>
             <Icon>delete</Icon>
           </IconButton>
-          <PreviewImage src={this.props.variant.image_url} onBlur={this.updateImage.bind(this)} style={styles.image} onClick={this.showEditImage} overlays={this.props.variant.overlays} dispatches={this.props.dispatches} addOverlay={this.handleClickAddOverlay.bind(this)} />
-          <input className='image-url form-control hidden' style={styles.image_url} onBlur={this.updateImage.bind(this)} defaultValue={this.props.variant.image_url} />
+          <TemplateImage template_image={this.props.variant.template_image} style={styles.image} dispatches={this.props.dispatches} />
           <div style={styles.title} className='title' contentEditable={true} suppressContentEditableWarning={true}  onBlur={this.onUpdate.bind(this)}>{this.props.variant.title}</div>
           <div style={styles.description} className='description' contentEditable={true} suppressContentEditableWarning={true} onBlur={this.onUpdate.bind(this)}>{this.props.variant.description}</div>
         </Card>
