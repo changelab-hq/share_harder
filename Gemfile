@@ -70,7 +70,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'mini_racer', platforms: :ruby
 
-gem 'identity_cache'
+gem 'identity_cache', git: 'https://github.com/Shopify/identity_cache.git', ref: 'e4d428d58954472ff8032e35f9f8d043be4fd9b8'
 gem 'cityhash'
 gem 'redis-rails'
 gem 'sidekiq'
@@ -86,3 +86,4 @@ gem 'newrelic_rpm'
 
 gem 'mini_magick'
 gem 'abanalyzer'
+gem 'ttfunk'
