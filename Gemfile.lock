@@ -1,3 +1,12 @@
+GIT
+  remote: https://github.com/Shopify/identity_cache.git
+  revision: e4d428d58954472ff8032e35f9f8d043be4fd9b8
+  ref: e4d428d58954472ff8032e35f9f8d043be4fd9b8
+  specs:
+    identity_cache (0.5.1)
+      activerecord (~> 5.0)
+      ar_transaction_changes (~> 1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -98,9 +107,6 @@ GEM
     hashie (3.5.7)
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
-    identity_cache (0.5.1)
-      activerecord (>= 4.2.0)
-      ar_transaction_changes (~> 1.0)
     io-like (0.3.0)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
@@ -311,7 +317,7 @@ DEPENDENCIES
   coffee-rails (~> 4.2)
   database_cleaner
   dotenv-rails
-  identity_cache
+  identity_cache!
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)

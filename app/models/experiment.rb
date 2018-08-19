@@ -2,7 +2,7 @@ class Experiment < ApplicationRecord
   include IdentityCache
 
   has_many :variants
-  #cache_has_many :variants, :embed => true
+  cache_has_many :variants, :embed => true, inverse_name: :experiment
 
   accepts_nested_attributes_for :variants, allow_destroy: true
 
@@ -135,4 +135,13 @@ class Experiment < ApplicationRecord
           if rand() < probs[i]
             click_key = SecureRandom.hex
             AddClickWorker.new.perform(key, click_key, '', '')
-            if
+            if rand() < probs[i]
+              AddClickWorker.new.perform(click_key, Time.now)
+            end
+          end
+        end
+      end
+      sleep 1
+    end
+  end
+end

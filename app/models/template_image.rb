@@ -27,9 +27,6 @@ class TemplateImage < ApplicationRecord
   def render_to_jpg(params)
     rendered_overlays = overlays.map do |k, o|
       o['text'] = Renderer.new.render(o['text'], params)
-      # Adjust co-ordinates to centre
-        # o['left'] = o['left'].to_i - width / 2
-        # o['top'] = o['top'].to_i - height / 2
       o
     end
 
@@ -68,7 +65,21 @@ class TemplateImage < ApplicationRecord
 
       img = img.composite(text_img) do |c|
         c.compose "Over" # OverCompositeOp
-        c.geometry "+#{o['left'].to_i}+#{o['top'].to_i}" # copy second_image onto first_image from (20, 20)
+
+        # Adjust co-ordinates based on rotation
+        top = o['top'].to_i
+        left = o['left'].to_i
+
+        if o['rotation'].to_f <= -90
+          left -= text_img.width
+          top -= text_img.height
+        elsif o['rotation'].to_f <= 0
+          top -= text_img.height
+        elsif o['rotation'].to_f >= 90
+          left -= text_img.width
+        end
+
+        c.geometry "+#{left}+#{top}" # copy second_image onto first_image from (20, 20)
       end
     end
 

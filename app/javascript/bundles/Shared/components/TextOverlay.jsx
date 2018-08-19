@@ -81,13 +81,20 @@ class TextOverlay extends React.Component {
       WebkitTextStroke: textStrokeWidth + 'px ' + textStrokeColor
     }
 
+    var rotationStyle = {transform: 'rotate('+rotation+'deg)', transformOrigin: '0 100%'}
+    console.log(rotation)
+    if (rotation < 0) {
+      console.log('do it')
+      var rotationStyle = {transform: 'rotate('+rotation+'deg)', transformOrigin: '0 0'}
+    }
+
     return connectDragSource(
       <div
         style={overlayStyle}
         className='overlay contains-hover'
         onMouseLeave={this.onMouseLeave.bind(this)}>
         <Icon className="drag-handle show-on-hover">drag_handle</Icon>
-        <div style={{transform: 'rotate('+rotation+'deg)'}}>
+        <div style={rotationStyle}>
           <span contentEditable={true} suppressContentEditableWarning={true} onBlur={e => this.onUpdate({ text: e.target.textContent })} style={textStyle}>{text}</span>
         </div>
         <div className="hover-toolbar show-on-hover">

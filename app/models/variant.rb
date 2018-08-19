@@ -3,6 +3,8 @@ class Variant < ApplicationRecord
   include Redis::Objects
 
   belongs_to :experiment, counter_cache: true
+  cache_belongs_to :experiment
+
   has_one :template_image
   has_many :shares
 
