@@ -29,15 +29,19 @@ Dependencies:
 
 Once you have these setup you can run the following to set the app up locally.
 
-`git clone https://github.com/jamesr2323/facebook_share_tester.git`
-`cd facebook_share_tester`
-`bundle install`
-`createdb facebook_share_tester_dev`
+```
+git clone https://github.com/jamesr2323/facebook_share_tester.git
+cd facebook_share_tester
+bundle install
+createdb facebook_share_tester_dev
+```
 
 Add the connection string for the local database to a .env file in the app root directory. `DATABASE_URL=.....`
 
-`foreman run rake db:schema:load`
-`foreman start -f Procfile.dev`
+```
+foreman run rake db:schema:load
+foreman start -f Procfile.dev
+```
 
 ## ENV variables
  - GOOGLE_CLIENT_ID - Used for OAuth login, get it from the Google Cloud console
@@ -45,4 +49,9 @@ Add the connection string for the local database to a .env file in the app root 
 
 ## Tests
 
-Coming soon!
+Create a database and add it to a new `.env.test` file `DATABASE_URL=...`
+
+```
+RAILS_ENV=test rake db:schema:load
+RAILS_ENV=test rspec
+```

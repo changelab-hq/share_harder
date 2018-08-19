@@ -51,10 +51,11 @@ class Experiment < ApplicationRecord
       sc = var.share_counter.value
       cc = var.click_counter.value
       gc = var.goal_counter.value
+
       if sc > 0
         ci = ABAnalyzer.confidence_interval(gc, sc*100, 0.95).map{|x| x*100 }
       else
-        ci = [0.0,0.0]
+        ci = [0.0, 0.0]
       end
 
       low_range = [low_range, ci[0]].min
@@ -87,6 +88,7 @@ class Experiment < ApplicationRecord
   end
 
   def variants_by_proportions
+    return [] unless variants.count > 0
     choices = choose_n_times(alphabeta, 1000)
     choices.map! { |c| c.to_f / 1000 }
     cached_variants.zip(choices)
@@ -133,13 +135,4 @@ class Experiment < ApplicationRecord
           if rand() < probs[i]
             click_key = SecureRandom.hex
             AddClickWorker.new.perform(key, click_key, '', '')
-            if rand() < probs[i]
-              AddClickWorker.new.perform(click_key, Time.now)
-            end
-          end
-        end
-      end
-      sleep 1
-    end
-  end
-end
+            if
