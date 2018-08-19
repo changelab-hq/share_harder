@@ -8,6 +8,13 @@ export const updateVariant = (variant) => {
   }
 }
 
+export const updateTemplateImage = (data) => {
+  return {
+    type: actionTypes.UPDATE_TEMPLATE_IMAGE,
+    data: data
+  }
+}
+
 export const updateOverlay = (overlay) => {
   return {
     type: actionTypes.UPDATE_OVERLAY,
@@ -15,10 +22,10 @@ export const updateOverlay = (overlay) => {
   }
 }
 
-export const addOverlay = (variant_id) => {
+export const addOverlay = (template_image_id) => {
   return {
     type: actionTypes.ADD_OVERLAY,
-    variant_id: variant_id
+    template_image_id: template_image_id
   }
 }
 
@@ -38,6 +45,13 @@ export const addVariant = () => {
 export const deleteOverlay = (overlay_id) => {
   return {
     type: actionTypes.DELETE_OVERLAY,
+    overlay_id: overlay_id
+  }
+}
+
+export const focusOverlay = (overlay_id) => {
+  return {
+    type: actionTypes.FOCUS_OVERLAY,
     overlay_id: overlay_id
   }
 }

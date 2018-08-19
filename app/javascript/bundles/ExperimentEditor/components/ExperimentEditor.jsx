@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import Clipboard from 'react-clipboard.js';
 
-import { addVariant, updateVariant, deleteVariant, addOverlay, updateOverlay, deleteOverlay, refreshState, updateExperiment } from '../actions/experimentEditorActionCreators.js'
+import { addVariant, updateVariant, deleteVariant, addOverlay, updateOverlay, deleteOverlay, refreshState, updateExperiment, updateTemplateImage, focusOverlay } from '../actions/experimentEditorActionCreators.js'
 
 const mapStateToProps = (state, ownProps) => {
   return {experiment: state.experiment, unsavedChanges: state.unsavedChanges};
@@ -39,11 +39,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     // Pass these down to children to allow them to dispatch actions
     dispatches: {
-      addOverlay: (variant_id) => {
-        dispatch(addOverlay(variant_id))
+      addOverlay: (template_image_id) => {
+        dispatch(addOverlay(template_image_id))
       },
       updateVariant: (data) => {
         dispatch(updateVariant(data))
+      },
+      updateTemplateImage: (data) => {
+        dispatch(updateTemplateImage(data))
       },
       updateOverlay: (data) => {
         dispatch(updateOverlay(data))
@@ -53,6 +56,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       },
       deleteOverlay: (_id) => {
         dispatch(deleteOverlay(_id))
+      },
+      focusOverlay: (_id) => {
+        dispatch(focusOverlay(_id))
       },
     }
   }

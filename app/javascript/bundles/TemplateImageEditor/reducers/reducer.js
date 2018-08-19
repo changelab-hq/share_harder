@@ -28,6 +28,13 @@ function reducer(state, action){
     case actionTypes.DELETE_OVERLAY:
       newState.template_image.overlays = JSON.parse(JSON.stringify(newState.template_image.overlays.filter(o => o._id !== action.overlay_id)))
       break
+    case actionTypes.FOCUS_OVERLAY:
+      newState.template_image.overlays = JSON.parse(JSON.stringify(newState.template_image.overlays.map(o => {
+          o.focus = o._id === action.overlay_id
+          return o
+      })))
+      break
+
   }
 
   newState = afterStateUpdate(newState);

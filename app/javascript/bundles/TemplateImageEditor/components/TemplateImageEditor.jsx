@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import Clipboard from 'react-clipboard.js';
 
-import { addOverlay, updateOverlay, deleteOverlay, refreshState, updateTemplateImage } from '../actions/actionCreators.js'
+import { addOverlay, updateOverlay, deleteOverlay, refreshState, updateTemplateImage, focusOverlay } from '../actions/actionCreators.js'
 
 const mapStateToProps = (state, ownProps) => {
   return {template_image: state.template_image, unsavedChanges: state.unsavedChanges};
@@ -31,8 +31,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       updateTemplateImage: (data) => {
         dispatch(updateTemplateImage(data))
       },
-      addOverlay: (variant_id) => {
-        dispatch(addOverlay(variant_id))
+      addOverlay: (template_image_id) => {
+        dispatch(addOverlay(template_image_id))
       },
       updateOverlay: (data) => {
         dispatch(updateOverlay(data))
@@ -40,6 +40,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       deleteOverlay: (_id) => {
         dispatch(deleteOverlay(_id))
       },
+      focusOverlay: (_id) => {
+        dispatch(focusOverlay(_id))
+      }
     }
   }
 }

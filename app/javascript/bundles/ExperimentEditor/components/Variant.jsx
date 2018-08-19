@@ -71,7 +71,7 @@ class Variant extends React.Component {
           <IconButton aria-label="Delete" style={styles.delete_icon} onClick={this.handleDeleteClick}>
             <Icon>delete</Icon>
           </IconButton>
-          <TemplateImage template_image={this.props.variant.template_image} style={styles.image} dispatches={this.props.dispatches} />
+          <TemplateImage template_image={this.props.variant.template_image} style={styles.image} dispatches={this.props.dispatches} isResizeable={false}/>
           <div style={styles.title} className='title' contentEditable={true} suppressContentEditableWarning={true}  onBlur={this.onUpdate.bind(this)}>{this.props.variant.title}</div>
           <div style={styles.description} className='description' contentEditable={true} suppressContentEditableWarning={true} onBlur={this.onUpdate.bind(this)}>{this.props.variant.description}</div>
         </Card>

@@ -86,3 +86,4 @@ gem 'newrelic_rpm'
 
 gem 'mini_magick'
 gem 'abanalyzer'
+gem 'ttfunk'

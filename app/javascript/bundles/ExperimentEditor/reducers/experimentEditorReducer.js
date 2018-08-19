@@ -21,10 +21,14 @@ function experimentEditorReducer(state, action){
       newState.experiment = { ...newState.experiment, ...action.data }
       break
     case actionTypes.ADD_VARIANT:
-      newState.experiment.variants.push({title: 'New variant', description: 'Description here', template_image: {url: 'http://via.placeholder.com/540x540', overlays: []}})
+      newState.experiment.variants.push({title: 'New variant', description: 'Description here', template_image: {url: 'http://via.placeholder.com/540x540', overlays: [], height: 300, width: 540}})
+      break
+    case actionTypes.UPDATE_TEMPLATE_IMAGE:
+      var variant = findThingBySubthing(newState.experiment.variants, 'template_image', action.data._id)
+      variant.template_image = { ...variant.template_image, ...action.data }
       break
     case actionTypes.ADD_OVERLAY:
-      var variant = newState.experiment.variants.find(v => v._id === action.variant_id)
+      var variant = findThingBySubthing(newState.experiment.variants, 'template_image', action.template_image_id)
       variant.template_image.overlays = JSON.parse(JSON.stringify(variant.template_image.overlays))
       variant.template_image.overlays.push({text: 'NEW TEXT', top: 10, left: 10, font: 'Open Sans', size: 20, color: '#ffffff'})
       break
@@ -35,6 +39,15 @@ function experimentEditorReducer(state, action){
     case actionTypes.DELETE_OVERLAY:
       var variant = findThingBySubthing(newState.experiment.variants, ['template_image', 'overlays'], action.overlay_id)
       variant.template_image.overlays = JSON.parse(JSON.stringify(variant.overlays.filter(o => o._id !== action.overlay_id)))
+      break
+    case actionTypes.FOCUS_OVERLAY:
+      newState.experiment.variants = JSON.parse(JSON.stringify(newState.experiment.variants.map(v => {
+        v.template_image.overlays = v.template_image.overlays.map((o) => {
+          o.focus = o._id === action.overlay_id
+          return o
+        })
+        return v
+      })))
       break
   }
 

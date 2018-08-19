@@ -1,4 +1,6 @@
 class TemplateImage < ApplicationRecord
+  include IdentityCache
+
   belongs_to :variant, optional: true
 
   def get_font(font)
@@ -25,25 +27,20 @@ class TemplateImage < ApplicationRecord
   end
 
   def render_to_jpg(params)
-    rendered_overlays = overlays.map do |k, o|
-      o['text'] = Renderer.new.render(o['text'], params)
-      o
-    end
-
     img = MiniMagick::Image.open(get_image(url))
     img.resize(width.to_s+'x'+height.to_s+'!') # "!" forces image to distort
 
-    rendered_overlays.each do |o|
-      font_path = get_font(o['font'])
+    overlays.values.each do |o|
+      # Alignment
+      if o['align'].present?
+        o['left'] = 0
+      end
+      gravity = {'left' => 'west', 'center'=> 'center', 'right' => 'east'}[o['align']] || 'northwest'
 
-      # MiniMagick::Tool::Convert.new do |c|
-      #   c.gravity 'center'
-      #   c.font font_path
-      #   c.xc 'white'
-      #   c.draw %Q{text #{o['left']},#{o['top'].to_i + o['size'].to_i} "#{o['text']}"}
-      #   c.quality 100
-      #   c << "temp_image.png"
-      # end
+      # Text and wrapping
+      o['text'] = Renderer.new.render(o['text'], params)
+      font_path = get_font(o['font'])
+      text = Font.new(font_path).wrap_text(o['text'], width - o['left'].to_i, o['size'].to_i)
 
       `rm temp_image.png`
 
@@ -56,11 +53,14 @@ class TemplateImage < ApplicationRecord
           i.stroke o['textStrokeColor']
           i.strokewidth o['textStrokeWidth']
         end
-        i.label o['text']
+        i.gravity gravity
+        i.label text
         i << "temp_image.png"
       end
 
-      flat_height = MiniMagick::Image.open("temp_image.png").height
+      text_img = MiniMagick::Image.open("temp_image.png")
+      flat_height = text_img.height
+      flat_width = text_img.width
 
       MiniMagick::Tool::Convert.new do |i|
         i << "temp_image.png"
@@ -85,6 +85,12 @@ class TemplateImage < ApplicationRecord
           top = top - text_img.height + flat_height
         elsif o['rotation'].to_f >= 90
           left -= text_img.width
+        end
+
+        if gravity == 'center'
+          left = (width - text_img.width) / 2
+        elsif gravity == 'east'
+          left = width - text_img.width
         end
 
         c.geometry "+#{left}+#{top}" # copy second_image onto first_image from (20, 20)

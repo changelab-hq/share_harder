@@ -62,6 +62,7 @@ class Experiment < ApplicationRecord
       high_range = [high_range, ci[1]].max
 
       var.as_json.merge({
+        template_image: var.fetch_template_image.as_json,
         share_count: sc,
         click_count: cc,
         goal_count: gc,

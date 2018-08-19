@@ -31,13 +31,12 @@ class TextOverlay extends React.Component {
     super(props);
 
     this.state = {
-      fontToolbarOpen: false,
       opens: allClosed
     };
   }
 
-  onClickToolbarIcon() {
-    this.setState({ fontToolbarOpen: !this.state.fontToolbarOpen });
+  handleClickText() {
+    this.props.dispatches.focusOverlay(this.props.overlay._id)
   }
 
   onClickIcon(thing) {
@@ -46,16 +45,8 @@ class TextOverlay extends React.Component {
     this.setState( { opens: { ...allClosed, ...obj } } )
   }
 
-  onMouseLeave() {
-    this.setState({ fontToolbarOpen: false, opens: { ...allClosed } })
-  }
-
   onClickDelete() {
-    this.props.dispatches.deleteOverlay(_id)
-  }
-
-  handleBlur (e) {
-    this.props.dispatches.updateOverlay({ _id: _id, text: e.target.textContent })
+    this.props.dispatches.deleteOverlay(this.props.overlay._id)
   }
 
   onUpdate(data) {
@@ -64,13 +55,12 @@ class TextOverlay extends React.Component {
 
   render () {
     const { connectDragSource, isDragging } = this.props;
-    const { top, left, align, font, size, color, rotation, textStrokeWidth, textStrokeColor, text } = this.props.overlay
+    const { top, left, align, font, size, color, rotation, textStrokeWidth, textStrokeColor, text, focus } = this.props.overlay
 
     const overlayStyle = {
       top: top,
       left: align ? 0 : left,
-      width: align ? "100%" : 'auto',
-      textAlign: align ? align : 'left'
+      width: align ? "100%" : 'auto'
     }
 
     const textStyle = {
@@ -81,23 +71,25 @@ class TextOverlay extends React.Component {
       WebkitTextStroke: textStrokeWidth + 'px ' + textStrokeColor
     }
 
-    var rotationStyle = {transform: 'rotate('+rotation+'deg)', transformOrigin: '0 100%'}
-    console.log(rotation)
+    var rotationStyle = {
+      transform: 'rotate('+rotation+'deg)',
+      transformOrigin: '0 100%',
+      textAlign: align ? align : 'left'
+    }
+
     if (rotation < 0) {
-      console.log('do it')
-      var rotationStyle = {transform: 'rotate('+rotation+'deg)', transformOrigin: '0 0'}
+      rotationStyle.transformOrigin = '0 0'
     }
 
     return connectDragSource(
       <div
         style={overlayStyle}
-        className='overlay contains-hover'
-        onMouseLeave={this.onMouseLeave.bind(this)}>
-        <Icon className="drag-handle show-on-hover">drag_handle</Icon>
+        className='overlay'>
+        <Icon className="drag-handle" style={{display: focus ? 'inherit' : 'none' }}>drag_handle</Icon>
         <div style={rotationStyle}>
-          <span contentEditable={true} suppressContentEditableWarning={true} onBlur={e => this.onUpdate({ text: e.target.textContent })} style={textStyle}>{text}</span>
+          <span contentEditable={true} suppressContentEditableWarning={true} onBlur={(e) => this.onUpdate({text: e.target.textContent})} onClick={this.handleClickText.bind(this)} style={textStyle}>{text}</span>
         </div>
-        <div className="hover-toolbar show-on-hover">
+        <div className="hover-toolbar" style={{display: focus ? 'inherit' : 'none' }}>
           <IconButton aria-label="Size" className='font-toolbar-icon' onClick={() => this.onClickIcon('size')}>
             <Icon>format_size</Icon>
           </IconButton>

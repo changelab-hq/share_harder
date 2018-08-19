@@ -67,16 +67,20 @@ class ExperimentsController < ApplicationController
   private
 
   def experiment_params
-    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :image_url, :_destroy, template_image: [:id, :url, { overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor, :align] } ] ])
-    raw_params[:variants_attributes] = raw_params[:variants] if raw_params[:variants].present?
+    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :image_url, :_destroy, template_image: [:id, :url, :height, :width, { overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor, :align, :rotation] } ] ])
 
-    raw_params[:variants_attributes] = raw_params[:variants_attributes].to_unsafe_hash.map do |k, v|
-      v[:template_image_attributes] = v[:template_image]
-      v.delete(:template_image)
-      v
+    if raw_params[:variants].present?
+      raw_params[:variants_attributes] = raw_params[:variants]
+
+      raw_params[:variants_attributes] = raw_params[:variants_attributes].to_unsafe_hash.map do |k, v|
+        v[:template_image_attributes] = v[:template_image]
+        v.delete(:template_image)
+        v
+      end
+
+      raw_params.delete(:variants)
     end
 
-    raw_params.delete(:variants)
     raw_params
   end
 

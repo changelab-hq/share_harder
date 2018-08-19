@@ -21,7 +21,9 @@ const styles = {
 export default class VariantResults extends React.Component {
   render() {
     const { highRange, lowRange } = this.props;
-    const { image_url, title, description, share_count, click_count, goal_count, proportion, confidence_interval } = this.props.variant
+    const { title, description, share_count, click_count, goal_count, proportion, confidence_interval } = this.props.variant
+    const image_url = this.props.variant.template_image.url
+    const value = goal_count / share_count
 
     return (
       <div className='row'>
@@ -72,19 +74,19 @@ export default class VariantResults extends React.Component {
           <Plot
             data={[
               {
-                x: [goal_count / share_count],
+                x: [value],
                 y: [1],
                 mode: 'markers',
                 type: 'scatter',
                 error_x: {
                   type: 'data',
                   symmetric: false,
-                  array: [confidence_interval[1]],
-                  arrayminus: [confidence_interval[0]]
+                  array: [confidence_interval[1] -  value],
+                  arrayminus: [value - confidence_interval[0]]
                 }
               }
             ]}
-            layout={{width: '100%', height: 200, yaxis: {title: "", zeroline: false, showline: false, showticklabels: false, showgrid:false}, xaxis: {range: [Math.max(lowRange - 0.5,0), highRange + 0.5], zeroline: false}}}
+            layout={{autosize: true, width: 546, height: 200, yaxis: {title: "", zeroline: false, showline: false, showticklabels: false, showgrid:false}, xaxis: {range: [Math.max(lowRange - 0.5,0), highRange + 1], zeroline: false}}}
             config={{staticPlot: true}}
           />
         </div>

@@ -6,6 +6,7 @@ class Variant < ApplicationRecord
   cache_belongs_to :experiment
 
   has_one :template_image
+  cache_has_one :template_image, embed: true
   has_many :shares
 
   accepts_nested_attributes_for :template_image

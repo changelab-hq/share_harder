@@ -54,9 +54,19 @@ function findThingBySubthing(things, subthings_name, _id){
     if (Array.isArray(subthings_name)) {
       var _thing = thing[subthings_name[0]]
       var name = subthings_name[subthings_name.length - 1]
+    } else {
+      var _thing = thing;
+      var name = subthings_name;
     }
-    for (let subthing of _thing[name]){
-      if (subthing._id === _id){
+
+    if (Array.isArray(_thing[name])){
+      for (let subthing of _thing[name]){
+        if (subthing._id === _id){
+          return thing
+        }
+      }
+    } else {
+      if (_thing[name]._id === _id){
         return thing
       }
     }
