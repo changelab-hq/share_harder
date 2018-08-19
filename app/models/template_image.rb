@@ -57,6 +57,14 @@ class TemplateImage < ApplicationRecord
           i.strokewidth o['textStrokeWidth']
         end
         i.label o['text']
+        i << "temp_image.png"
+      end
+
+      flat_height = MiniMagick::Image.open("temp_image.png").height
+
+      MiniMagick::Tool::Convert.new do |i|
+        i << "temp_image.png"
+        i.background 'rgba(0,0,0,0)'
         i.rotate o['rotation']
         i << "temp_image.png"
       end
@@ -72,9 +80,9 @@ class TemplateImage < ApplicationRecord
 
         if o['rotation'].to_f <= -90
           left -= text_img.width
-          top -= text_img.height
+          top = top - text_img.height + flat_height
         elsif o['rotation'].to_f <= 0
-          top -= text_img.height
+          top = top - text_img.height + flat_height
         elsif o['rotation'].to_f >= 90
           left -= text_img.width
         end
