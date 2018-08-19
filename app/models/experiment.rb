@@ -88,6 +88,7 @@ class Experiment < ApplicationRecord
   end
 
   def variants_by_proportions
+    return [] unless variants.count > 0
     choices = choose_n_times(alphabeta, 1000)
     choices.map! { |c| c.to_f / 1000 }
     cached_variants.zip(choices)
