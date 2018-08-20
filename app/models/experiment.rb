@@ -50,7 +50,7 @@ class Experiment < ApplicationRecord
     var_results = cached_variants.map.with_index do |var, i|
       sc = var.share_counter.value
       cc = var.click_counter.value
-      gc = var.goal_counter.value
+      gc = var.allowed_goal_counter.value
 
       if sc > 0
         ci = ABAnalyzer.confidence_interval(gc, sc*100, 0.95).map{|x| x*100 }
@@ -83,8 +83,12 @@ class Experiment < ApplicationRecord
   # Alpha = success count per variation
   # Beta = fail count per variation
   def choose_bandit_variant
-    selected_variant_idx = choose_n_times(alphabeta, 1).sort_by{|v| -v[1]}.map{|v| v[0]}[0]
+    selected_variant_idx = index_of_max(choose_n_times(alphabeta, 1))
     cached_variants[selected_variant_idx]
+  end
+
+  def index_of_max(arr)
+    arr.map.with_index{ |v, i| [i,v] }.sort_by{|v| -v[1]}.map{|v| v[0]}[0]
   end
 
   def variants_by_proportions
@@ -117,7 +121,7 @@ class Experiment < ApplicationRecord
 
   def alphabeta
     cached_variants.map.with_index do |var|
-      goal_count = var.goal_counter.value
+      goal_count = var.allowed_goal_counter.value
       [goal_count, [var.share_counter.value * 100 - goal_count, 0].max]
     end
   end
@@ -129,14 +133,13 @@ class Experiment < ApplicationRecord
     loop do
       key = SecureRandom.hex
       share = get_share_by_key(key)
-      cached_variants = Experiment.fetch(self.id).fetch_variants
       cached_variants.each_with_index do |var, i|
         var.shares.each_with_index do |share|
           if rand() < probs[i]
             click_key = SecureRandom.hex
-            AddClickWorker.new.perform(key, click_key, '', '')
+            AddClickWorker.new.perform(share.key, click_key, '', '')
             if rand() < probs[i]
-              AddClickWorker.new.perform(click_key, Time.now)
+              AddGoalWorker.new.perform(click_key, Time.now)
             end
           end
         end

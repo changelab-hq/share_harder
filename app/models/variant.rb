@@ -7,7 +7,12 @@ class Variant < ApplicationRecord
 
   counter :share_counter
   counter :click_counter
-  counter :goal_counter
+  counter :allowed_goal_counter
+
+  def refresh_allowed_goal_counter
+    allowed_goal_count = shares.sum("LEAST(goal_count, 5)")
+    allowed_goal_counter.reset(allowed_goal_count)
+  end
 
   def render_metatags(params)
     {
