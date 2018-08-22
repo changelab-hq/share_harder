@@ -86,7 +86,7 @@ export default class VariantResults extends React.Component {
                 }
               }
             ]}
-            layout={{autosize: true, width: 546, height: 200, yaxis: {title: "", zeroline: false, showline: false, showticklabels: false, showgrid:false}, xaxis: {range: [Math.max(lowRange - 0.5,0), highRange + 1], zeroline: false}}}
+            layout={{autosize: true, width: 546, height: 200, yaxis: {title: "", zeroline: false, showline: false, showticklabels: false, showgrid:false}, xaxis: {range: [Math.max(lowRange - 0.5,0), highRange + 0.5], zeroline: false}}}
             config={{staticPlot: true}}
           />
         </div>
