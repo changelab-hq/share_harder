@@ -16,6 +16,14 @@ class ExperimentsController < ApplicationController
     redirect_to edit_experiment_path(experiment)
   end
 
+  def clone
+    new_experiment = @experiment.deep_clone(include: :variants)
+    new_experiment.name += ' (clone)'
+    new_experiment.save!
+    new_experiment.update_attributes url: experiment_demo_url(new_experiment)
+    redirect_to edit_experiment_path(new_experiment)
+  end
+
   def edit
     @experiment_props = data_for_experiment
   end

@@ -18,8 +18,9 @@ Rails.application.routes.draw do
 
   get '/experiments/:id/metatags' => 'experiments#metatags'
 
-  get '/experiments/:id/demo' => 'experiments#demo'
+  get '/experiments/:id/demo' => 'experiments#demo', as: 'experiment_demo'
   get '/experiments/:id/results' => 'experiments#results', as: 'experiment_results'
+  post '/experiments/:id/clone' => 'experiments#clone', as: 'clone_experiment'
   get '/experiments/:id/image' => 'experiments#preview_image', as: 'experiment_image'
 
   namespace :api, constraints: { format: 'json' } do

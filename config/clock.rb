@@ -3,7 +3,7 @@ require 'sidekiq'
 
 module Clockwork
 
-  every(1.minute, "Calculate correct goal count") {  }
+  # every(1.minute, "Calculate correct goal count") {  }
 
   error_handler do |error|
     Airbrake.notify(error)

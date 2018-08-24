@@ -6,6 +6,7 @@
         <div class="card-body">
           <h4>
             <%= link_to e.name, experiment_results_path(e) %>
+            <%= link_to 'Clone', clone_experiment_path(e), method: :post, class: "btn btn-outline-secondary float-right" %>
             <%= link_to 'Results', experiment_results_path(e), class: "btn btn-outline-secondary float-right" %>
             <%= link_to 'Edit', edit_experiment_path(e), class: "btn btn-outline-secondary float-right" %>
           </h4>
