@@ -15,6 +15,7 @@ Inspired by [ShareBandit](https://github.com/MoveOnOrg/sharebandit)
 
 Required ENV variables:
  - APP_URL - this needs to be set to https://your-app-name.herokuapp.com (no trailing slash)
+ - GOOGLE_FONTS_API_KEY - this needs to be set to use text overlays on share images
 
 ## Dev Setup
 
