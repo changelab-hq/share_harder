@@ -10,39 +10,50 @@
   <%= stylesheet_link_tag "application" %>
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">ShareHarder</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <div id="main">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">ShareHarder</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/experiments">Experiments</a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav float-right">
-        <% if current_user %>
-          <li class="nav-item"><%= link_to current_user.first_name, me_path, class: 'nav-link' %></li>
-          <li class="nav-item"><%= link_to 'Log out', logout_path, class: 'nav-link' %></li>
-        <% else %>
-          <li class="nav-item"><%= link_to 'Log in', login_path, class: 'nav-link' %></li>
-        <% end %>
-      </ul>
-    </div>
-  </nav>
-  <div class="container">
-    <% if ENV['OPEN_ACCESS'] %>
-     <div class="alert alert-warning" role="alert">
-        You are currently running in "Open Access" mode. This is fine for testing, but for production you probably want to lock down access to your staff.
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/experiments">Experiments</a>
+          </li>
+        </ul>
+        <ul class="nav navbar-nav float-right">
+          <% if current_user %>
+            <li class="nav-item"><%= link_to current_user.first_name, me_path, class: 'nav-link' %></li>
+            <li class="nav-item"><%= link_to 'Log out', logout_path, class: 'nav-link' %></li>
+          <% else %>
+            <li class="nav-item"><%= link_to 'Log in', login_path, class: 'nav-link' %></li>
+          <% end %>
+        </ul>
       </div>
-    <% end %>
-    <% flash.each do |key, value| %>
-      <div class="alert alert-<%= {'notice' => 'info', 'error' => 'danger'}[key] %>"><%= value %></div>
-    <% end %>
+    </nav>
+    <div class="container">
+      <% if ENV['OPEN_ACCESS'] %>
+       <div class="alert alert-warning" role="alert">
+          You are currently running in "Open Access" mode. This is fine for testing, but for production you probably want to lock down access to your staff.
+        </div>
+      <% end %>
+      <% flash.each do |key, value| %>
+        <div class="alert alert-<%= {'notice' => 'info', 'error' => 'danger'}[key] %>"><%= value %></div>
+      <% end %>
 
-    <%= yield %>
+      <%= yield %>
+    </div>
   </div>
+  <% if t = docs_template %>
+    <div id="sidebar">
+      <div class="toggle-sidebar btn btn-outline-info">Help</div>
+      <div class="content">
+        <div class="float-right close-icon"><i class="material-icons">close</i></div>
+        <%= render partial: t %>
+      </div>
+    </div>
+  <% end %>
 </body>
 </html>

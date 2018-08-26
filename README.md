@@ -48,6 +48,10 @@ foreman start -f Procfile.dev
  - GOOGLE_CLIENT_ID - Used for OAuth login, get it from the Google Cloud console
  - GOOGLE_CLIENT_SECRET
 
+## User documentation
+
+User documentation is inline, accessed by clicking the "Help" button on the right of the screen. Docs are loaded from the `/docs` directory within the template folder for the current view. E.g. Docs for `/experiments` would be loaded from `/app/views/experiments/docs/_index.html.erb`.
+
 ## Tests
 
 Create a database and add it to a new `.env.test` file `DATABASE_URL=...`

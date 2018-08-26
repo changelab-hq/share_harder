@@ -5,6 +5,7 @@ class ExperimentsController < ApplicationController
 
   def index
     @experiments = Experiment.where(archived_at: nil).order("updated_at DESC").paginate(:page => params[:page])
+    @sidebar_content = 'test'
   end
 
   def archived_index

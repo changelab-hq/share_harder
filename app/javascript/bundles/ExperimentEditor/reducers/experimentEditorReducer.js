@@ -20,13 +20,13 @@ function experimentEditorReducer(state, action){
       newState.experiment = { ...newState.experiment, ...action.data }
       break
     case actionTypes.ADD_VARIANT:
-      var newVariant = {title: 'New variant', description: 'Description here', image_url: 'http://via.placeholder.com/540x300', overlays: [], ...action.data, _id: null, id: null}
+      var newVariant = {title: 'Help {{name}} now', description: 'Can you help get {{target}} people involved?', image_url: 'http://via.placeholder.com/540x300', overlays: [], ...action.data, _id: null, id: null}
       newState.experiment.variants.push(newVariant)
       break
     case actionTypes.ADD_OVERLAY:
       var variant = newState.experiment.variants.find(v => v._id === action.variant_id)
       variant.overlays = JSON.parse(JSON.stringify(variant.overlays))
-      variant.overlays.push({text: 'NEW TEXT', top: 10, left: 10, font: 'Open Sans', size: 20, color: '#ffffff'})
+      variant.overlays.push({text: '{{name}} took action', top: 10, left: 10, font: 'Open Sans', size: 20, color: '#ffffff'})
       break
     case actionTypes.UPDATE_OVERLAY:
       var variant = findThingBySubthing(newState.experiment.variants, 'overlays', action.overlay._id)
