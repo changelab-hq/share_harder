@@ -38,6 +38,9 @@
         You are currently running in "Open Access" mode. This is fine for testing, but for production you probably want to lock down access to your staff.
       </div>
     <% end %>
+    <% flash.each do |key, value| %>
+      <div class="alert alert-<%= {'notice' => 'info', 'error' => 'danger'}[key] %>"><%= value %></div>
+    <% end %>
 
     <%= yield %>
   </div>

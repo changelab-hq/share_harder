@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   get 'home', to: 'home#show'
   get 'me', to: 'me#show', as: 'me'
 
-  resources :experiments
+  resources :experiments, except: [:show]
+  get '/experiments/archived' => 'experiments#archived_index', as: 'archived_experiments'
 
   constraints :user_agent => /facebookexternalhit|WhatsApp/ do
     get '/e/:id' => 'experiments#metatags'
@@ -21,6 +22,7 @@ Rails.application.routes.draw do
   get '/experiments/:id/demo' => 'experiments#demo', as: 'experiment_demo'
   get '/experiments/:id/results' => 'experiments#results', as: 'experiment_results'
   post '/experiments/:id/clone' => 'experiments#clone', as: 'clone_experiment'
+  post '/experiments/:id/archive' => 'experiments#archive', as: 'archive_experiment'
   get '/experiments/:id/image' => 'experiments#preview_image', as: 'experiment_image'
 
   namespace :api, constraints: { format: 'json' } do

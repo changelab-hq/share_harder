@@ -4,7 +4,11 @@ class ExperimentsController < ApplicationController
   before_action :check_for_key_param, only: [:metatags, :redirect]
 
   def index
-    @experiments = Experiment.all
+    @experiments = Experiment.where(archived_at: nil).order("updated_at DESC").paginate(:page => params[:page])
+  end
+
+  def archived_index
+    @experiments = Experiment.where.not(archived_at: nil).order("updated_at DESC").paginate(:page => params[:page])
   end
 
   def new
@@ -22,6 +26,18 @@ class ExperimentsController < ApplicationController
     new_experiment.save!
     new_experiment.update_attributes url: experiment_demo_url(new_experiment)
     redirect_to edit_experiment_path(new_experiment)
+  end
+
+  def archive
+    if @experiment.archived?
+      @experiment.update_attributes(archived_at: @experiment.archived? ? nil : Time.now)
+      flash[:notice] = 'Experiment restored'
+    else
+      @experiment.update_attributes(archived_at: Time.now)
+      flash[:notice] = 'Experiment archived'
+    end
+
+    redirect_to experiments_path
   end
 
   def edit
