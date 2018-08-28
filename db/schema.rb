@@ -55,8 +55,8 @@ ActiveRecord::Schema.define(version: 2018_08_11_151051) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "name"
-    t.float "height", default: 400.0, null: false
-    t.float "width", default: 400.0, null: false
+    t.float "height", default: 300.0, null: false
+    t.float "width", default: 540.0, null: false
     t.index ["variant_id"], name: "index_template_images_on_variant_id"
   end
 

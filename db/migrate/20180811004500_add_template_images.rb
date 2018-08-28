@@ -1,9 +1,9 @@
 class TemplateImage < ApplicationRecord
-  has_one :variant
+  belongs_to :variant, optional: true
 end
 
 class Variant < ApplicationRecord
-  belongs_to :template_image
+  has_one :template_image
 end
 
 
@@ -17,6 +17,7 @@ class AddTemplateImages < ActiveRecord::Migration[5.2]
     end
 
     Variant.all.each do |v|
+      next unless v.image_url.present?
       template_image = TemplateImage.create!(
         url: v.image_url,
         overlays: v.overlays,
