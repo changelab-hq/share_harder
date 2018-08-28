@@ -3,6 +3,7 @@ import Card from '@material-ui/core/Paper';
 import Plotly from 'plotly.js-basic-dist';
 import createPlotlyComponent from 'react-plotly.js/factory';
 const Plot = createPlotlyComponent(Plotly);
+import makeBubble from '../lib/makeBubble'
 
 import AnimateOnChange from 'react-animate-on-change';
 
@@ -18,16 +19,39 @@ const styles = {
   }
 }
 
+class BubbleNumber extends React.Component {
+
+  componentWillUpdate(nextProps, nextState) {
+    const newOnes = nextProps.value - this.props.value
+    const { icon } = this.props
+    if (newOnes > 0) {
+      const $el = $(this.props.parentRef.current).find('.variant-preview')
+      for (var i=0;i < newOnes;i++) {
+        setTimeout(function(){makeBubble($el, icon)}, Math.random()*5000)
+      }
+    }
+  }
+
+  render () {
+    return <span>{this.props.value}</span>
+  }
+}
+
 export default class VariantResults extends React.Component {
+  constructor(props) {
+    super(props);
+    this.ref = React.createRef();
+  }
+
   render() {
     const { highRange, lowRange } = this.props;
     const { image_url, title, description, share_count, click_count, goal_count, proportion, confidence_interval } = this.props.variant
     const value = goal_count / share_count
 
     return (
-      <div className='row'>
+      <div className='row' ref={this.ref}>
         <div className='col-md-2 col-xs-3'>
-          <Card style={styles.div}>
+          <Card style={styles.div} className='variant-preview'>
             <img src={image_url} style={styles.image} />
             <div style={styles.title} className='title'>{title}</div>
             <div style={styles.description} className='description'>{description}</div>
@@ -35,19 +59,11 @@ export default class VariantResults extends React.Component {
         </div>
         <div className='col-md-2 col-xs-3 text-center' style={styles.statsBox}>
           <div>
-            <AnimateOnChange
-              baseClassName="stat-number"
-              animationClassName="bounce">
-              <span>{share_count}</span>
-            </AnimateOnChange><br />
-              <span>Shares</span><br />
-            <AnimateOnChange
-              baseClassName="stat-number"
-              animationClassName="bounce">
-              <span>{click_count}</span>
-            </AnimateOnChange><br />
+            <BubbleNumber value={share_count} icon='share' parentRef={this.ref}/><br />
+            <span>Shares</span><br />
+            <BubbleNumber value={click_count} icon='click' parentRef={this.ref}/><br />
             <span>Clicks</span><br />
-            <span>{goal_count}</span><br />
+            <BubbleNumber value={goal_count} icon='goal' parentRef={this.ref}/><br />
             <span>Goals</span>
           </div>
         </div>

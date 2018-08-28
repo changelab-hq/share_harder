@@ -1,0 +1,26 @@
+.variant-preview {
+  position: relative;
+}
+
+.bubble {
+  position: absolute;
+  width: 1px;
+  transition: all 0.3s linear, width 2s ease;
+  opacity: 0;
+  transform: translateX(-50%);
+
+  .bub {
+    position: absolute;
+    z-index: 99;
+    width: 100%;
+  }
+
+  .icon {
+    position: absolute;
+    margin-left: 30%;
+    margin-top: 30%;
+    width: 40%;
+    z-index: 9;
+    opacity: 0.5;
+  }
+}
