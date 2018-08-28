@@ -1,0 +1,44 @@
+<% experiments.each do |e| %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-3">
+        <div class="card-body">
+          <h4>
+            <%= link_to e.name, experiment_results_path(e) %>
+            <div class="float-right">
+              <%= link_to edit_experiment_path(e) do %>
+                <button type="button" class="btn btn-primary bmd-btn-icon">
+                  <i class="material-icons">edit</i>
+                </button>
+              <% end %>
+              <%= link_to experiment_results_path(e) do %>
+                <button type="button" class="btn btn-primary bmd-btn-icon">
+                  <i class="material-icons">bar_chart</i>
+                </button>
+              <% end %>
+              <%= link_to clone_experiment_path(e), method: :post do %>
+                <button type="button" class="btn btn-primary bmd-btn-icon">
+                  <i class="material-icons">filter_none</i>
+                </button>
+              <% end %>
+              <%= link_to archive_experiment_path(e), method: :post do %>
+                <button type="button" class="btn btn-primary bmd-btn-icon">
+                  <i class="material-icons"><% if e.archived? %>un<% end %>archive</i>
+                </button>
+              <% end %>
+            </div>
+          </h4>
+          <div>
+            <span class="badge badge-pill badge-info"><%= e.variants.count %> variants</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="row">
+  <div class="col-md-12">
+    <%= will_paginate experiments %>
+  </div>
+</div>

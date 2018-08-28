@@ -1,0 +1,19 @@
+<h1>Edit experiment</h1>
+<p>Each experiment has one or more variants of title, description and image which will be shown on the Facebook share.</p>
+<p>This will be shown to your users' friends on Facebook - so use it to make a compelling case for why they should click through.</p>
+<p>Remember if the Save button is active then you have some unsaved changes on the page.</p>
+
+<h3>Experiment details</h3>
+<p>You can edit the experiment name and the URL of the page you are sharing. It is important the URL is correct because it may be used to identify which experiment should be active on which page of your site.</p>
+
+<h3>Variant details</h3>
+<p>Click on the different parts of the variant to edit them.</p>
+
+<h4>Text overlays</h4>
+<p>You can add multiple text boxes over the image. Add one by hovering over the image and then clicking the icon in the top right corner. Click on the text to activate a toolbar which will allow you to change the size, color, font etc.</p>
+
+<h4>Personalisation</h4>
+<p>The title, image and text overlays allow the use of merge tags e.g. "<code>{{name}}</code> just signed up". These will be populated by your website integration, or by adding them onto the share URL with <code>m_</code> in front. E.g. <code><%= ENV['APP_URL'] %>/e/1/share?m_name=<%= current_user.try(:name) || 'James' %></code></p>
+
+<h4>Clone and delete</h4>
+<p>Hover over the variant to see the clone and delete buttons in the bottom right corner</p>

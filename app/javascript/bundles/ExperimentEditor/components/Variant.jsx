@@ -73,12 +73,19 @@ class Variant extends React.Component {
   }
 
   render() {
+    const { addVariant } = this.props.dispatches
+
     return (
       <div className='col-lg-6 variant'>
-        <Card style={styles.div}>
-          <IconButton aria-label="Delete" style={styles.delete_icon} onClick={this.handleDeleteClick}>
-            <Icon>delete</Icon>
-          </IconButton>
+        <Card style={styles.div} className="contains-hover">
+          <div style={styles.delete_icon} className="show-on-hover" >
+            <IconButton aria-label="Clone" onClick={(e) => addVariant({...this.props.variant})}>
+              <Icon>filter_none</Icon>
+            </IconButton>
+            <IconButton aria-label="Delete" onClick={this.handleDeleteClick}>
+              <Icon>delete</Icon>
+            </IconButton>
+          </div>
           <PreviewImage src={this.props.variant.image_url} onBlur={this.updateImage.bind(this)} style={styles.image} onClick={this.showEditImage} overlays={this.props.variant.overlays} dispatches={this.props.dispatches} addOverlay={this.handleClickAddOverlay.bind(this)} />
           <input className='image-url form-control hidden' style={styles.image_url} onBlur={this.updateImage.bind(this)} defaultValue={this.props.variant.image_url} />
           <div style={styles.title} className='title' contentEditable={true} suppressContentEditableWarning={true}  onBlur={this.onUpdate.bind(this)}>{this.props.variant.title}</div>
