@@ -10,6 +10,7 @@
     "draft-js-plugins-editor": "^2.1.1",
     "draft-js-side-toolbar-plugin": "^2.0.4",
     "font-picker-react": "^2.0.4",
+    "mustache": "^2.3.2",
     "plotly.js-basic-dist": "^1.39.1",
     "prop-types": "^15.6.2",
     "rc-slider": "^8.6.1",
