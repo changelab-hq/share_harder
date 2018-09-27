@@ -36,6 +36,12 @@ export const focusOverlay = (overlay_id) => {
   }
 }
 
+export const updatePersonalization = (data) => {
+  return {
+    type: actionTypes.UPDATE_PERSONALIZATION,
+    data: data
+  }
+}
 
 export const refreshState = (data) => {
   return {

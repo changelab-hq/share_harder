@@ -4,6 +4,7 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
 import TemplateImage from '../../Shared/components/TemplateImage'
+import PersonalizationEditor from '../../Shared/components/PersonalizationEditor'
 
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
@@ -42,6 +43,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       },
       focusOverlay: (_id) => {
         dispatch(focusOverlay(_id))
+      },
+      updatePersonalization: (data) => {
+        dispatch(updatePersonalization(data))
       }
     }
   }
@@ -64,9 +68,14 @@ const styles = {
 }
 
 class TemplateImageEditor extends React.Component {
+  onCopyUrl () {
+    $(".share-url").fadeOut().fadeIn()
+  }
+
   render() {
     const { updateTemplateImage } = this.props.dispatches
-    const { template_image } = this.props
+    const { template_image, personalization } = this.props
+    const clipboardUrl = process.env.APP_URL + '/template_images/' + template_image.id + '/share?test=1'
 
     return (
       <div className='template_image'>
@@ -79,7 +88,15 @@ class TemplateImageEditor extends React.Component {
             </h2>
           </div>
           <div className="card-body">
+            <div>
+              <span className="float-right share-url">
+                <Clipboard component="span" data-clipboard-text={clipboardUrl} onSuccess={this.onCopyUrl.bind(this)}>
+                  {clipboardUrl} <Icon>file_copy</Icon>
+                </Clipboard>
+              </span>
+            </div>
             <TemplateImage template_image={template_image} dispatches={this.props.dispatches} />
+            <PersonalizationEditor content={template_image.overlays} personalization={personalization} dispatches={this.props.dispatches} />
           </div>
         </div>
       </div>

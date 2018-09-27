@@ -18,6 +18,9 @@ function reducer(state, action){
     case actionTypes.UPDATE_TEMPLATE_IMAGE:
       newState.template_image = { ...newState.template_image, ...action.data }
       break
+    case actionTypes.UPDATE_PERSONALIZATION:
+      newState.personalization = {...newState.personalization, ...action.data}
+      break
     case actionTypes.ADD_OVERLAY:
       newState.template_image.overlays = JSON.parse(JSON.stringify(newState.template_image.overlays))
       newState.template_image.overlays.push({text: 'NEW TEXT', top: 10, left: 10, font: 'Open Sans', size: 20, color: '#ffffff', rotation: 0})
