@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import _ from 'lodash';
 
 import TemplateImage from '../../Shared/components/TemplateImage'
 import PersonalizationEditor from '../../Shared/components/PersonalizationEditor'
@@ -9,11 +10,18 @@ import PersonalizationEditor from '../../Shared/components/PersonalizationEditor
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
 import Clipboard from 'react-clipboard.js';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
 
-import { addOverlay, updateOverlay, deleteOverlay, refreshState, updateTemplateImage, focusOverlay } from '../actions/actionCreators.js'
+import { addOverlay, updateOverlay, deleteOverlay, refreshState, updateTemplateImage, focusOverlay, updatePersonalization, togglePreview } from '../actions/actionCreators.js'
 
 const mapStateToProps = (state, ownProps) => {
-  return {template_image: state.template_image, unsavedChanges: state.unsavedChanges};
+  return {
+    template_image: state.template_image,
+    unsavedChanges: state.unsavedChanges,
+    personalization: state.personalization,
+    preview: state.preview
+  };
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -46,6 +54,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       },
       updatePersonalization: (data) => {
         dispatch(updatePersonalization(data))
+      },
+      togglePreview: () => {
+        dispatch(togglePreview())
       }
     }
   }
@@ -73,9 +84,11 @@ class TemplateImageEditor extends React.Component {
   }
 
   render() {
-    const { updateTemplateImage } = this.props.dispatches
-    const { template_image, personalization } = this.props
-    const clipboardUrl = process.env.APP_URL + '/template_images/' + template_image.id + '/share?test=1'
+    const { updateTemplateImage } = this.props.dispatches;
+    const { template_image, preview } = this.props;
+    const personalization = _.omit(this.props.personalization, '_id')
+    const queryString = Object.keys(personalization).map(key => 'm_' + key + '=' + encodeURIComponent(personalization[key])).join('&');
+    const clipboardUrl = process.env.APP_URL + '/template_images/' + template_image.id + '/image.jpg?' + queryString
 
     return (
       <div className='template_image'>
@@ -88,15 +101,36 @@ class TemplateImageEditor extends React.Component {
             </h2>
           </div>
           <div className="card-body">
-            <div>
-              <span className="float-right share-url">
-                <Clipboard component="span" data-clipboard-text={clipboardUrl} onSuccess={this.onCopyUrl.bind(this)}>
-                  {clipboardUrl} <Icon>file_copy</Icon>
-                </Clipboard>
-              </span>
+            <div className='row'>
+              <div className='col-md-8'>
+                { preview ?
+                  <TemplateImage template_image={template_image} dispatches={this.props.dispatches} personalization={personalization} isResizeable={false} />
+                  :
+                  <TemplateImage template_image={template_image} dispatches={this.props.dispatches} />
+                }
+
+              </div>
+              <div className='col-md-4'>
+                <div>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={preview}
+                        onChange={this.props.dispatches.togglePreview}
+                      />
+                    }
+                    label="Preview"
+                  />
+                  { preview ?
+                    <div>
+                      <PersonalizationEditor content={template_image.overlays} personalization={personalization} dispatches={this.props.dispatches} />
+                      <Clipboard component="span" data-clipboard-text={clipboardUrl} className='share-url' onSuccess={this.onCopyUrl.bind(this)}>
+                      {clipboardUrl} <Icon>file_copy</Icon>
+                      </Clipboard>
+                    </div> : '' }
+                </div>
+              </div>
             </div>
-            <TemplateImage template_image={template_image} dispatches={this.props.dispatches} />
-            <PersonalizationEditor content={template_image.overlays} personalization={personalization} dispatches={this.props.dispatches} />
           </div>
         </div>
       </div>

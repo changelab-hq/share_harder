@@ -37,7 +37,9 @@ function reducer(state, action){
           return o
       })))
       break
-
+    case actionTypes.TOGGLE_PREVIEW:
+      newState.preview = !newState.preview
+      break
   }
 
   newState = afterStateUpdate(newState);
@@ -52,6 +54,9 @@ function beforeStateUpdate(state){
 
 function afterStateUpdate(state){
   var newState = JSON.parse(JSON.stringify(state))
+  if (typeof(newState.personalization) === 'undefined'){
+    newState.personalization = {}
+  }
   return addIds(newState)
 }
 

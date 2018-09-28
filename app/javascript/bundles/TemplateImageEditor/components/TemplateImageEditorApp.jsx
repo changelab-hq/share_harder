@@ -11,7 +11,6 @@ export default class TemplateImageEditorApp extends React.Component {
   render () {
     let store = createStore(templateImageEditorReducer, this.props);
 
-    console.log("EEA", this.props)
     return (
       <Provider store={store}>
         <TemplateImageEditor template_image={this.props.templateImage} />

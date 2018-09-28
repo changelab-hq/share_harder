@@ -50,4 +50,8 @@ export const refreshState = (data) => {
   }
 }
 
-
+export const togglePreview = () => {
+  return {
+    type: actionTypes.TOGGLE_PREVIEW
+  }
+}

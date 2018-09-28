@@ -28,6 +28,7 @@ export default class TemplateImage extends React.Component {
   render () {
     const tags = getFieldsFromContent(this.props.content)
     const { updatePersonalization } = this.props.dispatches
+    const { personalization } = this.props
 
     return (<div>
       { tags.map(tag => (
@@ -36,8 +37,12 @@ export default class TemplateImage extends React.Component {
             id={tag}
             label={tag}
             className={''}
-            value={''}
-            onChange={(e) => updatePersonalization([e.target.value)}
+            value={personalization[tag]}
+            onChange={(e) => {
+              var data = {}
+              data[tag] = e.target.value
+              updatePersonalization(data)
+            }}
             margin="normal"
           />
         </div>

@@ -54,7 +54,7 @@ class TemplateImage extends React.Component {
   }
 
   render () {
-    const { dispatches, connectDropTarget, isResizeable } = this.props
+    const { dispatches, connectDropTarget, isResizeable, personalization } = this.props
     const { url, overlays, height, width } = this.props.template_image
     const { addOverlay, updateTemplateImage } = dispatches
 
@@ -71,7 +71,7 @@ class TemplateImage extends React.Component {
             >
               <img src={url} onBlur={this.props.onBlur} style={{width: '100%', height: '100%'}} onClick={this.showUrl.bind(this)} onBlur={this.hideUrl.bind(this)}  onMouseLeave={this.onMouseLeave.bind(this)} />
               { overlays.map(overlay => (
-                <TextOverlay overlay={overlay} key={overlay._id} dispatches={dispatches} />
+                <TextOverlay overlay={overlay} key={overlay._id} dispatches={dispatches} personalization={personalization} />
               ))}
             </ConditionalWrap>
           </div>

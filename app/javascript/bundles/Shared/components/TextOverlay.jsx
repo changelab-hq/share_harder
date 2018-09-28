@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { DragSource } from 'react-dnd';
+import Mustache from 'mustache'
 
 import Button from '@material-ui/core/Button';
 import Icon from '@material-ui/core/Icon';
@@ -54,7 +55,7 @@ class TextOverlay extends React.Component {
   }
 
   render () {
-    const { connectDragSource, isDragging } = this.props;
+    const { connectDragSource, isDragging, personalization } = this.props;
     const { top, left, align, font, size, color, rotation, textStrokeWidth, textStrokeColor, text, focus } = this.props.overlay
 
     const overlayStyle = {
@@ -87,7 +88,10 @@ class TextOverlay extends React.Component {
         className='overlay'>
         <Icon className="drag-handle" style={{display: focus ? 'inherit' : 'none' }}>drag_handle</Icon>
         <div style={rotationStyle}>
-          <span contentEditable={true} suppressContentEditableWarning={true} onBlur={(e) => this.onUpdate({text: e.target.textContent})} onClick={this.handleClickText.bind(this)} style={textStyle}>{text}</span>
+          { personalization ?
+            <span style={textStyle}>{Mustache.render(text, personalization)}</span>
+            : <span contentEditable={true} suppressContentEditableWarning={true} onBlur={(e) => this.onUpdate({text: e.target.textContent})} onClick={this.handleClickText.bind(this)} style={textStyle}>{text}</span>
+          }
         </div>
         <div className="hover-toolbar" style={{display: focus ? 'inherit' : 'none' }}>
           <IconButton aria-label="Size" className='font-toolbar-icon' onClick={() => this.onClickIcon('size')}>
