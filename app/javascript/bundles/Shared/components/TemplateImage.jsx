@@ -62,14 +62,14 @@ class TemplateImage extends React.Component {
       <div className="template-image">
         <div>
           <div style={{width: width, height: height, position: 'relative'}} className='contains-hover'>
-            <IconButton aria-label="Add overlay" onClick={(e) => addOverlay(this.props.template_image._id)} className='overlay-icon show-on-hover' style={styles.overlay_icon}>
+            { !personalization ? <IconButton aria-label="Add overlay" onClick={(e) => addOverlay(this.props.template_image._id)} className='overlay-icon show-on-hover' style={styles.overlay_icon}>
               <Icon>font_download</Icon>
-            </IconButton>
+            </IconButton> : '' }
             <ConditionalWrap
               condition={isResizeable}
               wrap={children => <ResizableBox width={width} height={height} onResizeStop={(e, { size }) => updateTemplateImage({width: size.width, height: size.height})}>{children}</ResizableBox>}
             >
-              <img src={url} onBlur={this.props.onBlur} style={{width: '100%', height: '100%'}} onClick={this.showUrl.bind(this)} onBlur={this.hideUrl.bind(this)}  onMouseLeave={this.onMouseLeave.bind(this)} />
+              <img src={url} onBlur={this.props.onBlur} style={{width: '100%', height: '100%'}} onClick={this.showUrl.bind(this)} onBlur={this.hideUrl.bind(this)} onMouseLeave={this.onMouseLeave.bind(this)} />
               { overlays.map(overlay => (
                 <TextOverlay overlay={overlay} key={overlay._id} dispatches={dispatches} personalization={personalization} />
               ))}
