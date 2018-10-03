@@ -18,9 +18,16 @@ class TemplateImage < ApplicationRecord
 
   def get_image(url)
     `mkdir -p images`
-    image_filename = "images/variant_#{id}_#{Digest::MD5.hexdigest(url)}"
+    image_filename = "images/variant_#{id}_#{width}_#{height}_#{Digest::MD5.hexdigest(url)}"
     unless File.file?(image_filename)
       IO.copy_stream(open(url), image_filename)
+
+      # Convert once here, to avoid unnecessary resizing on every request
+      MiniMagick::Tool::Convert.new do |i|
+        i << image_filename
+        i.resize(width.to_s+'x'+height.to_s+'!')
+        i << image_filename
+      end
     end
 
     image_filename
@@ -28,7 +35,6 @@ class TemplateImage < ApplicationRecord
 
   def render_to_jpg(params)
     img = MiniMagick::Image.open(get_image(url))
-    img.resize(width.to_s+'x'+height.to_s+'!') # "!" forces image to distort
 
     overlays.values.each do |o|
       # Alignment
