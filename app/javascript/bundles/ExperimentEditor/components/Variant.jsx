@@ -64,13 +64,20 @@ class Variant extends React.Component {
   }
 
   render() {
+    const { addVariant } = this.props.dispatches
+
     return (
       <div className='col-lg-6 variant'>
         <div style={styles.variantId}>#{this.props.variant.id}</div>
         <Card style={styles.div}>
-          <IconButton aria-label="Delete" style={styles.delete_icon} onClick={this.handleDeleteClick}>
-            <Icon>delete</Icon>
-          </IconButton>
+          <div style={styles.delete_icon} className="show-on-hover" >
+            <IconButton aria-label="Clone" onClick={(e) => addVariant({...this.props.variant})}>
+              <Icon>filter_none</Icon>
+            </IconButton>
+            <IconButton aria-label="Delete" onClick={this.handleDeleteClick}>
+              <Icon>delete</Icon>
+            </IconButton>
+          </div>
           <TemplateImage template_image={this.props.variant.template_image} style={styles.image} dispatches={this.props.dispatches} isResizeable={false}/>
           <div style={styles.title} className='title' contentEditable={true} suppressContentEditableWarning={true}  onBlur={this.onUpdate.bind(this)}>{this.props.variant.title}</div>
           <div style={styles.description} className='description' contentEditable={true} suppressContentEditableWarning={true} onBlur={this.onUpdate.bind(this)}>{this.props.variant.description}</div>

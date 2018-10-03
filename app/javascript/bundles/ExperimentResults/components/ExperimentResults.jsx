@@ -58,7 +58,7 @@ class ExperimentResults extends React.Component {
           </CardHeader>
         </Card>
 
-        <Card>
+        <Card style={{overflow: 'visible'}}>
           <CardHeader title='Goals'></CardHeader>
           <CardContent>
             <div className="row">

@@ -16,4 +16,9 @@
 //= require activestorage
 //= require_tree .
 
-console.log('hello from application.js')
+$(document).ready(function(){
+  $('.toggle-sidebar, .close-icon').click(function(){
+    $('#sidebar').toggleClass('open')
+    $('#main').toggleClass('sidebar-open')
+  })
+});

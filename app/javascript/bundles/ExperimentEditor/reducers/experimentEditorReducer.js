@@ -21,7 +21,7 @@ function experimentEditorReducer(state, action){
       newState.experiment = { ...newState.experiment, ...action.data }
       break
     case actionTypes.ADD_VARIANT:
-      newState.experiment.variants.push({title: 'New variant', description: 'Description here', template_image: {url: 'http://via.placeholder.com/540x540', overlays: [], height: 300, width: 540}})
+      newState.experiment.variants.push({title: 'Help {{name}} now', description: 'Can you help get {{target}} people involved?', template_image: {url: 'http://via.placeholder.com/540x540', overlays: [], height: 300, width: 540, ...action.data, _id: null, id: null}})
       break
     case actionTypes.UPDATE_TEMPLATE_IMAGE:
       var variant = findThingBySubthing(newState.experiment.variants, 'template_image', action.data._id)
@@ -30,7 +30,7 @@ function experimentEditorReducer(state, action){
     case actionTypes.ADD_OVERLAY:
       var variant = findThingBySubthing(newState.experiment.variants, 'template_image', action.template_image_id)
       variant.template_image.overlays = JSON.parse(JSON.stringify(variant.template_image.overlays))
-      variant.template_image.overlays.push({text: 'NEW TEXT', top: 10, left: 10, font: 'Open Sans', size: 20, color: '#ffffff'})
+      variant.template_image.overlays.push({text: '{{name}} took action', top: 10, left: 10, font: 'Open Sans', size: 20, color: '#ffffff'})
       break
     case actionTypes.UPDATE_OVERLAY:
       var variant = findThingBySubthing(newState.experiment.variants, ['template_image', 'overlays'], action.overlay._id)

@@ -4,7 +4,6 @@ require_relative './boot'
 require_relative './environment'
 
 module Clockwork
-
   every(1.minutes, "Calculate correct goal count") { UpdateGoalCountsWorker.perform_async }
 
   error_handler do |error|

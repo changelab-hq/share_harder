@@ -31,4 +31,14 @@ class ApplicationController < ActionController::Base
     # converts current_user to a boolean by negating the negation
     !!current_user
   end
+
+  # def get_route_pattern
+  #   Rails.application.routes.router.recognize(request) { |route| return route.path.spec.to_s }
+  # end
+
+  # def get_sidebar_content
+  #   # strip inline params and format string
+  #   # e.g. /bla/:id(.:format) -> '/bla'
+  #   doc_path = Rails.root('app/views/docs' + get_route_pattern.gsub(/\:/,'_').gsub(/\(.+\)/m, '')
+  # end
 end

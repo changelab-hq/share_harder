@@ -36,9 +36,10 @@ export const updateExperiment = (data) => {
   }
 }
 
-export const addVariant = () => {
+export const addVariant = (data = {}) => {
   return {
-    type: actionTypes.ADD_VARIANT
+    type: actionTypes.ADD_VARIANT,
+    data: data
   }
 }
 

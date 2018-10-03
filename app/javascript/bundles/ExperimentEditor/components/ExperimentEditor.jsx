@@ -15,10 +15,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    addVariant: (e) => {
-      e.preventDefault();
-      dispatch(addVariant());
-    },
     onUpdateExperiment: (e) => {
       e.preventDefault();
       var el = e.target.closest('.experiment');
@@ -47,6 +43,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       },
       updateTemplateImage: (data) => {
         dispatch(updateTemplateImage(data))
+      },
+      addVariant: (data = {}) => {
+        dispatch(addVariant(data));
       },
       updateOverlay: (data) => {
         dispatch(updateOverlay(data))
@@ -85,6 +84,11 @@ class ExperimentEditor extends React.Component {
     $(".share-url").fadeOut().fadeIn()
   }
 
+  onAddVariant (e) {
+    e.preventDefault()
+    this.props.dispatches.addVariant()
+  }
+
   render() {
     const clipboardUrl = process.env.APP_URL + '/e/' + this.props.experiment.id + '/share?test=1'
 
@@ -110,7 +114,7 @@ class ExperimentEditor extends React.Component {
               </Clipboard>
             </span> }
         </div>
-        <h2>Variants <Button variant="contained" color="primary" onClick={this.props.addVariant}>+ Add</Button></h2>
+        <h2>Variants <Button variant="contained" color="primary" onClick={this.onAddVariant.bind(this)}>+ Add</Button></h2>
         <Variants variants={this.props.experiment.variants} dispatches={this.props.dispatches} />
       </div>
     );

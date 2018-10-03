@@ -1,0 +1,43 @@
+#main {
+  transition: 0.5s;
+  &.sidebar-open {
+    transform: translateX(-500px);
+  }
+}
+
+#sidebar {
+  height: 100%;
+  width: 0px;
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  z-index: 2;
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+  background: #eee;
+
+  .content {
+    padding: 20px;
+    width: 500px;
+    overflow-y: scroll;
+    height: 100%;
+  }
+
+  .close-icon {
+    cursor: pointer;
+  }
+
+  .toggle-sidebar {
+    position: absolute;
+    top: 250px;
+    left: -48px;
+    z-index: 1;
+    transform: rotate(-90deg);
+    border-bottom: 0px;
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  &.open {
+    width: 500px;
+  }
+}

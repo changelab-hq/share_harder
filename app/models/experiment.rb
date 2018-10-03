@@ -8,6 +8,10 @@ class Experiment < ApplicationRecord
 
   before_save :normalize_url!
 
+  def archived?
+    archived_at.present?
+  end
+
   def self.lookup_by_url(url)
     Experiment.find_by(url: Experiment.normalize_url(url))
   end
