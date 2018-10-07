@@ -25,11 +25,11 @@
         if (personalisation.hasOwnProperty(key)) {
           rendered_variant.title = rendered_variant.title.replace('{{' + key + '}}', personalisation[key])
           rendered_variant.description = rendered_variant.description.replace('{{' + key + '}}', personalisation[key])
-          queryParameters += '&m_' + key + '=' + encodeURI(personalisation[key])
+          queryParameters += '&m_' + key + '=' + encodeURIComponent(personalisation[key])
         }
       }
 
-      sharedUrl = encodeURI(appUrl + '/e/' + rendered_variant.experiment_id + '?' + queryParameters)
+      sharedUrl = encodeURIComponent(appUrl + '/e/' + rendered_variant.experiment_id + '?' + queryParameters)
       rendered_variant.share_url = "https://www.facebook.com/sharer.php?u=" + sharedUrl
     }
 
