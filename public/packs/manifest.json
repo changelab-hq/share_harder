@@ -1,0 +1,12 @@
+{
+  "application.js": "/packs/application-6e45b1a389a9f89ff123.js",
+  "application.js.map": "/packs/application-6e45b1a389a9f89ff123.js.map",
+  "experiment-editor-bundle.js": "/packs/experiment-editor-bundle-e70b084be7dd8b55a8f9.js",
+  "experiment-editor-bundle.js.map": "/packs/experiment-editor-bundle-e70b084be7dd8b55a8f9.js.map",
+  "experiment-results-bundle.js": "/packs/experiment-results-bundle-6168dc58a9c989d5710b.js",
+  "experiment-results-bundle.js.map": "/packs/experiment-results-bundle-6168dc58a9c989d5710b.js.map",
+  "hello-world-bundle.js": "/packs/hello-world-bundle-3724a603ee243cc61124.js",
+  "hello-world-bundle.js.map": "/packs/hello-world-bundle-3724a603ee243cc61124.js.map",
+  "hello_react.js": "/packs/hello_react-54e57b8a83c9e13266ef.js",
+  "hello_react.js.map": "/packs/hello_react-54e57b8a83c9e13266ef.js.map"
+}
