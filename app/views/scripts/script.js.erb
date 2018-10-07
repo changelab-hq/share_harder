@@ -10,7 +10,7 @@
       $.getJSON(appUrl + '/api/variant', function(data){
         variant = data;
         renderVariant()
-        cb(rendered_variant);        
+        callback(rendered_variant);        
       })
     }
 
