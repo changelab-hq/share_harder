@@ -44,7 +44,7 @@ class ExperimentsController < ApplicationController
     @experiment = Experiment.fetch(params[:id])
     AddClickWorker.perform_async(params[:key])
     Rails.logger.info(request.user_agent)
-    Rails.logger.info(request.inspect)
+    Rails.logger.info(request.headers)
     redirect_to("https://#{@experiment.url}?rkey=#{params[:key]}")
   end
 
