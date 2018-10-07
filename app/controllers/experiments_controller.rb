@@ -43,7 +43,7 @@ class ExperimentsController < ApplicationController
   def redirect
     @experiment = Experiment.fetch(params[:id])
     AddClickWorker.perform_async(params[:key])
-    redirect_to(@experiment.url)
+    redirect_to("https://#{@experiment.url}?rkey=#{params[:key]}")
   end
 
   private
