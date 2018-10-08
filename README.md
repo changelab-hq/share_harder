@@ -1,8 +1,10 @@
-# Facebook Share Tester
+# Share Harder
 
 This allows you to test multiple variants of title, description and image of the share preview on Facebook. It uses a [bandit algorithm](https://en.wikipedia.org/wiki/Thompson_sampling) to find the best variant much more quickly than conventional A/B testing.
 
 You add overlay text to the image, and personalise the title, description and image text with merge tags.
+
+You can also create personalized image generators (for memes, email embeds, customised share graphics and more).
 
 Inspired by [ShareBandit](https://github.com/MoveOnOrg/sharebandit)
 
