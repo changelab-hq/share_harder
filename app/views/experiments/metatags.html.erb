@@ -5,7 +5,7 @@
   <meta property="og:type"               content="campaign" />
   <meta property="og:title"              content="<%= @metatags[:title] %>" />
   <meta property="og:description"        content="<%= @metatags[:description] %>" />
-  <meta property="og:image"              content="<%= render_template_image_url(@share.variant.template_image_id, format: 'jpg', params: image_parameters(request.query_parameters)) %>" />
+  <meta property="og:image"              content="<%= @share.variant.template_image.overlays.present? ? render_template_image_url(@share.variant.template_image_id, format: 'jpg', params: image_parameters(request.query_parameters)) : @share.variant.template_image.url %>" />
   <meta property="og:image:width"        content="540" />
   <meta property="og:image:height"        content="300" />
 </head>
