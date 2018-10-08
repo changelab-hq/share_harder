@@ -93,3 +93,55 @@ Create a database and add it to a new `.env.test` file `DATABASE_URL=...`
 RAILS_ENV=test rake db:schema:load
 RAILS_ENV=test rspec
 ```
+
+## Example using Javascript API (requires jQuery)
+
+This example works with the Speakout app for campaigns. It demonstrates using the API to select a variant using the bandit algorithm, filling in personalisation of the share using user-supplied info, and registering a successful goal.
+
+```
+$.getScript('https://your-share-harder-instance.your-org.com/scripts/script.js', function(){
+  $(document).ready(function(){
+    /* Get the variant from Share Harder and register the callback */
+    ShareHarder.getVariant({
+      url: 'https://speakout.your-org.com/campaigns/' + window.Campaign.id,
+      callback: function(data){
+        $('.facebook-share-preview--title').html(data.title)
+        $('.facebook-share-preview-image img').attr('src', data.image_url)
+        $('.facebook-share-preview-description').html(data.description)
+
+        $('.js-share-clicked.facebook').unbind('click')
+        $('.js-share-clicked.facebook').click(function(ev){
+          ev.preventDefault() // Stop form submit
+          $('input[name="rshare[medium]"]').val('facebook')
+          $('input[name="rshare[tracking_code]"]').val(data.key)
+
+          // Send the data to the server
+          $.post($('.js-share-form').attr('action'), $('.js-share-form').serialize())
+
+          // Open Facebook share dialog in new window
+          var win = window.open(ShareHarder.getData().share_url, '_blank');
+          if (win) {
+            win.focus();
+          }
+        })
+      }
+    })
+
+    /* When the user clicks sign, record success and update the share preview on the next stage */
+    $('.js-sign').click(function(){
+      var name = $('#rsign_name').val().split(' ')[0]
+      if (name.length == 0){
+        name = $('.known-member-you strong:eq(0)').text().split(' ')[0]
+      }
+      if ($('#rsign_comment').length > 0) {
+        var comment = $('#rsign_comment').val()
+      } else {
+        var comment = ''
+      }
+      var sigs = $('.signature-counter').text()
+      ShareHarder.updatePersonalisation({name: name, sigs: sigs, comment: comment})
+      ShareHarder.recordGoal()
+    })
+  })
+})
+```
