@@ -50,6 +50,37 @@ foreman start -f Procfile.dev
  - GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET - Used for OAuth login, get it from the Google Cloud console
  - GOOGLE_FONTS_API_KEY - You'll need this if you want to use the text overlays on images. Instructions on getting a free key here: https://developers.google.com/fonts/docs/developer_api
 
+## Javascript API
+
+Share Harder is most powerful when embedded in other sites. To make this easy there's a javascript embed exposing a simple API that allows you to integrate more easily.
+
+Include https://your-share-harder-instance.server.com/script/script.js somewhere in your page. This will expose Share Harder API methods through a global `ShareHarder` object.
+
+`ShareHarder.getVariant({callback: function(rendered_variant) (default to null), url: String (default to current URL)})`
+
+This requests a variant for the experiment matching the given URL (or the current URL if none is supplied). When the variant is returned it is rendered using any personalisation data that has been set and then the callback function is called with the rendered variant:
+
+```
+{
+  title: String,
+  description: String,
+  rendered_image_url: String,
+  share_url: String (This is the URL that the user should be redirected to to initiate the share)
+}
+```
+
+`ShareHarder.updatePersonalisation(personalisation Object)`
+
+This takes an Object with values for personalisation tags, e.g. `{name: 'James', city: 'London'}`. If a callback function has already been registered (see `getVariant`), then the share will be rendered with the new personalisation data and the callback function invoked.
+
+`ShareHarder.recordGoal()`
+
+This is used to tell Share Harder that the goal for the page has been reached by the user (e.g. signing a petition). You do not need to identify the user as the information required is appended to the query string parameters when Share Harder redirects the user.
+
+`ShareHarder.getData()`
+
+Returns the rendered share variant data that is normally passed to the callback function.
+
 ## User documentation
 
 User documentation is inline, accessed by clicking the "Help" button on the right of the screen. Docs are loaded from the `/docs` directory within the template folder for the current view. E.g. Docs for `/experiments` would be loaded from `/app/views/experiments/docs/_index.html.erb`.
