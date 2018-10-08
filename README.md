@@ -47,8 +47,8 @@ foreman start -f Procfile.dev
 ```
 
 ## ENV variables
- - GOOGLE_CLIENT_ID - Used for OAuth login, get it from the Google Cloud console
- - GOOGLE_CLIENT_SECRET
+ - GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET - Used for OAuth login, get it from the Google Cloud console
+ - GOOGLE_FONTS_API_KEY - You'll need this if you want to use the text overlays on images. Instructions on getting a free key here: https://developers.google.com/fonts/docs/developer_api
 
 ## User documentation
 
