@@ -88,7 +88,7 @@ class TemplateImageEditor extends React.Component {
     const { template_image, preview } = this.props;
     const personalization = _.omit(this.props.personalization, '_id')
     const queryString = Object.keys(personalization).map(key => 'm_' + key + '=' + encodeURIComponent(personalization[key])).join('&');
-    const clipboardUrl = window.App.APP_URL + '/template_images/' + template_image.id + '/image.jpg?' + queryString
+    const clipboardUrl = window.ENV.APP_URL + '/template_images/' + template_image.id + '/image.jpg?' + queryString
 
     return (
       <div className='template_image'>

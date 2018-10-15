@@ -90,7 +90,7 @@ class ExperimentEditor extends React.Component {
   }
 
   render() {
-    const clipboardUrl = window.App.APP_URL + '/e/' + this.props.experiment.id + '/share?test=1'
+    const clipboardUrl = window.ENV.APP_URL + '/e/' + this.props.experiment.id + '/share?test=1'
 
     return (
       <div className='experiment'>
