@@ -1,5 +1,5 @@
 class TemplateImagesController < ApplicationController
-  before_action :authenticate_admin
+  before_action :authenticate_admin, except: :image
   before_action :set_template_image
 
   def index
