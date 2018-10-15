@@ -8,6 +8,12 @@
   <%= csrf_meta_tags %>
   <%= javascript_include_tag "application" %>
   <%= stylesheet_link_tag "application" %>
+
+  <script>
+    window.App = {
+      APP_URL: '<%= ENV['APP_URL'].gsub("'", %q(\\\')) %>'
+    }
+  </script>
 </head>
 <body>
   <div id="main">
