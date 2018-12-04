@@ -40,9 +40,6 @@ class Variant extends React.Component {
       _id: this.props.variant._id,
       title: variantEl.querySelector('.title').textContent,
       description: variantEl.querySelector('.description').textContent,
-      template_image: {
-        url: variantEl.querySelector('.image-url').value
-      }
     })
   }
 
