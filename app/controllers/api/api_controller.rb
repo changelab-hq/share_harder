@@ -8,7 +8,7 @@ class Api::ApiController < ApplicationController
     if experiment
       variant = experiment.choose_bandit_variant
       data = variant.attributes.slice('id', 'experiment_id', 'description', 'title', 'image_url')
-      data['has_overlays'] = variant.overlays.present?
+      data['has_overlays'] = variant.template_image.overlays.present?
       render json: data
     else
       render json: {}, status: 404
