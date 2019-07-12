@@ -32,6 +32,6 @@
     "webpack-dev-server": "2.11.2"
   },
   "engines": {
-    "node": "11.x.x"
+    "node": "12.x.x"
   }
 }
