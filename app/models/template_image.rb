@@ -34,6 +34,8 @@ class TemplateImage < ApplicationRecord
   end
 
   def render_to_jpg(params)
+    `mkdir -p images`
+    temp_filename = "images/#{SecureRandom.uuid}_temp.png"
     img = MiniMagick::Image.open(get_image(url))
 
     overlays.values.each do |o|
@@ -47,8 +49,8 @@ class TemplateImage < ApplicationRecord
       o['text'] = Renderer.new.render(o['text'], params)
       font_path = get_font(o['font'])
       text = Font.new(font_path).wrap_text(o['text'], width - o['left'].to_i, o['size'].to_i)
-
-      `rm temp_image.png`
+      # If renders to nothing, don't add text
+      next if text.blank?
 
       MiniMagick::Tool::Convert.new do |i|
         i.background 'rgba(0,0,0,0)'
@@ -60,22 +62,22 @@ class TemplateImage < ApplicationRecord
           i.strokewidth o['textStrokeWidth']
         end
         i.gravity gravity
-        i.label text
-        i << "temp_image.png"
+        i << "label:#{text}"
+        i << temp_filename
       end
 
-      text_img = MiniMagick::Image.open("temp_image.png")
+      text_img = MiniMagick::Image.open(temp_filename)
       flat_height = text_img.height
       flat_width = text_img.width
 
       MiniMagick::Tool::Convert.new do |i|
-        i << "temp_image.png"
+        i << temp_filename
         i.background 'rgba(0,0,0,0)'
         i.rotate o['rotation']
-        i << "temp_image.png"
+        i << temp_filename
       end
 
-      text_img = MiniMagick::Image.open("temp_image.png")
+      text_img = MiniMagick::Image.open(temp_filename)
 
       img = img.composite(text_img) do |c|
         c.compose "Over" # OverCompositeOp
@@ -101,6 +103,8 @@ class TemplateImage < ApplicationRecord
 
         c.geometry "+#{left}+#{top}" # copy second_image onto first_image from (20, 20)
       end
+
+      `rm #{temp_filename}`
     end
 
     img.format 'jpg'
