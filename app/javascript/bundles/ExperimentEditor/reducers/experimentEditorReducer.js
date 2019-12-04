@@ -1,5 +1,5 @@
 import * as actionTypes from '../constants/experimentEditorConstants';
-import { addIds, updateThing, findThingBySubthing } from '../../Shared/lib';
+import { addIds, removeIds, updateThing, findThingBySubthing } from '../../Shared/lib';
 
 function experimentEditorReducer(state, action){
   var newState = JSON.parse(JSON.stringify(state))
@@ -21,11 +21,15 @@ function experimentEditorReducer(state, action){
       newState.experiment = { ...newState.experiment, ...action.data }
       break
     case actionTypes.ADD_VARIANT:
-      newState.experiment.variants.push({
+      variant = {
         title: 'Help {{name}} now',
         description: 'Can you help get {{target}} people involved?',
         prefill_text: 'Hey I just saw this awesome campaign...',
-        template_image: {url: 'http://via.placeholder.com/540x540', overlays: [], height: 300, width: 540, ...action.data, _id: null, id: null}})
+        template_image: {url: 'http://via.placeholder.com/540x540', overlays: [], height: 300, width: 540, ...action.data, _id: null, id: null},
+        ...action.data
+      }
+
+      newState.experiment.variants.push(removeIds(variant))
       break
     case actionTypes.UPDATE_TEMPLATE_IMAGE:
       var variant = findThingBySubthing(newState.experiment.variants, 'template_image', action.data._id)

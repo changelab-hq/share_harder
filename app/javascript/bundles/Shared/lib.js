@@ -32,6 +32,25 @@ const addIds = function(obj) {
   return obj;
 };
 
+const removeIds = function(obj) {
+  if (isObject(obj)){
+    delete obj._id
+    delete obj.id
+  }
+
+  for(var i in obj) {
+    if(obj.hasOwnProperty(i)){
+      if (isObject(obj[i])){
+        obj[i] = removeIds(obj[i]);
+      } else if (Array.isArray(obj[i])) {
+        obj[i] = obj[i].map(function(v){return removeIds(v);})
+      }
+    }
+  }
+  return obj;
+};
+
+
 // Takes a collection of thing and updates one of them using _id as key
 function updateThing(things, updateThing){
   var newThings = JSON.parse(JSON.stringify(things))
@@ -74,4 +93,4 @@ function findThingBySubthing(things, subthings_name, _id){
 }
 
 
-export { addIds, updateThing, findThingBySubthing };
+export { addIds, removeIds, updateThing, findThingBySubthing };
