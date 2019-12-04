@@ -10,6 +10,7 @@ import AnimateOnChange from 'react-animate-on-change';
 const styles = {
   div: { width: '100%', display: 'inline-block', margin: '20px', position: 'relative' },
   image: { width: '100%' },
+  prefill_text: { fontSize: '0.55em', margin: '0 3px 0 3px' },
   title: { fontSize: '0.75em', margin: '0 3px 0 3px'},
   description: { fontSize: '0.55em', margin: '0 3px 0 3px' },
   statsBox: {
@@ -45,7 +46,7 @@ export default class VariantResults extends React.Component {
 
   render() {
     const { highRange, lowRange } = this.props;
-    const { title, description, share_count, click_count, goal_count, proportion, confidence_interval } = this.props.variant
+    const { title, description, prefill_text, share_count, click_count, goal_count, proportion, confidence_interval } = this.props.variant
     const image_url = this.props.variant.template_image.url
     const value = goal_count / share_count
 
@@ -53,6 +54,7 @@ export default class VariantResults extends React.Component {
       <div className='row' ref={this.ref}>
         <div className='col-md-2 col-xs-3'>
           <Card style={styles.div} className='variant-preview'>
+            <div style={styles.prefill_text} className='prefill_text'>{prefill_text}</div>
             <img src={image_url} style={styles.image} />
             <div style={styles.title} className='title'>{title}</div>
             <div style={styles.description} className='description'>{description}</div>
