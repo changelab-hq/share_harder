@@ -23,7 +23,8 @@ class Variant < ApplicationRecord
   def render_metatags(params)
     {
       title: Renderer.new.render(title, params),
-      description: Renderer.new.render(description, params)
+      description: Renderer.new.render(description, params),
+      prefill_text: Renderer.new.render(prefill_text, params)
     }
   end
 end

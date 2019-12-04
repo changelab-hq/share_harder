@@ -92,7 +92,7 @@ class ExperimentsController < ApplicationController
   private
 
   def experiment_params
-    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :_destroy, template_image: [:id, :url, :height, :width, { overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor, :align, :rotation] } ] ])
+    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :prefill_text, :_destroy, template_image: [:id, :url, :height, :width, { overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor, :align, :rotation] } ] ])
 
     if raw_params[:variants].present?
       raw_params[:variants_attributes] = raw_params[:variants]

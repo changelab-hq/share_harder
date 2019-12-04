@@ -21,7 +21,11 @@ function experimentEditorReducer(state, action){
       newState.experiment = { ...newState.experiment, ...action.data }
       break
     case actionTypes.ADD_VARIANT:
-      newState.experiment.variants.push({title: 'Help {{name}} now', description: 'Can you help get {{target}} people involved?', template_image: {url: 'http://via.placeholder.com/540x540', overlays: [], height: 300, width: 540, ...action.data, _id: null, id: null}})
+      newState.experiment.variants.push({
+        title: 'Help {{name}} now',
+        description: 'Can you help get {{target}} people involved?',
+        prefill_text: 'Hey I just saw this awesome campaign...',
+        template_image: {url: 'http://via.placeholder.com/540x540', overlays: [], height: 300, width: 540, ...action.data, _id: null, id: null}})
       break
     case actionTypes.UPDATE_TEMPLATE_IMAGE:
       var variant = findThingBySubthing(newState.experiment.variants, 'template_image', action.data._id)

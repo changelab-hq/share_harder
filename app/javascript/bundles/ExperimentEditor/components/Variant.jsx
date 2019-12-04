@@ -20,6 +20,7 @@ const styles = {
   image: { width: 540, height: 300 },
   title: { fontSize: '1.3em', margin: '0 10px 0 10px'},
   description: { fontSize: '0.9em', margin: '0 10px 0 10px' },
+  prefill_text: { fontSize: '1.3em', margin: '10px'},
   image_url: { width: '100%', padding: '10px', display: 'none' },
   delete_icon: { position: 'absolute', bottom: '3px', right: '10px' },
   variantId: { position: 'absolute', right: '-30px', top: '20px', background: '#fff' }
@@ -41,6 +42,7 @@ class Variant extends React.Component {
       _id: this.props.variant._id,
       title: variantEl.querySelector('.title').textContent,
       description: variantEl.querySelector('.description').textContent,
+      prefill_text: variantEl.querySelector('.prefill_text').textContent
     })
   }
 
@@ -76,6 +78,7 @@ class Variant extends React.Component {
               <Icon>delete</Icon>
             </IconButton>
           </div>
+          <div style={styles.prefill_text} className='prefill_text' contentEditable={true} suppressContentEditableWarning={true}  onBlur={this.onUpdate.bind(this)}>{this.props.variant.prefill_text}</div>
           <TemplateImage template_image={this.props.variant.template_image} style={styles.image} dispatches={this.props.dispatches} isResizeable={false}/>
           <div style={styles.title} className='title' contentEditable={true} suppressContentEditableWarning={true}  onBlur={this.onUpdate.bind(this)}>{this.props.variant.title}</div>
           <div style={styles.description} className='description' contentEditable={true} suppressContentEditableWarning={true} onBlur={this.onUpdate.bind(this)}>{this.props.variant.description}</div>

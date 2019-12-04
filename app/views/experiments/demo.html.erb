@@ -2,6 +2,7 @@
 <p>Share me!</p>
 <p>Title: <span class="meta-title"></span></p>
 <p>Description: <span class="meta-description"></span></p>
+<p>Prefill text: <span class="prefill-text"></span></p>
 <p><img src="http://via.placeholder.com/516x270" class="meta-img" width="500"></p>
 
 <p><a class="share-button btn btn-primary">Share</a></p>
@@ -12,10 +13,11 @@
   cb = function(data){
     document.querySelector('.meta-title').innerHTML = data.title
     document.querySelector('.meta-description').innerHTML = data.description
+    document.querySelector('.prefill-text').innerHTML = data.prefill_text
     document.querySelector('.meta-img').src = data.rendered_image_url
     document.querySelector('.share-button').href = data.share_url
 
   }
-  ShareHarder.updatePersonalisation({name: 'James', signatures: '10'})
-  ShareHarder.getVariant({callback: cb})
+  ShareHarder.updatePersonalisation({name: 'James', signatures: '10', score: '5', target: '10'})
+  ShareHarder.getVariant({ callback: cb, url: '<%= @experiment.url %>' })
 </script>
