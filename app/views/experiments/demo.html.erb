@@ -19,9 +19,11 @@
     document.querySelector('.share-button').href = data.share_url
   }
   ShareHarder.updatePersonalisation({ name: 'James', signatures: '10', score: '5', target: '10' })
-  ShareHarder.getVariant({ callback: cb, url: '<%= @experiment.url %>' })
+  // ShareHarder.getVariant({ callback: cb, url: '<%= @experiment.url %>' })
 
   $('.register-share').click(function() {
-    ShareHarder.registerShare()
+    ShareHarder.registerShare(function(){
+      console.log('did a thing')
+    })
   })
 </script>

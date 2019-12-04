@@ -93,19 +93,23 @@
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    var registerShare = function() {
-      $.ajax({
-        url: appUrl + '/api/register_share',
-        type: 'post',
-        dataType: 'json',
-        contentType: 'application/json',
-        data: JSON.stringify({
-          key: shareKey,
-          v: variant.id,
-          rkey: referrer_key,
-          experiment_url: experimentUrl
-        })
-      });
+    var registerShare = function(cb=function(){}) {
+      if (variant) {
+        $.ajax({
+          url: appUrl + '/api/register_share',
+          type: 'post',
+          dataType: 'json',
+          contentType: 'application/json',
+          data: JSON.stringify({
+            key: shareKey,
+            v: variant.id,
+            rkey: referrer_key,
+            experiment_url: experimentUrl
+          })
+        }).done(cb);
+      } else {
+        cb()
+      }
     }
 
     var callback, variant, rendered_variant, shareKey, experimentUrl;
