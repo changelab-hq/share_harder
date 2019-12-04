@@ -16,6 +16,13 @@ class Api::ApiController < ApplicationController
     end
   end
 
+  def register_share
+    lookup_url = params[:experiment_url].presence || request.referer
+    experiment = Experiment.lookup_by_url(lookup_url)
+
+    experiment.get_share_by_key(params[:key], params[:v], params[:rkey])
+  end
+
   def record_goal
     AddGoalWorker.perform_async(params[:key], Time.now)
   end

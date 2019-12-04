@@ -7,6 +7,7 @@
 
 <p><a class="share-button btn btn-primary">Share</a></p>
 <p><a class="record-goal btn btn-primary">Record Goal</a></p>
+<p><a class="register-share btn btn-primary">Register Share</a></p>
 
 <script src="/scripts/script.js"></script>
 <script>
@@ -16,8 +17,11 @@
     document.querySelector('.prefill-text').innerHTML = data.prefill_text
     document.querySelector('.meta-img').src = data.rendered_image_url
     document.querySelector('.share-button').href = data.share_url
-
   }
-  ShareHarder.updatePersonalisation({name: 'James', signatures: '10', score: '5', target: '10'})
+  ShareHarder.updatePersonalisation({ name: 'James', signatures: '10', score: '5', target: '10' })
   ShareHarder.getVariant({ callback: cb, url: '<%= @experiment.url %>' })
+
+  $('.register-share').click(function() {
+    ShareHarder.registerShare()
+  })
 </script>

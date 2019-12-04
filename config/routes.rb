@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   namespace :api, constraints: { format: 'json' } do
     get '/variant' => 'api#variant'
     post '/record_goal' => 'api#record_goal'
+    post '/register_share' => 'api#register_share'
   end
 
   get '/scripts/script.js' => 'scripts#script'

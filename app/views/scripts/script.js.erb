@@ -8,8 +8,9 @@
       }
 
       requestUrl = appUrl + '/api/variant';
-      if (options.url) {
-        requestUrl += '?experiment_url=' + encodeURIComponent(options.url)
+      experimentUrl = options.url
+      if (experimentUrl) {
+        requestUrl += '?experiment_url=' + encodeURIComponent(experimentUrl)
       }
 
       $.getJSON(requestUrl, function(data){
@@ -20,9 +21,9 @@
     }
 
     var renderVariant = function() {
-      key = generateKey()
+      shareKey = generateKey()
       rendered_variant = Object.assign({}, variant)
-      queryParameters = 'v=' + variant.id + '&key=' + key
+      queryParameters = 'v=' + variant.id + '&key=' + shareKey
       if (referrer_key) {
         queryParameters += '&rkey=' + referrer_key
       }
@@ -32,6 +33,7 @@
         if (personalisation.hasOwnProperty(key)) {
           rendered_variant.title = rendered_variant.title.replace('{{' + key + '}}', personalisation[key])
           rendered_variant.description = rendered_variant.description.replace('{{' + key + '}}', personalisation[key])
+          rendered_variant.prefill_text = rendered_variant.prefill_text.replace('{{' + key + '}}', personalisation[key])
           personalisationParameters += '&m_' + key + '=' + encodeURIComponent(personalisation[key])
         }
       }
@@ -45,7 +47,7 @@
 
       sharedUrl = encodeURIComponent(appUrl + '/e/' + rendered_variant.experiment_id + '?' + queryParameters)
       rendered_variant.share_url = "https://www.facebook.com/sharer.php?u=" + sharedUrl
-      rendered_variant.key = key
+      rendered_variant.key = shareKey
     }
 
     var generateKey = function() {
@@ -72,7 +74,7 @@
           type: 'post',
           dataType: 'json',
           contentType: 'application/json',
-          data: JSON.stringify({key: referrer_key})
+          data: JSON.stringify({ key: referrer_key })
         });
       }
     }
@@ -91,10 +93,24 @@
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+    var registerShare = function() {
+      $.ajax({
+        url: appUrl + '/api/register_share',
+        type: 'post',
+        dataType: 'json',
+        contentType: 'application/json',
+        data: JSON.stringify({
+          key: shareKey,
+          v: variant.id,
+          rkey: referrer_key,
+          experiment_url: experimentUrl
+        })
+      });
+    }
+
+    var callback, variant, rendered_variant, shareKey, experimentUrl;
+
     var appUrl = "<%= ENV['APP_URL'] %>"
-    var callback;
-    var variant;
-    var rendered_variant;
     var personalisation = {};
     var referrer_key = getParameterByName('rkey');
 
@@ -102,7 +118,8 @@
       getVariant: getVariant,
       updatePersonalisation: updatePersonalisation,
       recordGoal: recordGoal,
-      getData: getData
+      getData: getData,
+      registerShare: registerShare
     }
   }
 )(jQuery)
