@@ -125,7 +125,7 @@ class TextOverlay extends React.Component {
           </div>
           <div style={{display: this.state.opens.font ? 'inherit' : 'none' }}>
             <FontPicker
-              apiKey={process.env.GOOGLE_FONTS_API_KEY}
+              apiKey={window.ENV.GOOGLE_FONTS_API_KEY}
               activeFont={font}
               onChange={nextFont => this.onUpdate({ font: nextFont.family })}
               variants={['700']}

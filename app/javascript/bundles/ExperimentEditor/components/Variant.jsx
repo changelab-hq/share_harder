@@ -33,6 +33,7 @@ class Variant extends React.Component {
   }
 
   onUpdate(e) {
+    console.log('onUpdate')
     e.preventDefault();
     var variantEl = e.target.closest('.variant');
 
