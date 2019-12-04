@@ -24,6 +24,7 @@ module ShareHarder
         origins '*'
         resource '/api/variant', :headers => :any, :methods => [:get]
         resource '/api/record_goal', :headers => :any, :methods => [:post]
+        resource '/api/register_share', :headers => :any, :methods => [:post]
       end
     end
   end
