@@ -64,7 +64,7 @@ class ExperimentResults extends React.Component {
             <div className="row">
               <div className="col-md-4"></div>
               <div className="col-md-2" style={{textAlign: 'center'}}>% of time chosen</div>
-              <div className="col-md-6" style={{textAlign: 'center'}}>Goals per share</div>
+              <div className="col-md-6" style={{textAlign: 'center'}}>Clicks per share</div>
             </div>
             <ReactCSSTransitionGroup
               transitionName="example"

@@ -48,7 +48,7 @@ export default class VariantResults extends React.Component {
     const { highRange, lowRange } = this.props;
     const { title, description, prefill_text, share_count, click_count, goal_count, proportion, confidence_interval } = this.props.variant
     const image_url = this.props.variant.template_image.url
-    const value = goal_count / share_count
+    const value = click_count / share_count
 
     return (
       <div className='row' ref={this.ref}>
