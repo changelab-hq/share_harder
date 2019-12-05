@@ -8,10 +8,15 @@
       }
 
       requestUrl = appUrl + '/api/variant';
-      experimentUrl = options.url
-      if (experimentUrl) {
-        requestUrl += '?experiment_url=' + encodeURIComponent(experimentUrl)
+      if (options.experimentId) {
+        requestUrl += '?experiment_id=' + encodeURIComponent(options.experimentId)
+      } else {
+        experimentUrl = options.url
+        if (experimentUrl) {
+          requestUrl += '?experiment_url=' + encodeURIComponent(experimentUrl)
+        }
       }
+
 
       $.getJSON(requestUrl, function(data){
         variant = data;
