@@ -21,8 +21,12 @@ class Api::ApiController < ApplicationController
   end
 
   def register_share
-    lookup_url = params[:experiment_url].presence || request.referer
-    experiment = Experiment.lookup_by_url(lookup_url)
+    if params[:experiment_id].present?
+      experiment = Experiment.find(params[:experiment_id])
+    else
+      lookup_url = params[:experiment_url].presence || request.referer
+      experiment = Experiment.lookup_by_url(lookup_url)
+    end
 
     experiment.get_share_by_key(params[:key], params[:v], params[:rkey])
   end

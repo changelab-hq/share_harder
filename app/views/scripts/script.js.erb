@@ -8,8 +8,10 @@
       }
 
       requestUrl = appUrl + '/api/variant';
+
       if (options.experimentId) {
-        requestUrl += '?experiment_id=' + encodeURIComponent(options.experimentId)
+        experimentId = options.experimentId
+        requestUrl += '?experiment_id=' + encodeURIComponent(experimentId)
       } else {
         experimentUrl = options.url
         if (experimentUrl) {
@@ -109,7 +111,8 @@
             key: shareKey,
             v: variant.id,
             rkey: referrer_key,
-            experiment_url: experimentUrl
+            experiment_url: experimentUrl,
+            experiment_id: experimentId
           })
         }).done(cb);
       } else {
@@ -117,7 +120,7 @@
       }
     }
 
-    var callback, variant, rendered_variant, shareKey, experimentUrl;
+    var callback, variant, rendered_variant, shareKey, experimentUrl, experimentId;
 
     var appUrl = "<%= ENV['APP_URL'] %>"
     var personalisation = {};
