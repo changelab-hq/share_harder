@@ -126,7 +126,7 @@ class Experiment < ApplicationRecord
 
   def alphabeta
     cached_variants.map.with_index do |var|
-      click_count = var.allowed_goal_counter.value
+      click_count = var.click_counter.value
       [click_count, [var.share_counter.value * 100 - click_count, 0].max]
     end
   end
