@@ -57,7 +57,7 @@ class Experiment < ApplicationRecord
       gc = var.allowed_goal_counter.value
 
       if sc > 0
-        ci = ABAnalyzer.confidence_interval(gc, sc*100, 0.95).map{|x| x*100 }
+        ci = ABAnalyzer.confidence_interval(cc, sc*100, 0.95).map{|x| x*100 }
       else
         ci = [0.0, 0.0]
       end
@@ -126,8 +126,8 @@ class Experiment < ApplicationRecord
 
   def alphabeta
     cached_variants.map.with_index do |var|
-      goal_count = var.allowed_goal_counter.value
-      [goal_count, [var.share_counter.value * 100 - goal_count, 0].max]
+      click_count = var.allowed_goal_counter.value
+      [click_count, [var.share_counter.value * 100 - click_count, 0].max]
     end
   end
 
