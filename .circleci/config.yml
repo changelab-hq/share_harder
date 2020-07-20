@@ -1,15 +1,27 @@
 version: 2.1
 orbs:
-  ruby: circleci/ruby@0.1.2 
+  ruby: circleci/ruby@1.0.5
 
 jobs:
   build:
     docker:
       - image: circleci/ruby:2.4.4
+        environment:
+          - DATABASE_URL=postgres://ubuntu:@127.0.0.1:5432/share_harder_test
+      - image: circleci/postgres:10.13
+        environment:
+          - POSTGRES_USER=ubuntu
+          - POSTGRES_DB=share_harder_test
+          - POSTGRES_HOST_AUTH_METHOD=trust
+      - image: circleci/redis:4.0.14
     executor: ruby/default
     steps:
       - checkout
       - run:
           name: Which bundler?
           command: bundle -v
-      - ruby/bundle-install
+      - ruby/install-deps
+      - run:
+          name: Database Setup
+          command: bundle exec rake db:schema:load
+      - ruby/rspec-test

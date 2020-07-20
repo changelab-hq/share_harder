@@ -2,8 +2,8 @@ describe Experiment do
   describe '#choose_bandit_variant' do
     let(:experiment) {
       e = Experiment.create!(name: 'test', url: 'www.google.com')
-      e.variants << Variant.new(title: 'test', description: 'test', image_url: '')
-      e.variants << Variant.new(title: 'test', description: 'test', image_url: '')
+      e.variants << Variant.new(title: 'test', description: 'test')
+      e.variants << Variant.new(title: 'test', description: 'test')
       e
     }
 
