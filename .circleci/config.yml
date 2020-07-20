@@ -13,6 +13,7 @@ jobs:
           - POSTGRES_USER=ubuntu
           - POSTGRES_DB=share_harder_test
           - POSTGRES_HOST_AUTH_METHOD=trust
+      - image: circleci/redis:4.0.14
     executor: ruby/default
     steps:
       - checkout
