@@ -46,6 +46,7 @@ group :development, :test do
   gem 'awesome_print'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rspec-rails', '~> 3.7'
+  gem "rspec_junit_formatter"
   gem 'pry'
   gem 'bundler-audit'
 end
@@ -90,4 +91,3 @@ gem 'abanalyzer'
 gem 'ttfunk'
 gem 'deep_cloneable'
 gem 'will_paginate'
-
