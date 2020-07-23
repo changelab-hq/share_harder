@@ -1,0 +1,5 @@
+# Catch dependabot PRs and assign the team, then use Github's auto assign PR feature
+# https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/managing-code-review-assignment-for-your-team
+# This results in one member of the team being assigned to dependabot PRs, on a rotating basis
+Gemfile.lock @38degrees/38-degrees-tech-team
+yarn.lock @38degrees/38-degrees-tech-team
