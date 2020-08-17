@@ -2,9 +2,9 @@
   "name": "share_harder",
   "private": true,
   "dependencies": {
+    "@babel/preset-react": "^7.10.4",
     "@material-ui/core": "^1.3.0",
     "@rails/webpacker": "5.2.0",
-    "@babel/preset-react": "^7.10.4",
     "deepmerge": "^2.1.1",
     "draft-js": "^0.10.5",
     "draft-js-plugins-editor": "^2.1.1",
