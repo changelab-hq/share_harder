@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import Variants from './Variants'
@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import Clipboard from 'react-clipboard.js'
 
-import { addVariant, updateVariant, deleteVariant, addOverlay, updateOverlay, deleteOverlay, refreshState, updateExperiment, updateTemplateImage, focusOverlay } from '../actions/experimentEditorActionCreators.js'
+import { addVariant, updateVariant, addOverlay, updateOverlay, deleteOverlay, refreshState, updateExperiment, updateTemplateImage, focusOverlay } from '../actions/experimentEditorActionCreators.js'
 
 const mapStateToProps = (state, ownProps) => {
   return { experiment: state.experiment, unsavedChanges: state.unsavedChanges }
@@ -106,7 +106,7 @@ class ExperimentEditor extends React.Component {
         </div>
         <div style={styles.url}>
           <span contentEditable={true} suppressContentEditableWarning={true} onBlur={this.props.onUpdateExperiment} className='url-input'>{this.props.experiment.url}</span> <Icon>edit</Icon>
-          { this.props.experiment.variants.filter(x => { return x.id }).length == 0 ? ''
+          { this.props.experiment.variants.filter(x => { return x.id }).length === 0 ? ''
             : <span className="float-right share-url">
               <Clipboard component="span" data-clipboard-text={clipboardUrl} onSuccess={this.onCopyUrl.bind(this)}>
                 {clipboardUrl} <Icon>file_copy</Icon>
