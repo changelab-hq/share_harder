@@ -135,7 +135,7 @@ class Experiment < ApplicationRecord
 
     loop do
       key = SecureRandom.hex
-      share = get_share_by_key(key)
+      get_share_by_key(key)
       cached_variants.each_with_index do |var, i|
         var.shares.each do |share|
           next unless rand < probs[i]

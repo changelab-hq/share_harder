@@ -66,7 +66,9 @@ class TemplateImage < ApplicationRecord
 
       text_img = MiniMagick::Image.open(temp_filename)
       flat_height = text_img.height
-      flat_width = text_img.width
+      # flat_width isn't used and is a rubocop violation.
+      # I think one of the uses of flat_height below should be flat_width
+      # flat_width = text_img.width
 
       MiniMagick::Tool::Convert.new do |i|
         i << temp_filename
