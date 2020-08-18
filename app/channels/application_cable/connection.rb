@@ -9,7 +9,8 @@ module ApplicationCable
     private
 
     def find_verified_user
-      if verified_user = User.find_by(id: cookies.signed['user_id'], admin: true) || ENV['OPEN_ACCESS'] == 'true'
+      verified_user = User.find_by(id: cookies.signed['user_id'], admin: true)
+      if verified_user.present? || ENV['OPEN_ACCESS'] == 'true'
         verified_user
       else
         reject_unauthorized_connection
