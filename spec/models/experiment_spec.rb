@@ -1,7 +1,7 @@
 describe Experiment do
   describe '#choose_bandit_variant' do
     let(:experiment) do
-      e = Experiment.create!(name: 'test', url: 'www.google.com')
+      e = described_class.create!(name: 'test', url: 'www.google.com')
       e.variants << Variant.new(title: 'test', description: 'test')
       e.variants << Variant.new(title: 'test', description: 'test')
       e
@@ -74,7 +74,7 @@ describe Experiment do
 
     test_cases.each do |tc|
       it "returns #{tc[1]} for #{tc[0]}" do
-        expect(Experiment.new.index_of_max(tc[0])).to eq tc[1]
+        expect(described_class.new.index_of_max(tc[0])).to eq tc[1]
       end
     end
   end

@@ -10,7 +10,7 @@ describe Font do
       { text: "Width is zero", px_width: 0, result: "Width\nis\nzero" }
     ].each do |test_case|
       it %(correctly wraps "#{test_case[:text]}" with px_width #{test_case[:px_width]}) do
-        expect(Font.new('./spec/support/Abril Fatface.tff').wrap_text(test_case[:text], test_case[:px_width], 12)).to eq test_case[:result]
+        expect(described_class.new('./spec/support/Abril Fatface.tff').wrap_text(test_case[:text], test_case[:px_width], 12)).to eq test_case[:result]
       end
     end
   end
