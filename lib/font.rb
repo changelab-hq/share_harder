@@ -23,7 +23,7 @@ class Font
   end
 
   def units_per_em
-    @u_per_em ||= file.header.units_per_em
+    @units_per_em ||= file.header.units_per_em
   end
 
   def horizontal_metrics
