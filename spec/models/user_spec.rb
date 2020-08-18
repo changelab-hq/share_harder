@@ -24,7 +24,7 @@ describe User do
       expect(user.persisted?).to be true
       expect(user.admin).to be false
 
-      user.update_attributes(admin: true)
+      user.update!(admin: true)
       user = described_class.find_or_create_from_auth_hash(auth_hash)
       expect(user.admin).to be true
     end

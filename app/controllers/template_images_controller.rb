@@ -23,7 +23,7 @@ class TemplateImagesController < ApplicationController
   end
 
   def update
-    @template_image.update_attributes(template_image_params.to_h)
+    @template_image.update!(template_image_params.to_h)
     render json: data_for_template_image
   end
 
