@@ -1,11 +1,8 @@
-import merge from 'deepmerge'
 import * as actionTypes from '../constants/constants'
-import { addIds, updateThing, findThingBySubthing } from '../../Shared/lib'
+import { addIds, updateThing } from '../../Shared/lib'
 
 function reducer (state, action) {
   var newState = JSON.parse(JSON.stringify(state))
-
-  console.log('ACTION: ', action)
 
   newState = beforeStateUpdate(newState)
   newState.unsavedChanges = !action.type.match(/INIT/) // Assume all actions change state in a way that needs to be persisted
@@ -43,8 +40,7 @@ function reducer (state, action) {
   }
 
   newState = afterStateUpdate(newState)
-  console.log('Old state: ', state)
-  console.log('New state: ', newState)
+
   return newState
 }
 
