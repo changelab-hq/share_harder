@@ -25,7 +25,7 @@ class TemplateImage < ApplicationRecord
       # Convert once here, to avoid unnecessary resizing on every request
       MiniMagick::Tool::Convert.new do |i|
         i << image_filename
-        i.resize(width.to_s + 'x' + height.to_s + '!')
+        i.resize("#{width}x#{height}!")
         i << image_filename
       end
     end
