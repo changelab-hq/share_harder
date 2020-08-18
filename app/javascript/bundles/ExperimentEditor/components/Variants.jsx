@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { connect } from 'react-redux'
 
 import Variant from './Variant'
 
@@ -18,7 +17,6 @@ export default class Variants extends React.Component {
   }
 
   render () {
-    console.log('VS', this.props)
     return (
       <div className='row'>
         {this.props.variants.filter(x => { return !x._destroy }).map(variant => (
