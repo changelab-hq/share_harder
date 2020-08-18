@@ -1,19 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Mustache from 'mustache';
+import React from 'react'
+import PropTypes from 'prop-types'
+import Mustache from 'mustache'
 
-import Button from '@material-ui/core/Button';
-import Icon from '@material-ui/core/Icon';
-import IconButton from '@material-ui/core/IconButton';
-import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button'
+import Icon from '@material-ui/core/Icon'
+import IconButton from '@material-ui/core/IconButton'
+import TextField from '@material-ui/core/TextField'
 
 const getFieldsFromContent = (content) => {
   var tags = []
 
-  for(let c of content) {
+  for (const c of content) {
     Mustache.parse(c.text)
-     .filter(function(v) { return v[0] === 'name' })
-     .forEach(function(v) { tags.push(v[1]) })
+      .filter(function (v) { return v[0] === 'name' })
+      .forEach(function (v) { tags.push(v[1]) })
   }
 
   return [...new Set(tags)]
@@ -46,7 +46,7 @@ export default class TemplateImage extends React.Component {
             margin="normal"
           />
         </div>
-        )) }
-      </div>)
+      )) }
+    </div>)
   }
 }

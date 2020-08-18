@@ -1,5 +1,5 @@
-import * as actionTypes from '../constants/experimentEditorConstants';
-import { connect } from 'react-redux';
+import * as actionTypes from '../constants/experimentEditorConstants'
+import { connect } from 'react-redux'
 
 export const updateVariant = (variant) => {
   return {
@@ -63,5 +63,3 @@ export const refreshState = (data) => {
     data: data
   }
 }
-
-

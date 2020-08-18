@@ -1,7 +1,7 @@
-import ReactOnRails from 'react-on-rails';
+import ReactOnRails from 'react-on-rails'
 
-import TemplateImageEditorApp from '../bundles/TemplateImageEditor/components/TemplateImageEditorApp';
+import TemplateImageEditorApp from '../bundles/TemplateImageEditor/components/TemplateImageEditorApp'
 
 ReactOnRails.register({
-  TemplateImageEditorApp,
-});
+  TemplateImageEditorApp
+})

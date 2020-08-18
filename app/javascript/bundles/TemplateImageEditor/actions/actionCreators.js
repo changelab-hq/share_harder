@@ -1,5 +1,5 @@
-import * as actionTypes from '../constants/constants';
-import { connect } from 'react-redux';
+import * as actionTypes from '../constants/constants'
+import { connect } from 'react-redux'
 
 export const updateOverlay = (overlay) => {
   return {
