@@ -1,10 +1,9 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import Card from '@material-ui/core/Paper'
 import Plotly from 'plotly.js-basic-dist'
 import createPlotlyComponent from 'react-plotly.js/factory'
 import makeBubble from '../lib/makeBubble'
 
-import AnimateOnChange from 'react-animate-on-change'
 const Plot = createPlotlyComponent(Plotly)
 
 const styles = {
@@ -20,7 +19,7 @@ const styles = {
 }
 
 class BubbleNumber extends React.Component {
-  componentWillUpdate (nextProps, nextState) {
+  UNSAFE_componentWillUpdate (nextProps, nextState) {
     const newOnes = nextProps.value - this.props.value
     const { icon } = this.props
     if (newOnes > 0) {
