@@ -4,3 +4,4 @@ public/packs/
 public/assets/
 tmp/
 log/
+rubocop_cache/
