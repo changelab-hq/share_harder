@@ -1,5 +1,4 @@
 import * as actionTypes from '../constants/constants'
-import { connect } from 'react-redux'
 
 export const updateOverlay = (overlay) => {
   return {
@@ -8,10 +7,10 @@ export const updateOverlay = (overlay) => {
   }
 }
 
-export const addOverlay = (template_image_id) => {
+export const addOverlay = (templateImageId) => {
   return {
     type: actionTypes.ADD_OVERLAY,
-    template_image_id: template_image_id
+    template_image_id: templateImageId
   }
 }
 
@@ -22,17 +21,17 @@ export const updateTemplateImage = (data) => {
   }
 }
 
-export const deleteOverlay = (overlay_id) => {
+export const deleteOverlay = (overlayId) => {
   return {
     type: actionTypes.DELETE_OVERLAY,
-    overlay_id: overlay_id
+    overlay_id: overlayId
   }
 }
 
-export const focusOverlay = (overlay_id) => {
+export const focusOverlay = (overlayId) => {
   return {
     type: actionTypes.FOCUS_OVERLAY,
-    overlay_id: overlay_id
+    overlay_id: overlayId
   }
 }
 
