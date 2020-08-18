@@ -48,7 +48,7 @@ describe Experiment do
       expect(choices[1]).to be > 40
     end
 
-    it "chooses equally between equally performing" do
+    it "favours performing ones" do
       variant1.share_counter.reset(100)
       variant1.allowed_goal_counter.reset(100)
       variant2.share_counter.reset(100)
