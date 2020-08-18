@@ -31,10 +31,10 @@ class ExperimentsController < ApplicationController
 
   def archive
     if @experiment.archived?
-      @experiment.update!(archived_at: @experiment.archived? ? nil : Time.now)
+      @experiment.update!(archived_at: @experiment.archived? ? nil : Time.zone.now)
       flash[:notice] = 'Experiment restored'
     else
-      @experiment.update!(archived_at: Time.now)
+      @experiment.update!(archived_at: Time.zone.now)
       flash[:notice] = 'Experiment archived'
     end
 

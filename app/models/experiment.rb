@@ -142,7 +142,7 @@ class Experiment < ApplicationRecord
 
           click_key = SecureRandom.hex
           AddClickWorker.new.perform(share.key, click_key, '', '')
-          AddGoalWorker.new.perform(click_key, Time.now) if rand < probs[i]
+          AddGoalWorker.new.perform(click_key, Time.zone.now) if rand < probs[i]
         end
       end
       sleep 1
