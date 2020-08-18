@@ -1,8 +1,7 @@
-import React, { PropTypes } from 'react'
+import React from 'react'
 import { DragSource } from 'react-dnd'
 import Mustache from 'mustache'
 
-import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import IconButton from '@material-ui/core/IconButton'
 import Slider from 'rc-slider'
@@ -55,7 +54,7 @@ class TextOverlay extends React.Component {
   }
 
   render () {
-    const { connectDragSource, isDragging, personalization } = this.props
+    const { connectDragSource, personalization } = this.props
     const { top, left, align, font, size, color, rotation, textStrokeWidth, textStrokeColor, text, focus } = this.props.overlay
 
     const overlayStyle = {
