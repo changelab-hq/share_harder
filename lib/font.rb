@@ -40,7 +40,7 @@ class Font
     words = text.split(' ')
     lines = []
     current_line = ''
-    width = px_width.to_f / px_height.to_f # in em
+    width = px_width / px_height.to_f # in em
 
     words.each do |w|
       if width_of("#{current_line} #{w}".strip) > width
