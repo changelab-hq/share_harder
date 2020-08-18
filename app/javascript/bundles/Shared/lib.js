@@ -20,7 +20,7 @@ const addIds = function (obj) {
   }
 
   for (var i in obj) {
-    if (obj.hasOwnProperty(i)) {
+    if (Object.prototype.hasOwnProperty.call(obj, i)) {
       if (isObject(obj[i])) {
         obj[i] = addIds(obj[i])
       } else if (Array.isArray(obj[i])) {
@@ -37,7 +37,7 @@ function updateThing (things, updateThing) {
 
   var index = 0
   for (const thing of newThings) {
-    if (thing._id == updateThing._id) {
+    if (thing._id === updateThing._id) {
       var locatedThingIndex = index
     }
     index++
@@ -48,14 +48,17 @@ function updateThing (things, updateThing) {
 }
 
 // Takes a collection of things and returns the thing that contains the subthing with _id as key
-function findThingBySubthing (things, subthings_name, _id) {
+function findThingBySubthing (things, subthingsName, _id) {
+  var _thing
+  var name
+
   for (const thing of things) {
-    if (Array.isArray(subthings_name)) {
-      var _thing = thing[subthings_name[0]]
-      var name = subthings_name[subthings_name.length - 1]
+    if (Array.isArray(subthingsName)) {
+      _thing = thing[subthingsName[0]]
+      name = subthingsName[subthingsName.length - 1]
     } else {
-      var _thing = thing
-      var name = subthings_name
+      _thing = thing
+      name = subthingsName
     }
 
     if (Array.isArray(_thing[name])) {
