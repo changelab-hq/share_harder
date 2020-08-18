@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   ruby: circleci/ruby@1.0.5
+  node: circleci/node@4.0.0
 
 jobs:
   build:
@@ -18,8 +19,13 @@ jobs:
     steps:
       - checkout
       - ruby/install-deps
+      - node/install-packages:
+          pkg-manager: yarn
       - run:
           name: Database Setup
           command: bundle exec rake db:schema:load
       - ruby/rubocop-check
       - ruby/rspec-test
+      - run:
+          name: ESLint
+          command: yarn lint
