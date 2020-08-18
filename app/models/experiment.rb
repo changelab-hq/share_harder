@@ -119,7 +119,7 @@ class Experiment < ApplicationRecord
   end
 
   def cached_variants
-    @cached_variants ||= Experiment.fetch(id).fetch_variants.sort_by { |v| v.id }
+    @cached_variants ||= Experiment.fetch(id).fetch_variants.sort_by(&:id)
   end
 
   def alphabeta
