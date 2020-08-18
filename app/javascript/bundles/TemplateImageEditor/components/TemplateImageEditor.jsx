@@ -73,11 +73,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 }
 
-const styles = {
-  url: { color: '#999', fontSize: '1.4em' },
-  image: { width: 540, height: 300 }
-}
-
 class TemplateImageEditor extends React.Component {
   onCopyUrl () {
     $('.share-url').fadeOut().fadeIn()
