@@ -55,7 +55,7 @@ class TemplateImage < ApplicationRecord
         i.pointsize o['size']
         i.font font_path
         i.fill(o['color'])
-        if o['textStrokeWidth'].to_i > 0
+        if o['textStrokeWidth'].to_i.positive?
           i.stroke o['textStrokeColor']
           i.strokewidth o['textStrokeWidth']
         end

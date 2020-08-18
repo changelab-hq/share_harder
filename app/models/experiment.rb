@@ -53,7 +53,7 @@ class Experiment < ApplicationRecord
       cc = var.click_counter.value
       gc = var.allowed_goal_counter.value
 
-      ci = if sc > 0
+      ci = if sc.positive?
              ABAnalyzer.confidence_interval(gc, sc * 100, 0.95).map { |x| x * 100 }
            else
              [0.0, 0.0]
@@ -94,7 +94,7 @@ class Experiment < ApplicationRecord
   end
 
   def variants_by_proportions
-    return [] unless variants.count > 0
+    return [] unless variants.empty?
 
     choices = choose_n_times(alphabeta, 1000)
     choices.map! { |c| c.to_f / 1000 }
