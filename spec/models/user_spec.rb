@@ -1,7 +1,7 @@
 describe User do
   describe '#find_or_create_from_auth_hash' do
-    let(:info) { double("", email: 'test@example.com', first_name: 'Jack', last_name: 'Sprat', image: '')}
-    let(:auth_hash) { double("Auth hash", :uid => '123', :provider => 'google', info: info) }
+    let(:info) { double("", email: 'test@example.com', first_name: 'Jack', last_name: 'Sprat', image: '') }
+    let(:auth_hash) { double("Auth hash", uid: '123', provider: 'google', info: info) }
 
     it "Creates users as admin false" do
       user = User.find_or_create_from_auth_hash(auth_hash)

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   resources :experiments, except: [:show]
   get '/experiments/archived' => 'experiments#archived_index', as: 'archived_experiments'
 
-  constraints :user_agent => /facebookexternalhit|WhatsApp/ do
+  constraints user_agent: /facebookexternalhit|WhatsApp/ do
     get '/e/:id' => 'experiments#metatags'
   end
   get '/e/:id' => 'experiments#redirect', as: 'e'
@@ -34,5 +34,4 @@ Rails.application.routes.draw do
   end
 
   get '/scripts/script.js' => 'scripts#script'
-
 end

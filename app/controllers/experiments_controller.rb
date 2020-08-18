@@ -1,15 +1,15 @@
 class ExperimentsController < ApplicationController
-  before_action :authenticate_admin, except: [:metatags, :redirect, :lookup, :preview_image, :share]
+  before_action :authenticate_admin, except: %i[metatags redirect lookup preview_image share]
   before_action :set_experiment
-  before_action :check_for_key_param, only: [:metatags, :redirect]
+  before_action :check_for_key_param, only: %i[metatags redirect]
 
   def index
-    @experiments = Experiment.where(archived_at: nil).order("updated_at DESC").paginate(:page => params[:page])
+    @experiments = Experiment.where(archived_at: nil).order("updated_at DESC").paginate(page: params[:page])
     @sidebar_content = 'test'
   end
 
   def archived_index
-    @experiments = Experiment.where.not(archived_at: nil).order("updated_at DESC").paginate(:page => params[:page])
+    @experiments = Experiment.where.not(archived_at: nil).order("updated_at DESC").paginate(page: params[:page])
   end
 
   def new
@@ -58,22 +58,22 @@ class ExperimentsController < ApplicationController
   end
 
   def share
-    if params[:test].present?
-      key = 'test'
-    else
-      key = SecureRandom.hex(16)
-    end
+    key = if params[:test].present?
+            'test'
+          else
+            SecureRandom.hex(16)
+          end
 
     url = e_url(@experiment, params: request.query_parameters.merge({ key: key }))
     redirect_to "https://www.facebook.com/sharer.php?u=#{CGI.escape(url)}"
   end
 
   def metatags
-    if params[:key] == 'test'
-      @share = Share.new(variant: @experiment.variants.sample)
-    else
-      @share = @experiment.get_share_by_key(params[:key], params[:v], params[:r])
-    end
+    @share = if params[:key] == 'test'
+               Share.new(variant: @experiment.variants.sample)
+             else
+               @experiment.get_share_by_key(params[:key], params[:v], params[:r])
+             end
 
     @metatags = @share.variant.render_metatags(params)
     render layout: false
@@ -92,12 +92,12 @@ class ExperimentsController < ApplicationController
   private
 
   def experiment_params
-    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :_destroy, template_image: [:id, :url, :height, :width, { overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor, :align, :rotation] } ] ])
+    raw_params = params.require(:experiment).permit(:id, :name, :url, variants: [:id, :title, :description, :_destroy, { template_image: [:id, :url, :height, :width, { overlays: %i[text top left size color font textStrokeWidth textStrokeColor align rotation] }] }])
 
     if raw_params[:variants].present?
       raw_params[:variants_attributes] = raw_params[:variants]
 
-      raw_params[:variants_attributes] = raw_params[:variants_attributes].to_unsafe_hash.map do |k, v|
+      raw_params[:variants_attributes] = raw_params[:variants_attributes].to_unsafe_hash.map do |_k, v|
         v[:template_image_attributes] = v[:template_image]
         v.delete(:template_image)
         v
@@ -114,16 +114,14 @@ class ExperimentsController < ApplicationController
   end
 
   def check_for_key_param
-    unless params[:key].present?
-      redirect_to("https://#{@experiment.url}")
-    end
+    redirect_to("https://#{@experiment.url}") if params[:key].blank?
   end
 
   def data_for_experiment
-    data = @experiment.as_json(include: [ { variants: {include: :template_image} } ])
-    data['variants'] = data['variants'].sort_by{ |o| o['id'] }.map do |v|
+    data = @experiment.as_json(include: [{ variants: { include: :template_image } }])
+    data['variants'] = data['variants'].sort_by { |o| o['id'] }.map do |v|
       if v['template_image']['overlays'].present?
-        v['template_image']['overlays'] = v['template_image']['overlays'].map do |k, overlay|
+        v['template_image']['overlays'] = v['template_image']['overlays'].map do |_k, overlay|
           overlay['size'] = overlay['size'].to_i
           overlay['top'] = overlay['top'].to_i
           overlay['left'] = overlay['left'].to_i
@@ -134,6 +132,6 @@ class ExperimentsController < ApplicationController
       v
     end
 
-    { experiment: data , unsavedChanges: false }
+    { experiment: data, unsavedChanges: false }
   end
 end

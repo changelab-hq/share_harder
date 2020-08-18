@@ -1,16 +1,16 @@
 describe Experiment do
   describe '#choose_bandit_variant' do
-    let(:experiment) {
+    let(:experiment) do
       e = Experiment.create!(name: 'test', url: 'www.google.com')
       e.variants << Variant.new(title: 'test', description: 'test')
       e.variants << Variant.new(title: 'test', description: 'test')
       e
-    }
+    end
 
     let(:variant1) { experiment.variants.first }
     let(:variant2) { experiment.variants.last }
 
-    let(:choose_100_times) {
+    let(:choose_100_times) do
       v1_count = 0
       v2_count = 0
       100.times do
@@ -23,8 +23,7 @@ describe Experiment do
       end
 
       [v1_count, v2_count]
-    }
-
+    end
 
     it "chooses a variant" do
       expect(experiment.choose_bandit_variant).to be_a Variant
@@ -63,14 +62,14 @@ describe Experiment do
 
   describe '#index_of_max' do
     test_cases = [
-      [[1,0], 0],
-      [[0,1], 1],
+      [[1, 0], 0],
+      [[0, 1], 1],
       [[], nil],
-      [[1,2,3], 2],
-      [[2,3,1], 1],
-      [[1.5,2.5], 1],
-      [[-2,3,8], 2],
-      [[3,1,-1],0]
+      [[1, 2, 3], 2],
+      [[2, 3, 1], 1],
+      [[1.5, 2.5], 1],
+      [[-2, 3, 8], 2],
+      [[3, 1, -1], 0]
     ]
 
     test_cases.each do |tc|

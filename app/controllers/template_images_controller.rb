@@ -16,7 +16,6 @@ class TemplateImagesController < ApplicationController
   end
 
   def show
-
   end
 
   def edit
@@ -31,7 +30,7 @@ class TemplateImagesController < ApplicationController
   def image
     respond_to do |format|
       format.jpg do
-        send_data(@template_image.render_to_jpg(params).to_blob, :type => "image/jpg", :disposition => 'inline')
+        send_data(@template_image.render_to_jpg(params).to_blob, type: "image/jpg", disposition: 'inline')
       end
     end
   end
@@ -39,7 +38,7 @@ class TemplateImagesController < ApplicationController
   private
 
   def template_image_params
-    params.require(:template_image).permit(:name, :url, :width, :height, overlays: [:text, :top, :left, :size, :color, :font, :textStrokeWidth, :textStrokeColor, :align, :rotation])
+    params.require(:template_image).permit(:name, :url, :width, :height, overlays: %i[text top left size color font textStrokeWidth textStrokeColor align rotation])
   end
 
   def set_template_image
@@ -48,7 +47,7 @@ class TemplateImagesController < ApplicationController
 
   def data_for_template_image
     data = @template_image.as_json
-    data['overlays'] = data['overlays'].map do |k, overlay|
+    data['overlays'] = data['overlays'].map do |_k, overlay|
       overlay['size'] = overlay['size'].to_i
       overlay['top'] = overlay['top'].to_i
       overlay['left'] = overlay['left'].to_i
@@ -57,7 +56,6 @@ class TemplateImagesController < ApplicationController
       overlay
     end
 
-    { template_image: data , unsavedChanges: false }
+    { template_image: data, unsavedChanges: false }
   end
-
 end

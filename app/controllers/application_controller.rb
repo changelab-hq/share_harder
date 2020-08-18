@@ -4,19 +4,18 @@ class ApplicationController < ActionController::Base
 
   def authenticate_admin
     return true if ENV['OPEN_ACCESS'] == 'true'
+
     unless admin_signed_in?
-      unless user_signed_in?
-        redirect_to :login
-      else
+      if user_signed_in?
         redirect_to :home
+      else
+        redirect_to :login
       end
     end
   end
 
   def authenticate
-    unless user_signed_in?
-      redirect_to :login
-    end
+    redirect_to :login unless user_signed_in?
   end
 
   def current_user

@@ -5,7 +5,7 @@ class ResultsChannel < ApplicationCable::Channel
   end
 
   def update_results
-    transmit({experiment: @experiment.results})
+    transmit({ experiment: @experiment.results })
   end
 
   periodically :update_results, every: 2.seconds
