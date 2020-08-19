@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: circleci/ruby:2.4.4-node
+      - image: circleci/ruby:2.4.4
         environment:
           - DATABASE_URL=postgres://ubuntu:@127.0.0.1:5432/share_harder_test
       - image: circleci/postgres:10.13
