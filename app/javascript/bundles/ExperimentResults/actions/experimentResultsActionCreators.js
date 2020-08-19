@@ -1,5 +1,4 @@
-import * as actionTypes from '../constants/experimentResultsConstants';
-import { connect } from 'react-redux';
+import * as actionTypes from '../constants/experimentResultsConstants'
 
 export const refreshState = (data) => {
   return {

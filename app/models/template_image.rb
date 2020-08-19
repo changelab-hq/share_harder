@@ -7,13 +7,13 @@ class TemplateImage < ApplicationRecord
     font_filename = "fonts/#{font}.tff"
     unless File.file?(font_filename)
       @font_info ||= JSON.parse(open("https://www.googleapis.com/webfonts/v1/webfonts?key=#{ENV['GOOGLE_FONTS_API_KEY']}").read)
-      item = @font_info['items'].select{|x| x['family'] == font }
+      item = @font_info['items'].select { |x| x['family'] == font }
       font_url = item.first['files']['700'] || item.first['files']['regular']
       `mkdir -p fonts`
       IO.copy_stream(open(font_url), font_filename)
     end
 
-    return font_filename
+    font_filename
   end
 
   def get_image(url)
@@ -25,7 +25,7 @@ class TemplateImage < ApplicationRecord
       # Convert once here, to avoid unnecessary resizing on every request
       MiniMagick::Tool::Convert.new do |i|
         i << image_filename
-        i.resize(width.to_s+'x'+height.to_s+'!')
+        i.resize("#{width}x#{height}!")
         i << image_filename
       end
     end
@@ -40,10 +40,8 @@ class TemplateImage < ApplicationRecord
 
     overlays.values.each do |o|
       # Alignment
-      if o['align'].present?
-        o['left'] = 0
-      end
-      gravity = {'left' => 'west', 'center'=> 'center', 'right' => 'east'}[o['align']] || 'northwest'
+      o['left'] = 0 if o['align'].present?
+      gravity = { 'left' => 'west', 'center' => 'center', 'right' => 'east' }[o['align']] || 'northwest'
 
       # Text and wrapping
       o['text'] = Renderer.new.render(o['text'], params)
@@ -57,7 +55,7 @@ class TemplateImage < ApplicationRecord
         i.pointsize o['size']
         i.font font_path
         i.fill(o['color'])
-        if o['textStrokeWidth'].to_i > 0
+        if o['textStrokeWidth'].to_i.positive?
           i.stroke o['textStrokeColor']
           i.strokewidth o['textStrokeWidth']
         end
@@ -68,7 +66,9 @@ class TemplateImage < ApplicationRecord
 
       text_img = MiniMagick::Image.open(temp_filename)
       flat_height = text_img.height
-      flat_width = text_img.width
+      # flat_width isn't used and is a rubocop violation.
+      # I think one of the uses of flat_height below should be flat_width
+      # flat_width = text_img.width
 
       MiniMagick::Tool::Convert.new do |i|
         i << temp_filename
@@ -95,9 +95,10 @@ class TemplateImage < ApplicationRecord
           left -= text_img.width
         end
 
-        if gravity == 'center'
+        case gravity
+        when 'center'
           left = (width - text_img.width) / 2
-        elsif gravity == 'east'
+        when 'east'
           left = width - text_img.width
         end
 

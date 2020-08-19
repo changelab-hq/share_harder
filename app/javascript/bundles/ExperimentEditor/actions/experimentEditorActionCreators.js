@@ -1,5 +1,4 @@
-import * as actionTypes from '../constants/experimentEditorConstants';
-import { connect } from 'react-redux';
+import * as actionTypes from '../constants/experimentEditorConstants'
 
 export const updateVariant = (variant) => {
   return {
@@ -22,10 +21,10 @@ export const updateOverlay = (overlay) => {
   }
 }
 
-export const addOverlay = (template_image_id) => {
+export const addOverlay = (templateImageId) => {
   return {
     type: actionTypes.ADD_OVERLAY,
-    template_image_id: template_image_id
+    template_image_id: templateImageId
   }
 }
 
@@ -43,17 +42,17 @@ export const addVariant = (data = {}) => {
   }
 }
 
-export const deleteOverlay = (overlay_id) => {
+export const deleteOverlay = (overlayId) => {
   return {
     type: actionTypes.DELETE_OVERLAY,
-    overlay_id: overlay_id
+    overlay_id: overlayId
   }
 }
 
-export const focusOverlay = (overlay_id) => {
+export const focusOverlay = (overlayId) => {
   return {
     type: actionTypes.FOCUS_OVERLAY,
-    overlay_id: overlay_id
+    overlay_id: overlayId
   }
 }
 
@@ -63,5 +62,3 @@ export const refreshState = (data) => {
     data: data
   }
 }
-
-

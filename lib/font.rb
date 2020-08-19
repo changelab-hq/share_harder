@@ -13,17 +13,17 @@ class Font
     @file = TTFunk::File.open(path_to_file)
   end
 
-  def width_of( string )
-    string.split('').map{|char| character_width( char )}.inject{|sum, x| sum + x}
+  def width_of(string)
+    string.split('').map { |char| character_width(char) }.inject { |sum, x| sum + x }
   end
 
-  def character_width( character )
-    width_in_units = ( horizontal_metrics.for( glyph_id( character )).advance_width )
+  def character_width(character)
+    width_in_units = horizontal_metrics.for(glyph_id(character)).advance_width
     width_in_units.to_f / units_per_em
   end
 
   def units_per_em
-    @u_per_em ||= file.header.units_per_em
+    @units_per_em ||= file.header.units_per_em
   end
 
   def horizontal_metrics
@@ -31,7 +31,7 @@ class Font
   end
 
   def glyph_id(character)
-    character_code = character.unpack("U*").first
+    character_code = character.unpack1("U*")
     file.cmap.unicode.first[character_code]
   end
 
@@ -40,7 +40,7 @@ class Font
     words = text.split(' ')
     lines = []
     current_line = ''
-    width = px_width.to_f / px_height.to_f # in em
+    width = px_width / px_height.to_f # in em
 
     words.each do |w|
       if width_of("#{current_line} #{w}".strip) > width

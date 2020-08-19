@@ -1,0 +1,73 @@
+Layout/LineLength:
+  Exclude:
+    - 'Gemfile'
+    - 'app/controllers/experiments_controller.rb'
+    - 'app/controllers/template_images_controller.rb'
+    - 'app/models/experiment.rb'
+    - 'app/models/share.rb'
+    - 'app/models/template_image.rb'
+    - 'app/models/user.rb'
+    - 'spec/lib/font_spec.rb'
+
+Metrics/ClassLength:
+  Exclude:
+    - 'app/controllers/experiments_controller.rb'
+    - 'app/models/experiment.rb'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'app/controllers/experiments_controller.rb'
+    - 'app/controllers/template_images_controller.rb'
+    - 'app/helpers/application_helper.rb'
+    - 'app/models/experiment.rb'
+    - 'app/models/template_image.rb'
+    - 'app/models/user.rb'
+    - 'lib/font.rb'
+
+Metrics/MethodLength:
+  Exclude:
+    - 'app/controllers/experiments_controller.rb'
+    - 'app/models/experiment.rb'
+    - 'app/models/template_image.rb'
+    - 'app/models/user.rb'
+    - 'lib/font.rb'
+
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - 'app/models/template_image.rb'
+
+Metrics/PerceivedComplexity:
+  Exclude:
+    - 'app/models/template_image.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'app/models/template_image.rb'
+    - 'config/routes.rb'
+    - 'spec/models/experiment_spec.rb'
+
+Security/Open:
+  Exclude:
+    - 'app/models/template_image.rb'
+
+Style/HashEachMethods:
+  Exclude:
+    - 'app/models/template_image.rb'
+
+RSpec/VerifiedDoubles:
+  Exclude:
+    - 'spec/models/user_spec.rb'
+
+Rails/HasManyOrHasOneDependent:
+  Exclude:
+    - 'app/models/experiment.rb'
+    - 'app/models/share.rb'
+    - 'app/models/variant.rb'
+
+Rails/LexicallyScopedActionFilter:
+  Exclude:
+    - 'app/controllers/experiments_controller.rb'
+
+Performance/TimesMap:
+  Exclude:
+    - 'app/models/click.rb'

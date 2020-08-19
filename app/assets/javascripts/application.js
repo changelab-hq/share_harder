@@ -16,9 +16,9 @@
 //= require activestorage
 //= require_tree .
 
-$(document).ready(function(){
-  $('.toggle-sidebar, .close-icon').click(function(){
+$(document).ready(function () {
+  $('.toggle-sidebar, .close-icon').click(function () {
     $('#sidebar').toggleClass('open')
     $('#main').toggleClass('sidebar-open')
   })
-});
+})

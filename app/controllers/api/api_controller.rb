@@ -1,5 +1,5 @@
 class Api::ApiController < ApplicationController
-  protect_from_forgery except: [:variant, :record_goal]
+  protect_from_forgery except: %i[variant record_goal]
 
   def variant
     lookup_url = params[:experiment_url].presence || request.referer
@@ -16,6 +16,6 @@ class Api::ApiController < ApplicationController
   end
 
   def record_goal
-    AddGoalWorker.perform_async(params[:key], Time.now)
+    AddGoalWorker.perform_async(params[:key], Time.zone.now)
   end
 end
