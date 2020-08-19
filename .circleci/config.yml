@@ -20,6 +20,8 @@ jobs:
       - checkout
       - node/install:
           lts: true
+          install-npm: false
+          install-yarn: true
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
