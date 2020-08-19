@@ -18,7 +18,8 @@ jobs:
     executor: ruby/default
     steps:
       - checkout
-      - node/install
+      - node/install:
+          lts: true
       - ruby/install-deps
       - node/install-packages:
           pkg-manager: yarn
