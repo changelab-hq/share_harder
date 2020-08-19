@@ -1,0 +1,86 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "4e85aa12a2b5e7e2f1d302f2a66ba46ed0528c3c11ef50eb036066b186eb3338",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/experiments_controller.rb",
+      "line": 89,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(\"https://#{Experiment.find(params[:id]).url}?rkey=#{Click.generate_key}&utm_source=share&utm_medium=facebook&utm_campaign=#{params[:key]}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ExperimentsController",
+        "method": "redirect"
+      },
+      "user_input": "Experiment.find(params[:id]).url",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "7c93492a3160662b7f3feb485145dc99f459fb0fdc02304a235c540ea99def3f",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "app/models/template_image.rb",
+      "line": 108,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`rm #{\"images/#{SecureRandom.uuid}_temp.png\"}`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "TemplateImage",
+        "method": "render_to_jpg"
+      },
+      "user_input": "SecureRandom.uuid",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "ad5dda2daa32610c56bc8ce47a536b889a0f2b469e88d1ef6bbdecb7d8aced3b",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/experiments_controller.rb",
+      "line": 117,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(\"https://#{Experiment.find(params[:id]).url}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ExperimentsController",
+        "method": "check_for_key_param"
+      },
+      "user_input": "Experiment.find(params[:id]).url",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "bb71a7e9f9f8906d800a1e956eecfcfbfa0f866d80084ee51f24c04d5ad2cea5",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/experiments_controller.rb",
+      "line": 83,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(\"https://#{Experiment.find(params[:id]).url}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ExperimentsController",
+        "method": "redirect"
+      },
+      "user_input": "Experiment.find(params[:id]).url",
+      "confidence": "High",
+      "note": ""
+    }
+  ],
+  "updated": "2020-08-19 09:47:25 +0100",
+  "brakeman_version": "4.9.0"
+}

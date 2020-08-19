@@ -29,6 +29,9 @@ jobs:
           name: Database Setup
           command: bundle exec rake db:schema:load
       - ruby/rubocop-check
+      - run:
+          name: Brakeman
+          command: bundle exec brakeman
       - ruby/rspec-test
       - run:
           name: ESLint
