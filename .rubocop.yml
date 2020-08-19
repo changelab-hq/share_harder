@@ -12,6 +12,7 @@ AllCops:
     - '**/node_modules/**/*'
     - '**/db/migrate/*'
     - '**/db/schema.rb'
+    - '**/vendor/**/*' # since we `bundle install --path vendor/bundle` on CI
 
 Style/FrozenStringLiteralComment:
   Enabled: false
