@@ -352,7 +352,6 @@ PLATFORMS
 
 DEPENDENCIES
   abanalyzer
-  actionview (>= 5.2.4.4)
   awesome_print
   bootsnap (>= 1.1.0)
   brakeman
@@ -404,7 +403,7 @@ DEPENDENCIES
   will_paginate
 
 RUBY VERSION
-   ruby 2.4.4p296
+   ruby 2.6.6p146
 
 BUNDLED WITH
    1.17.3
