@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate
-    redirect_to :login unless user_signed_in?
+      redirect_post('/auth/google_oauth2') unless user_signed_in?
   end
 
   def current_user
@@ -28,6 +28,10 @@ class ApplicationController < ActionController::Base
   def user_signed_in?
     # converts current_user to a boolean by negating the negation
     !!current_user
+  end
+
+  def login
+    redirect_post('/auth/google_oauth2')
   end
 
   # def get_route_pattern
