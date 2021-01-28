@@ -86,8 +86,8 @@ gem 'sidekiq'
 
 gem 'omniauth', '~> 1.9'
 gem 'omniauth-google-oauth2'
-gem 'repost'
 gem 'rack-cors', require: 'rack/cors'
+gem 'repost'
 gem 'simple-random'
 
 gem 'clockwork'
