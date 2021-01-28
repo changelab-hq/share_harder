@@ -30,10 +30,6 @@ class ApplicationController < ActionController::Base
     !!current_user
   end
 
-  def login
-    redirect_post('/auth/google_oauth2')
-  end
-
   # def get_route_pattern
   #   Rails.application.routes.router.recognize(request) { |route| return route.path.spec.to_s }
   # end
