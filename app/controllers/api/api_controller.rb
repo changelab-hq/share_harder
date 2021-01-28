@@ -11,7 +11,7 @@ class Api::ApiController < ApplicationController
       data['has_overlays'] = variant.template_image.overlays.present?
       render json: data
     else
-      render json: {}, status: 404
+      render json: {}, status: :not_found
     end
   end
 

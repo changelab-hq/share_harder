@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate
-    redirect_to :login unless user_signed_in?
+    redirect_post('/auth/google_oauth2') unless user_signed_in?
   end
 
   def current_user

@@ -11,4 +11,8 @@ class SessionsController < ApplicationController
     cookies.signed["user_id"] = nil
     redirect_to root_path
   end
+
+  def login
+    redirect_post('/auth/google_oauth2')
+  end
 end
