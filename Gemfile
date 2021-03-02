@@ -74,9 +74,6 @@ group :test do
   gem 'database_cleaner'
 end
 
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-
 gem 'cityhash'
 gem 'identity_cache', git: 'https://github.com/Shopify/identity_cache.git', ref: 'e4d428d58954472ff8032e35f9f8d043be4fd9b8'
 gem 'mustache', '~> 1.0'
