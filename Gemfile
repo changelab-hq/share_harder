@@ -5,6 +5,7 @@ ruby '2.6.6'
 
 gem 'dotenv-rails', groups: %i[development test]
 gem 'jquery-rails'
+gem 'mimemagic', '~> 0.3'
 gem 'react_on_rails', '11.0.8'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
