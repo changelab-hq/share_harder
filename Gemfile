@@ -5,7 +5,6 @@ ruby '2.6.6'
 
 gem 'dotenv-rails', groups: %i[development test]
 gem 'jquery-rails'
-gem 'mimemagic', '~> 0.3.10'
 gem 'react_on_rails', '11.0.8'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.2.0'
@@ -19,7 +18,7 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
 gem 'mimemagic', '~> 0.3.10'
-gem 'webpacker', '>= 5.2.2'
+gem 'webpacker', '>= 5.2.2'c
 # See https://github.com/rails/execjs#readme for more supported runtimes
 gem 'mini_racer', platforms: :ruby
 
